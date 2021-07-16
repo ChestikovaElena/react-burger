@@ -1,0 +1,33 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.header {
+}
+
+.header_content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.menu {
+  margin-right: 8.7%;
+}
+
+.menu_list {
+  display: flex;
+}
+
+.logo_wrapper {
+  margin-right: 22.4%;
+}
+
+.link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
