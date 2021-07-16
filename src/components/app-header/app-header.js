@@ -8,14 +8,22 @@ import {
   Box
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
+class ElementWithIcon extends React.Component {
+  render() {
+    return (
+      <a href="#">
+        {this.props.icon}
+        <span>{this.props.text}</span>
+      </a>
+    );
+  }
+}
+
 class MenuItem extends React.Component {
   render() {
     return (
       <li>
-        <a href="#">
-          {this.props.icon}
-          <span>{this.props.text}</span>
-        </a>
+        <ElementWithIcon icon={this.props.icon} text={this.props.text}/>
       </li>
     )
   }
@@ -40,12 +48,12 @@ class AppHeader extends React.Component {
         <Menu
           children={[
             {icon: <BurgerIcon/>, text: "конструктор"},
-            {icon: <ListIcon/>, text: "лента заказов"},
-            {icon: <Logo />},
-            {icon: <ProfileIcon/>, text: "личный кабинет"}
+            {icon: <ListIcon/>, text: "лента заказов"}
           ]
           .map((item, index) => <MenuItem key={index} icon={item.icon} text={item.text}/>)
         }/>
+        <Logo/>
+        <ElementWithIcon icon={<ProfileIcon/>} text={"личный кабинет"}/>
       </header>
     );
   }
