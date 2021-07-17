@@ -3,19 +3,12 @@
   margin: 0 auto;
 }
 
-.header {
-}
-
 .header_content {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-}
-
-.menu {
-  /* margin-right: 8.7%; */
 }
 
 .menu_list {
@@ -26,11 +19,5 @@
   width: 61%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-
-.link {
-  text-decoration: none;
-  display: flex;
   align-items: center;
 }

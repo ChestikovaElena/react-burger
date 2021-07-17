@@ -5,19 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 import {ICON_BURGER_ACTIVE, ICON_LIST_INACTIVE} from '../icons/icons.js';
-
-class ElementWithIcon extends React.Component {
-  render() {
-    return (
-      <div className="pt-5 pr-5 pb-5 pl-5">
-        <a href="#" className={styles.link}>
-          <div className={styles.icon_wrapper}>{this.props.icon}</div>
-          <span className={`text text_type_main-default pl-2 ${this.props.type}`}>{this.props.text}</span>
-        </a>
-      </div>
-    );
-  }
-}
+import ElementWithIcon from '../element-with-icon';
 
 class MenuItem extends React.Component {
   render() {
