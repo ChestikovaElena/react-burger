@@ -1,0 +1,12 @@
+.item {
+  width: 272px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.item_row {
+  display: flex;
+  justify-content: center;
+}
