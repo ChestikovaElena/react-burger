@@ -5,6 +5,7 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
+import ingredients from '../../utils/data';
 
 const typeOfIngredients = [
   {type: "bun", name: "Булки"},
@@ -15,7 +16,7 @@ const typeOfIngredients = [
 const Header = () => {
   const [current, setCurrent] = React.useState('one')
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', justifyContent: 'spaceBetween'}}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
         {typeOfIngredients[0].name}
       </Tab>
@@ -28,65 +29,6 @@ const Header = () => {
     </div>
   );
 };
-
-const ccc= [
-  {
-     "_id":"60666c42cc7b410027a1a9b1",
-     "name":"Краторная булка N-200i",
-     "type":"bun",
-     "proteins":80,
-     "fat":24,
-     "carbohydrates":53,
-     "calories":420,
-     "price":1255,
-     "image":"https://code.s3.yandex.net/react/code/bun-02.png",
-     "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-     "image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
-     "__v":0
-  },
-  {
-     "_id":"60666c42cc7b410027a1a9b5",
-     "name":"Говяжий метеорит (отбивная)",
-     "type":"main",
-     "proteins":800,
-     "fat":800,
-     "carbohydrates":300,
-     "calories":2674,
-     "price":3000,
-     "image":"https://code.s3.yandex.net/react/code/meat-04.png",
-     "image_mobile":"https://code.s3.yandex.net/react/code/meat-04-mobile.png",
-     "image_large":"https://code.s3.yandex.net/react/code/meat-04-large.png",
-     "__v":0
-  },
-  {
-     "_id":"60666c42cc7b410027a1a9b6",
-     "name":"Биокотлета из марсианской Магнолии",
-     "type":"main",
-     "proteins":420,
-     "fat":142,
-     "carbohydrates":242,
-     "calories":4242,
-     "price":424,
-     "image":"https://code.s3.yandex.net/react/code/meat-01.png",
-     "image_mobile":"https://code.s3.yandex.net/react/code/meat-01-mobile.png",
-     "image_large":"https://code.s3.yandex.net/react/code/meat-01-large.png",
-     "__v":0
-  },
-  {
-     "_id":"60666c42cc7b410027a1a9b7",
-     "name":"Соус Spicy-X",
-     "type":"sauce",
-     "proteins":30,
-     "fat":20,
-     "carbohydrates":40,
-     "calories":30,
-     "price":90,
-     "image":"https://code.s3.yandex.net/react/code/sauce-02.png",
-     "image_mobile":"https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
-     "image_large":"https://code.s3.yandex.net/react/code/sauce-02-large.png",
-     "__v":0
-  }
-];
 
 class Card extends React.Component {
   render() {
@@ -119,16 +61,26 @@ class BlockList extends React.Component {
 class Block extends React.Component {
   render() {
     return (
-      <div className='mt-10'>
-        <h3 className='text text_type_main-medium pb-6'>{typeOfIngredients[this.props.type].name}</h3>
+      <li className='mt-10'>
+        <h3 className='text text_type_main-medium pb-6'>{this.props.name}</h3>
         <BlockList 
           children = {
-            ccc.filter(item => item.type === typeOfIngredients[this.props.type].type)
+            ingredients.filter(item => item.type === this.props.type)
             .map((item, index) =>
               <Card key={index} image={item.image_large} name={item.name} price={item.price}/>)
           }
         />
-      </div>
+      </li>
+    );
+  }
+}
+
+class ListOfBlocks extends React.Component {
+  render() {
+    return (
+      <ul className={`${styles.blocks_list}`}>
+        {this.props.children}
+      </ul>
     );
   }
 }
@@ -139,7 +91,10 @@ export default class BurgerIngredients extends React.Component {
       <section className={`${styles.column} pt-10`}>
         <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
         <Header/>
-        <Block type={2}/>
+        <ListOfBlocks
+          children = {typeOfIngredients.map((item,index) => <Block key={index} type={item.type} name={item.name}/>)}
+        />
+        
       </section>
     );
   }

@@ -5,6 +5,7 @@
 .block_list {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .block_item {
