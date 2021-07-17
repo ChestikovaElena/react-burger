@@ -1,4 +1,13 @@
-.item {
+.column {
+  width: 600px;
+}
+
+.block_list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.block_item {
   width: 272px;
   display: flex;
   flex-direction: column;
@@ -9,4 +18,9 @@
 .item_row {
   display: flex;
   justify-content: center;
+}
+
+.item_title {
+  height: 48px;
+  text-align: center;
 }
