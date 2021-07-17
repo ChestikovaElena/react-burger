@@ -1,11 +1,10 @@
 import React from 'react';
 import {
   Logo,
-  BurgerIcon,
-  ListIcon,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
+import {ICON_BURGER_ACTIVE, ICON_LIST_INACTIVE} from '../icons/icons.js';
 
 class ElementWithIcon extends React.Component {
   render() {
@@ -13,7 +12,7 @@ class ElementWithIcon extends React.Component {
       <div className="pt-5 pr-5 pb-5 pl-5">
         <a href="#" className={styles.link}>
           <div className={styles.icon_wrapper}>{this.props.icon}</div>
-          <span className="text text_type_main-default pl-2">{this.props.text}</span>
+          <span className={`text text_type_main-default pl-2 ${this.props.type}`}>{this.props.text}</span>
         </a>
       </div>
     );
@@ -24,7 +23,7 @@ class MenuItem extends React.Component {
   render() {
     return (
       <li className={ styles.menu_item }>
-        <ElementWithIcon icon={this.props.icon} text={this.props.text}/>
+        <ElementWithIcon icon={this.props.icon} text={this.props.text} type={this.props.type}/>
       </li>
     )
   }
@@ -51,16 +50,20 @@ class AppHeader extends React.Component {
             <div className={ styles.header_content}>
               <Menu
                 children={[
-                  {icon: <BurgerIcon/>, text: "Конструктор"},
-                  {icon: <ListIcon/>, text: "Лента заказов"}
+                  {icon: ICON_BURGER_ACTIVE, text: "Конструктор", type: ""},
+                  {icon: ICON_LIST_INACTIVE, text: "Лента заказов", type: "text_color_inactive"}
                 ]
-                .map((item, index) => <MenuItem key={index} icon={item.icon} text={item.text}/>)
+                .map((item, index) =>
+                  <MenuItem key={index} icon={item.icon} text={item.text} type={item.type}/>
+                )
               }/>
-              <div className={styles.logo_wrapper}>
+              <div className={styles.elements_wrapper}>
                 <Logo/>
-              </div>
-              <div className={styles.element_wrapper}>
-                <ElementWithIcon icon={<ProfileIcon/>} text={"Личный кабинет"}/>
+                <ElementWithIcon
+                  icon={<ProfileIcon type="secondary"/>}
+                  text={"Личный кабинет"}
+                  type="text_color_inactive"
+                />
               </div>
             </div>
           </div>

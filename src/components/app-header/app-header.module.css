@@ -15,15 +15,18 @@
 }
 
 .menu {
-  margin-right: 8.7%;
+  /* margin-right: 8.7%; */
 }
 
 .menu_list {
   display: flex;
 }
 
-.logo_wrapper {
-  margin-right: 22.4%;
+.elements_wrapper {
+  width: 61%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .link {
