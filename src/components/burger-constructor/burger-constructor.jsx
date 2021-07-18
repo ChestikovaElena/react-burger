@@ -7,12 +7,13 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import ingredients from '../../utils/data';
+import PropTypes from 'prop-types';
 
 class IngredientCard extends React.Component {
   render() {
     return (
-      <li className={`mt-4 ${styles.block}`}>
-        <ConstructorElement style={{background: 'green'}}
+      <li className={`mt-4 pl-8 ${styles.block}`}>
+        <ConstructorElement 
           type={this.props.type}
           isLocked={this.props.isLocked}
           text={this.props.name}
@@ -27,6 +28,14 @@ class IngredientCard extends React.Component {
   }
 }
 
+IngredientCard.propTypes = {
+  type: PropTypes.string,
+  isLocked: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired
+}
+
 class IngredientsList extends React.Component {
   render() {
     return (
@@ -37,10 +46,14 @@ class IngredientsList extends React.Component {
   }
 }
 
-class List extends React.Component {
+IngredientsList.propTypes = {
+  children: PropTypes.array.isRequired
+}
+
+class Container extends React.Component {
   render() {
     return (
-      <ul className={`${styles.list} ml-8 `}>
+      <ul className={`${styles.container} `}>
         {this.props.children}
       </ul>
     );
@@ -52,35 +65,34 @@ export default class BurgerConstructor extends React.Component {
     const total = ingredients.reduce((acc, p) => acc + p.price, 0)
     return (
       <section className={`${styles.column} pt-25 pl-4`}>
-        <List>
-          <IngredientCard 
-            key={'ingredient0'}
-            type={null}
-            name={ingredients[0].name}
-            isLocked={Math.random() < 0.5}
-            price={ingredients[0].price}
-            image={ingredients[0].image}
-            isDraged={Math.random() < 0.5}
+        <Container>
+          <IngredientCard
+              key={`first`}
+              type={null}
+              name={ingredients[0].name}
+              isLocked={Math.random() < 0.5}
+              price={ingredients[0].price}
+              image={ingredients[0].image}
+              isDraged={Math.random() < 0.5}
           />
-          <IngredientsList
-            key={`list1`}
-            children = {ingredients.map((item,index) =>
-              index !==0 && index!==(ingredients.length - 1) ?
-              <IngredientCard
-                key={`ingr${index}`}
-                type={null}
-                name={item.name}
-                isLocked={Math.random() < 0.5}
-                price={item.price}
-                image={item.image}
-                isDraged={Math.random() < 0.5}
-              />
-              :
-              <></>
-            )}
-          />
-          <IngredientCard 
-            key={`ingredient${ingredients.length - 1}`}
+          <li>
+            <IngredientsList key={`list`}
+              children = {ingredients.map((item,index) =>
+                index !==0 && index!==(ingredients.length - 1)&&
+                <IngredientCard
+                  key={`${index}`}
+                  type={null}
+                  name={item.name}
+                  isLocked={Math.random() < 0.5}
+                  price={item.price}
+                  image={item.image}
+                  isDraged={Math.random() < 0.5}
+                />
+              )}
+            />
+          </li>
+          <IngredientCard
+            key={`last`}
             type={null}
             name={ingredients[ingredients.length - 1].name}
             isLocked={Math.random() < 0.5}
@@ -88,11 +100,13 @@ export default class BurgerConstructor extends React.Component {
             image={ingredients[ingredients.length - 1].image}
             isDraged={Math.random() < 0.5}
           />
-        </List>
+        </Container>
         <div className={ `${styles.row_order} mt-10 mr-4` }>
           <div className={ `${styles.total} pr-10`}>
             <span className="text text_type_digits-medium pr-2">{total}</span>
-            <div className= { styles.icon }><CurrencyIcon type="primary" /></div>
+            <div className= { styles.icon }>
+              <CurrencyIcon type="primary" />
+            </div>
           </div>
           <Button type="primary" size="medium">
             Оформить заказ

@@ -2,6 +2,15 @@
   width: 600px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header div {
+  flex-grow: 1;
+}
+
 .blocks_container {
   height: 61vh;
   overflow-y: scroll;

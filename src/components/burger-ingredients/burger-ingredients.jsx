@@ -6,6 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import ingredients from '../../utils/data';
+import PropTypes from 'prop-types';
 
 const typeOfIngredients = [
   {type: "bun", name: "Булки"},
@@ -16,7 +17,7 @@ const typeOfIngredients = [
 const Header = () => {
   const [current, setCurrent] = React.useState('one')
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div className={ `${styles.header} mb-10` }>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
         {typeOfIngredients[0].name}
       </Tab>
@@ -48,6 +49,12 @@ class Card extends React.Component {
   }
 }
 
+Card.propTypes = {
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired
+}
+
 class Block extends React.Component {
   render() {
     return (
@@ -65,6 +72,9 @@ class Block extends React.Component {
   }
 }
 
+Block.propTypes = {
+  name: PropTypes.string.isRequired
+}
 
 class BlockList extends React.Component {
   render() {
@@ -74,6 +84,10 @@ class BlockList extends React.Component {
       </ul>
     );
   }
+}
+
+BlockList.propTypes = {
+  children: PropTypes.array.isRequired
 }
 
 class ListOfBlocks extends React.Component {
@@ -86,6 +100,10 @@ class ListOfBlocks extends React.Component {
       </div>
     );
   }
+}
+
+ListOfBlocks.propTypes = {
+  children: PropTypes.array.isRequired
 }
 
 export default class BurgerIngredients extends React.Component {
