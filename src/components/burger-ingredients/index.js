@@ -1,2 +1,2 @@
-import BurgerIngredients from './burger-ingredients';
+import BurgerIngredients from './burger-ingredients.jsx';
 export default BurgerIngredients;
