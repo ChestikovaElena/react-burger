@@ -48,16 +48,6 @@ class Card extends React.Component {
   }
 }
 
-class BlockList extends React.Component {
-  render() {
-    return (
-      <ul className={`${styles.block_list} ml-4`}>
-        {this.props.children}
-      </ul>
-    );
-  }
-}
-
 class Block extends React.Component {
   render() {
     return (
@@ -67,10 +57,21 @@ class Block extends React.Component {
           children = {
             ingredients.filter(item => item.type === this.props.type)
             .map((item, index) =>
-              <Card key={index} image={item.image_large} name={item.name} price={item.price}/>)
+              <Card key={`${index}${item.type}`} image={item.image_large} name={item.name} price={item.price}/>)
           }
         />
       </li>
+    );
+  }
+}
+
+
+class BlockList extends React.Component {
+  render() {
+    return (
+      <ul className={`${styles.block_list} ml-4`}>
+        {this.props.children}
+      </ul>
     );
   }
 }
@@ -94,7 +95,7 @@ export default class BurgerIngredients extends React.Component {
         <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
         <Header/>
         <ListOfBlocks
-          children = {typeOfIngredients.map((item,index) => <Block key={index} type={item.type} name={item.name}/>)}
+          children = {typeOfIngredients.map((item,index) => <Block key={`block${index}`} type={item.type} name={item.name}/>)}
         />
       </section>
     );

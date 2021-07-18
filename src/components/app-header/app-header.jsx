@@ -42,7 +42,7 @@ class AppHeader extends React.Component {
                   {icon: ICON_LIST_INACTIVE, text: "Лента заказов", type: "text_color_inactive"}
                 ]
                 .map((item, index) =>
-                  <MenuItem key={index} icon={item.icon} text={item.text} type={item.type}/>
+                  <MenuItem key={`menu${index}`} icon={item.icon} text={item.text} type={item.type}/>
                 )
               }/>
               <div className={styles.elements_wrapper}>

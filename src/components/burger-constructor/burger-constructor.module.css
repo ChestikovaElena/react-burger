@@ -1,0 +1,51 @@
+.column {
+  width: 550px;
+}
+
+.ingredients_list {
+  /* width: 500px; */
+  height: 39vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredients_list::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.ingredients_list::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.block {
+  position: relative;
+  display: flex;
+  flex-shrink: 1;
+}
+
+.icon_wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -5%;
+}
+
+.row_order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: stretch;
+}
