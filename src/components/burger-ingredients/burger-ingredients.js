@@ -16,7 +16,7 @@ const typeOfIngredients = [
 const Header = () => {
   const [current, setCurrent] = React.useState('one')
   return (
-    <div style={{ display: 'flex', justifyContent: 'spaceBetween'}}>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
         {typeOfIngredients[0].name}
       </Tab>
@@ -33,7 +33,7 @@ const Header = () => {
 class Card extends React.Component {
   render() {
     return (
-      <li className={ styles.block_item }>
+      <li className={ `${styles.block_item} mb-8` }>
         <Counter count={1} size="default" />
         <div>
           <img src={this.props.image} alt={this.props.name}/>
@@ -61,7 +61,7 @@ class BlockList extends React.Component {
 class Block extends React.Component {
   render() {
     return (
-      <li className='mt-10'>
+      <li className={`mt-10 ${styles.block}`}>
         <h3 className='text text_type_main-medium pb-6'>{this.props.name}</h3>
         <BlockList 
           children = {
@@ -78,9 +78,11 @@ class Block extends React.Component {
 class ListOfBlocks extends React.Component {
   render() {
     return (
-      <ul className={`${styles.blocks_list}`}>
-        {this.props.children}
-      </ul>
+      <div className={ `mt-10 pr-2 ${styles.blocks_container}` }>
+        <ul className={`${styles.blocks_list}`}>
+          {this.props.children}
+        </ul>
+      </div>
     );
   }
 }
@@ -94,7 +96,6 @@ export default class BurgerIngredients extends React.Component {
         <ListOfBlocks
           children = {typeOfIngredients.map((item,index) => <Block key={index} type={item.type} name={item.name}/>)}
         />
-        
       </section>
     );
   }
