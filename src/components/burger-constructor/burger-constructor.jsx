@@ -54,16 +54,19 @@ const Container = (props) => {
 }
 
 const BurgerConstructor = () => {
-  const total = ingredients.reduce((acc, p) => acc + p.price, 0);
+  const INDEXOFCHOSENBUN = 0;
+  const total = ingredients.reduce(
+    (acc, p, index) => index !== INDEXOFCHOSENBUN ? (acc + p.price) : (acc + p.price*2), 0
+  );
   return (
     <section className={`${styles.column} pt-25 pl-4`}>
       <Container>
         <IngredientCard
             type={'top'}
-            name={ingredients[0].name}
+            name={ingredients[INDEXOFCHOSENBUN].name}
             isLocked={true}
-            price={ingredients[0].price}
-            image={ingredients[0].image}
+            price={ingredients[INDEXOFCHOSENBUN].price}
+            image={ingredients[INDEXOFCHOSENBUN].image}
             isDraged={false}
         />
         <li>
@@ -71,10 +74,10 @@ const BurgerConstructor = () => {
             children = {ingredients.map((item,index) =>
               index !==0 && index!==(ingredients.length - 2)&&
               <IngredientCard
-                key={`${index}`}
+                key={`${item._id}`}
                 type={null}
                 name={item.name}
-                isLocked={Math.random() < 0.5}
+                isLocked={false}
                 price={item.price}
                 image={item.image}
                 isDraged={true}
@@ -84,10 +87,10 @@ const BurgerConstructor = () => {
         </li>
         <IngredientCard
           type={'bottom'}
-          name={ingredients[0].name}
+          name={ingredients[INDEXOFCHOSENBUN].name}
           isLocked={true}
-          price={ingredients[0].price}
-          image={ingredients[0].image}
+          price={ingredients[INDEXOFCHOSENBUN].price}
+          image={ingredients[INDEXOFCHOSENBUN].image}
           isDraged={false}
         />
       </Container>

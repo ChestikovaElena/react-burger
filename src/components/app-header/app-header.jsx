@@ -5,24 +5,8 @@ import {
 import styles from './app-header.module.css';
 import {ICON_BURGER_ACTIVE, ICON_LIST_INACTIVE} from '../icons/icons.js';
 import ElementWithIcon from '../element-with-icon';
-
-const MenuItem = (props) => {
-  return (
-    <li className={ styles.menu_item }>
-      <ElementWithIcon icon={props.icon} text={props.text} type={props.type}/>
-    </li>
-  );
-}
-
-const Menu = (props) => {
-  return (
-    <nav className={ styles.menu }>
-      <ul className={ styles.menu_list }>
-        {props.children}
-      </ul>
-    </nav>
-  );
-}
+import MenuItem from '../menu-item';
+import Menu from '../menu';
 
 const AppHeader = () =>{
   return (

@@ -1,4 +1,5 @@
 import styles from './element-with-icon.module.css';
+import PropTypes from 'prop-types';
 
 const ElementWithIcon = (props) => {
   return (
@@ -9,6 +10,12 @@ const ElementWithIcon = (props) => {
       </a>
     </div>
   );
+}
+
+ElementWithIcon.propTypes = {
+  icon: PropTypes.element.isRequired,
+  text: PropTypes.string,
+  type: PropTypes.string
 }
 
 export default ElementWithIcon

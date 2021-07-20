@@ -14,7 +14,7 @@ const typeOfIngredients = [
   {type: "main", name: "Начинки"},
 ];
 
-const Header = () => {
+const Tabs = () => {
   const [current, setCurrent] = React.useState('one')
   return (
     <div className={ `${styles.header} mb-10` }>
@@ -61,7 +61,7 @@ const Block = (props) =>{
         children = {
           ingredients.filter(item => item.type === props.type)
           .map((item, index) =>
-            <Card key={`${index}${item.type}`} image={item.image_large} name={item.name} price={item.price}/>)
+            <Card key={`${item._id}`} image={item.image_large} name={item.name} price={item.price}/>)
         }
       />
     </li>
@@ -102,7 +102,7 @@ const BurgerIngredients = () => {
   return (
     <section className={`${styles.column} pt-10 mr-10`}>
       <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
-      <Header/>
+      <Tabs/>
       <ListOfBlocks
         children = {typeOfIngredients.map((item,index) => <Block key={`block${index}`} type={item.type} name={item.name}/>)}
       />

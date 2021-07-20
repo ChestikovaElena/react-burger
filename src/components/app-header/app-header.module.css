@@ -11,10 +11,6 @@
   flex-wrap: wrap;
 }
 
-.menu_list {
-  display: flex;
-}
-
 .elements_wrapper {
   width: 61%;
   display: flex;
