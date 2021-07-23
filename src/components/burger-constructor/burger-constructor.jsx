@@ -5,7 +5,6 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import ingredients from '../../utils/data';
 import PropTypes from 'prop-types';
 
 const IngredientCard = (props) => {
@@ -53,26 +52,26 @@ const Container = (props) => {
   );
 }
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ data }) => {
   const INDEXOFCHOSENBUN = 0;
-  const total = ingredients.reduce(
+  const total = data.reduce(
     (acc, p, index) => index !== INDEXOFCHOSENBUN ? (acc + p.price) : (acc + p.price*2), 0
   );
   return (
     <section className={`${styles.column} pt-25 pl-4`}>
       <Container>
-        <IngredientCard
+        {data[INDEXOFCHOSENBUN] && <IngredientCard
             type={'top'}
-            name={ingredients[INDEXOFCHOSENBUN].name}
+            name={data[INDEXOFCHOSENBUN].name}
             isLocked={true}
-            price={ingredients[INDEXOFCHOSENBUN].price}
-            image={ingredients[INDEXOFCHOSENBUN].image}
+            price={data[INDEXOFCHOSENBUN].price}
+            image={data[INDEXOFCHOSENBUN].image}
             isDraged={false}
-        />
+        />}
         <li>
           <IngredientsList
-            children = {ingredients.map((item,index) =>
-              index !==0 && index!==(ingredients.length - 2)&&
+            children = {data.map((item,index) =>
+              index !==INDEXOFCHOSENBUN && index!==(data.length - 1)&&
               <IngredientCard
                 key={`${item._id}`}
                 type={null}
@@ -85,14 +84,14 @@ const BurgerConstructor = () => {
             )}
           />
         </li>
-        <IngredientCard
+        {data[INDEXOFCHOSENBUN] && <IngredientCard
           type={'bottom'}
-          name={ingredients[INDEXOFCHOSENBUN].name}
+          name={data[INDEXOFCHOSENBUN].name}
           isLocked={true}
-          price={ingredients[INDEXOFCHOSENBUN].price}
-          image={ingredients[INDEXOFCHOSENBUN].image}
+          price={data[INDEXOFCHOSENBUN].price}
+          image={data[INDEXOFCHOSENBUN].image}
           isDraged={false}
-        />
+        />}
       </Container>
       <div className={ `${styles.row_order} mt-10 mr-4` }>
         <div className={ `${styles.total} pr-10`}>
@@ -107,6 +106,20 @@ const BurgerConstructor = () => {
       </div>
     </section>
   );
+}
+
+const ingredientPropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  image_large: PropTypes.string.isRequired,
+  image_mobile: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+})
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
 }
 
 export default BurgerConstructor

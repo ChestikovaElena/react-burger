@@ -4,13 +4,13 @@ import BurgerConstructor from '../../components/burger-constructor';
 import styles from'./home-page.module.css';
 import PropTypes from 'prop-types';
 
-const HomePage = ({ data }) => {
+const HomePage = ({ data, isLoading, hasError }) => {
   return (
     <>
       <AppHeader />
       <main className={ styles.main }>
-        <BurgerIngredients data={data}/>
-        <BurgerConstructor data={data}/>
+        {data!==[] && !isLoading && !hasError && <BurgerIngredients data={data}/>}
+        {data!==[] && !isLoading && !hasError && <BurgerConstructor data={data}/>}
       </main>
     </>
   );
@@ -28,6 +28,8 @@ const ingredientPropTypes = PropTypes.shape({
 
 HomePage.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
 }
 
 export default HomePage;

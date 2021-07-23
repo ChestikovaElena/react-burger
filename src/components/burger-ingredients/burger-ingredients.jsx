@@ -114,4 +114,18 @@ const BurgerIngredients = ({ data }) => {
   );
 }
 
+const ingredientPropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  image_large: PropTypes.string.isRequired,
+  image_mobile: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+})
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
+}
+
 export default BurgerIngredients

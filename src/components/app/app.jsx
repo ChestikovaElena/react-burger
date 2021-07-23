@@ -22,7 +22,7 @@ function App() {
   }
 
   return (
-    <HomePage data={state.data}/>
+    <HomePage data={state.data} isLoading={state.isLoading} hasError={state.hasError}/>
   );
 }
 
