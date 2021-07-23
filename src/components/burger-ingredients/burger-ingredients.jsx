@@ -53,14 +53,14 @@ Card.propTypes = {
   image: PropTypes.string.isRequired
 }
 
-const Block = (props) =>{
+const Block = ({ data, name, type }) =>{
   return (
     <li className={`mt-10 ${styles.block}`}>
-      <h3 className='text text_type_main-medium pb-6'>{props.name}</h3>
+      <h3 className='text text_type_main-medium pb-6'>{name}</h3>
       <BlockList 
         children = {
-          ingredients.filter(item => item.type === props.type)
-          .map((item, index) =>
+          data.filter(item => item.type === type)
+          .map((item) =>
             <Card key={`${item._id}`} image={item.image_large} name={item.name} price={item.price}/>)
         }
       />
@@ -72,10 +72,10 @@ Block.propTypes = {
   name: PropTypes.string.isRequired
 }
 
-const BlockList = (props) => {
+const BlockList = ({ children }) => {
   return (
     <ul className={`${styles.block_list} ml-4`}>
-      {props.children}
+      {children}
     </ul>
   );
 }
@@ -84,11 +84,11 @@ BlockList.propTypes = {
   children: PropTypes.array.isRequired
 }
 
-const ListOfBlocks = (props) => {
+const ListOfBlocks = ({ children }) => {
   return (
     <div className={ `mt-10 pr-2 ${styles.blocks_container}` }>
       <ul className={`${styles.blocks_list}`}>
-        {props.children}
+        {children}
       </ul>
     </div>
   );
@@ -98,13 +98,17 @@ ListOfBlocks.propTypes = {
   children: PropTypes.array.isRequired
 }
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ data }) => {
   return (
     <section className={`${styles.column} pt-10 mr-10`}>
       <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
       <Tabs/>
       <ListOfBlocks
-        children = {typeOfIngredients.map((item,index) => <Block key={`block${index}`} type={item.type} name={item.name}/>)}
+        children =
+          {typeOfIngredients.map(
+            (item,index) =>
+              <Block key={`block${index}`} type={item.type} name={item.name} data={data}/>
+          )}
       />
     </section>
   );

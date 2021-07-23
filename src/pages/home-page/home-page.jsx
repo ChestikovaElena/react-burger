@@ -3,13 +3,13 @@ import BurgerIngredients from '../../components/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor';
 import styles from'./home-page.module.css';
 
-const HomePage = () => {
+const HomePage = ({ data }) => {
   return (
     <>
       <AppHeader />
       <main className={ styles.main }>
-        <BurgerIngredients />
-        <BurgerConstructor />
+        <BurgerIngredients data={data}/>
+        <BurgerConstructor data={data}/>
       </main>
     </>
   );
