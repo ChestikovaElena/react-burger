@@ -5,7 +5,6 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import ingredients from '../../utils/data';
 import PropTypes from 'prop-types';
 
 const typeOfIngredients = [
@@ -69,7 +68,8 @@ const Block = ({ data, name, type }) =>{
 }
 
 Block.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 const BlockList = ({ children }) => {
