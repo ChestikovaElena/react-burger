@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import HomePage from '../../pages/home-page';
+import Modal from '../modal';
+import ModalOverlay from '../modal-overlay';
 
 function App() {
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
-    data: []
+    data: [],
+    isModalVisible: true,
   });
   const API_SOURCE = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -22,7 +25,10 @@ function App() {
   }
 
   return (
-    <HomePage data={state.data} isLoading={state.isLoading} hasError={state.hasError}/>
+    <div>
+      <HomePage data={state.data} isLoading={state.isLoading} hasError={state.hasError}/>
+      {state.isModalVisible && <ModalOverlay />}
+    </div>
   );
 }
 
