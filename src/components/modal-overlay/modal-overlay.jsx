@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../modal';
+import OrderDetails from '../order-details';
 import styles from './modal-overlay.module.css';
 
 const modalRoot = document.getElementById('react-modals');
@@ -24,7 +25,9 @@ export default class ModalOverlay extends React.Component {
     return ReactDOM.createPortal(
       (
         <div className={styles.overlay} onClick={() => this.props.setModalActive(false)}>
-          <Modal setModalActive={this.props.setModalActive} />
+          <Modal setModalActive={this.props.setModalActive}>
+            <OrderDetails />
+          </Modal>
         </div>
       ),
       modalRoot

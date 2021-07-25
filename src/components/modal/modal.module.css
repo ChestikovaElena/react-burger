@@ -3,14 +3,17 @@
   border: 1px solid rgba(76, 76, 255, 0.2);
   border-radius: 40px;
   background-color: #1C1C21;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
+}
+
+.modal_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .icon_wrapper {
