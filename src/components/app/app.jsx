@@ -8,8 +8,8 @@ function App() {
     isLoading: false,
     hasError: false,
     data: [],
-    isModalVisible: true,
   });
+  const [isModalActive, setModalActive] = useState(true);
   const API_SOURCE = 'https://norma.nomoreparties.space/api/ingredients';
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function App() {
   return (
     <div>
       <HomePage data={state.data} isLoading={state.isLoading} hasError={state.hasError}/>
-      {state.isModalVisible && <ModalOverlay />}
+      {isModalActive && <ModalOverlay active={isModalActive} setModalActive={setModalActive}/>}
     </div>
   );
 }
