@@ -1,4 +1,4 @@
-import {useEffect, useState, memo} from 'react';
+import {useEffect, useState} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -150,15 +150,15 @@ const BurgerConstructor = ({ data }) => {
             Оформить заказ
           </Button>
         </div>
-        {isModalActive && 
-          <ModalOverlay
-            active={isModalActive}
-            setModalActive={setModalActive}
-            modalType={modalType}
-            ingredientData={ingredientData}
-          />
-        }
       </section>
+      {isModalActive && 
+        <ModalOverlay
+          active={isModalActive}
+          setModalActive={setModalActive}
+          modalType={modalType}
+          ingredientData={ingredientData}
+        />
+      }
     </>
   );
 }
@@ -177,4 +177,4 @@ BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
 }
 
-export default memo(BurgerConstructor)
+export default BurgerConstructor
