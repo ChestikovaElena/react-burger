@@ -1,37 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../modal';
 import styles from './modal-overlay.module.css';
 
 const modalRoot = document.getElementById('react-modals');
 
-export default class ModalOverlay extends React.Component {
-  escFunction = (e) => {
+const ModalOverlay = ({ setModalActive, modalType, ingredientData }) => {
+  const escFunction = (e) => {
     if (e.keyCode === 27) {
-      this.props.setModalActive(false)
+      setModalActive(false)
     }
   }
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.escFunction, false);
-  }
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction);
 
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.escFunction, false);
-  }
-
-  render() {
-    return ReactDOM.createPortal(
-      (
-        <div className={styles.overlay} onClick={() => this.props.setModalActive(false)}>
-          <Modal
-            setModalActive={this.props.setModalActive}
-            modalType={this.props.modalType}
-            ingredientData={this.props.ingredientData}
-          />
-        </div>
-      ),
-      modalRoot
-    );
-  }
+    return () => {
+      document.removeEventListener("keydown", escFunction);
+    }
+  }, []);
+  
+  return ReactDOM.createPortal(
+    (
+      <div className={styles.overlay} onClick={() => setModalActive(false)}>
+        <Modal
+          setModalActive={setModalActive}
+          modalType={modalType}
+          ingredientData={ingredientData}
+        />
+      </div>
+    ),
+    modalRoot
+  );
 }
+
+export default ModalOverlay
