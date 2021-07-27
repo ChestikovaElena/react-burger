@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, memo} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -177,4 +177,4 @@ BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
 }
 
-export default BurgerConstructor
+export default memo(BurgerConstructor)
