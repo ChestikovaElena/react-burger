@@ -1,4 +1,5 @@
 import styles from './ingredient-details.module.css';
+import PropTypes from 'prop-types';
 
 const productFeatures = [
   {
@@ -39,6 +40,12 @@ const Feature = ({ name, measure, value }) => {
   )
 }
 
+Feature.propTypes = {
+  name: PropTypes.string.isRequired,
+  measure: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired
+}
+
 const ListOfFeatures = ({ children }) => {
   return (
     <ul className={styles.features}>
@@ -61,6 +68,17 @@ const IngredientDetails = ({ ingredientData }) => {
       />
     </div>
   );
+}
+
+IngredientDetails.propTypes = {
+  ingredientData: PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired
+  })
 }
 
 export default IngredientDetails;
