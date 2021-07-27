@@ -1,0 +1,15 @@
+.wrapper {
+  width: 72%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.features {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import HomePage from '../../pages/home-page';
-import Modal from '../modal';
-import ModalOverlay from '../modal-overlay';
 
 function App() {
   const [state, setState] = useState({
@@ -9,7 +7,6 @@ function App() {
     hasError: false,
     data: [],
   });
-  const [isModalActive, setModalActive] = useState(true);
   const API_SOURCE = 'https://norma.nomoreparties.space/api/ingredients';
 
   useEffect(() => {
@@ -27,7 +24,6 @@ function App() {
   return (
     <div>
       <HomePage data={state.data} isLoading={state.isLoading} hasError={state.hasError}/>
-      {isModalActive && <ModalOverlay active={isModalActive} setModalActive={setModalActive}/>}
     </div>
   );
 }
