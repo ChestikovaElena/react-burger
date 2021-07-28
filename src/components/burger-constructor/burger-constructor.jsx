@@ -105,7 +105,7 @@ const BurgerConstructor = ({ data }) => {
         <Container>
           {data[INDEXOFCHOSENBUN] && <IngredientCard
               type={'top'}
-              name={data[INDEXOFCHOSENBUN].name}
+              name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
               id={data[INDEXOFCHOSENBUN]._id}
               isLocked={true}
               price={data[INDEXOFCHOSENBUN].price}
@@ -131,7 +131,7 @@ const BurgerConstructor = ({ data }) => {
           </li>
           {data[INDEXOFCHOSENBUN] && <IngredientCard
             type={'bottom'}
-            name={data[INDEXOFCHOSENBUN].name}
+            name={`${data[INDEXOFCHOSENBUN].name} (низ)`}
             id={data[INDEXOFCHOSENBUN]._id}
             isLocked={true}
             price={data[INDEXOFCHOSENBUN].price}
