@@ -1,11 +1,12 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {
   ConstructorElement,
   Button,
   DragIcon,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from '../modal-overlay';
+import Modal from '../modal';
+import OrderDetails from '../order-details';
 import styles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 
@@ -67,42 +68,9 @@ const BurgerConstructor = ({ data }) => {
   );
 
   const [isModalActive, setModalActive] = useState(false);
-  const [modalType, setModalType] = useState();
-
-  // const getIngredientDetails = (id) => {
-  //   return data.find(item => item._id === id);
-  // }
-
-  // const handleIngredientClick = (e) => {
-  //   e.stopPropagation();
-
-  //   if (e.target.classList.item(0)&&e.target.classList.item(0).includes('constructor-element')) {
-  //     const parentNode = e.target.closest('[data-id]');
-  //     const currentIngredient = getIngredientDetails(parentNode.getAttribute('data-id'));
-  //     setModalType('ingredientDetails');
-  //     setIngredientData({
-  //       image: currentIngredient.image_large,
-  //       name: currentIngredient.name,
-  //       calories: currentIngredient.calories,
-  //       proteins: currentIngredient.proteins,
-  //       fat: currentIngredient.fat,
-  //       carbohydrates: currentIngredient.carbohydrates,
-  //     });
-  //     setModalActive(true);
-  //   }
-  // }
-
-  // useEffect(() =>{
-  //   document.addEventListener('click', handleButtonClick)
-
-  //   return () => {
-  //     document.removeEventListener('click', handleButtonClick)
-  //   }
-  // })
 
   const handleButtonClick = (e) => {
     setModalActive(true);
-    setModalType('orderDetails');
   }
   
   return (
@@ -155,11 +123,9 @@ const BurgerConstructor = ({ data }) => {
         </div>
       </section>
       {isModalActive && 
-        <ModalOverlay
-          active={isModalActive}
-          setModalActive={setModalActive}
-          modalType={modalType}
-        />
+        <Modal setModalActive={setModalActive} title=''>
+          <OrderDetails />
+        </Modal>
       }
     </>
   );

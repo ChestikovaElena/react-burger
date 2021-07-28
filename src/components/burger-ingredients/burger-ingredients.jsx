@@ -6,7 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
-import ModalOverlay from '../modal-overlay';
+import Modal from '../modal';
+import IngredientDetails from '../ingredient-details';
 
 const typeOfIngredients = [
   {type: "bun", name: "Булки"},
@@ -140,12 +141,10 @@ const BurgerIngredients = ({ data }) => {
             )}
         />
       </section>
-      {isModalActive && 
-        <ModalOverlay
-          active={isModalActive}
-          setModalActive={setModalActive}
-          ingredientData={ingredientData}
-        />
+      {isModalActive &&
+        <Modal setModalActive={setModalActive} title='Детали ингредиента'>
+          <IngredientDetails ingredientData={ingredientData}/>
+        </Modal>
       }
     </>
   );
