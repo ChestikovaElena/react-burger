@@ -16,7 +16,11 @@ function App() {
   const getIngredients = () => {
     setState({...state, hasError: false, isLoading: true});
     fetch(API_SOURCE)
-      .then(result => result.json())
+      .then(result => {
+                        if (result.ok) {
+                          return result.json();
+                        } return Promise.reject(`Ошибка ${result.status}`);
+                      })
       .then(result => setState({...state, data: result.data, isLoading: false}))
       .catch(error => setState({...state, hasError: true, isLoading: false}));
   }
