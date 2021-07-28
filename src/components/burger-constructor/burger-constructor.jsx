@@ -57,7 +57,13 @@ const Container = (props) => {
 const BurgerConstructor = ({ data }) => {
   const INDEXOFCHOSENBUN = 0;
   const total = data.reduce(
-    (acc, p, index) => index !== INDEXOFCHOSENBUN ? (acc + p.price) : (acc + p.price*2), 0
+    (acc, p, index) =>
+      (index !== INDEXOFCHOSENBUN && p.type !== 'bun')
+        ?
+          (acc + p.price)
+        :
+          (index === INDEXOFCHOSENBUN) ? (acc + p.price*2) : 0
+      , 0
   );
   const [isModalActive, setModalActive] = useState(false);
   const [modalType, setModalType] = useState();
@@ -115,7 +121,7 @@ const BurgerConstructor = ({ data }) => {
           <li>
             <IngredientsList
               children = {data.map((item,index) =>
-                index !==INDEXOFCHOSENBUN && index!==(data.length - 1)&&
+                index !== INDEXOFCHOSENBUN && item.type !== 'bun' &&
                 <IngredientCard
                   key={`${item._id}`}
                   type={null}
