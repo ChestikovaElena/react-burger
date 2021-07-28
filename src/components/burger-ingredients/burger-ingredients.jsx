@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Counter,
   Tab,
@@ -6,6 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
+import ModalOverlay from '../modal-overlay';
 
 const typeOfIngredients = [
   {type: "bun", name: "Булки"},
@@ -32,7 +33,7 @@ const Tabs = () => {
 
 const Card = (props) =>{
   return (
-    <li className={ `${styles.block_item} mb-8` }>
+    <li className={ `${styles.block_item} mb-8` } data-id={props.id} onClick={props.handleClick}>
       <Counter count={1} size="default" />
       <div>
         <img src={props.image} alt={props.name}/>
@@ -52,7 +53,7 @@ Card.propTypes = {
   image: PropTypes.string.isRequired
 }
 
-const Block = ({ data, name, type }) =>{
+const Block = ({ data, name, type, handleClick }) =>{
   return (
     <li className={`mt-10 ${styles.block}`}>
       <h3 className='text text_type_main-medium pb-6'>{name}</h3>
@@ -60,7 +61,10 @@ const Block = ({ data, name, type }) =>{
         children = {
           data.filter(item => item.type === type)
           .map((item) =>
-            <Card key={`${item._id}`} image={item.image_large} name={item.name} price={item.price}/>)
+            <Card
+              key={`${item._id}`} image={item.image_large} name={item.name}
+              price={item.price} id={item._id} handleClick={handleClick}
+            />)
         }
       />
     </li>
@@ -69,7 +73,8 @@ const Block = ({ data, name, type }) =>{
 
 Block.propTypes = {
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired
 }
 
 const BlockList = ({ children }) => {
@@ -99,18 +104,50 @@ ListOfBlocks.propTypes = {
 }
 
 const BurgerIngredients = ({ data }) => {
+  const [isModalActive, setModalActive] = useState(false);
+  const [ingredientData, setIngredientData] = useState();
+
+  const getIngredientDetails = (id) => {
+    return data.find(item => item._id === id);
+  }
+
+  const handleCardClick = (e) => {
+    const parentNode = e.currentTarget;
+    const currentIngredient = getIngredientDetails(parentNode.getAttribute('data-id'));
+    
+    setIngredientData({
+      image: currentIngredient.image_large,
+      name: currentIngredient.name,
+      calories: currentIngredient.calories,
+      proteins: currentIngredient.proteins,
+      fat: currentIngredient.fat,
+      carbohydrates: currentIngredient.carbohydrates,
+    });
+    
+    setModalActive(true);
+  }
+
   return (
-    <section className={`${styles.column} pt-10 mr-10`}>
-      <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
-      <Tabs/>
-      <ListOfBlocks
-        children =
-          {typeOfIngredients.map(
-            (item,index) =>
-              <Block key={`block${index}`} type={item.type} name={item.name} data={data}/>
-          )}
-      />
-    </section>
+    <>
+      <section className={`${styles.column} pt-10 mr-10`}>
+        <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
+        <Tabs/>
+        <ListOfBlocks
+          children =
+            {typeOfIngredients.map(
+              (item,index) =>
+                <Block key={`block${index}`} type={item.type} name={item.name} data={data} handleClick={handleCardClick}/>
+            )}
+        />
+      </section>
+      {isModalActive && 
+        <ModalOverlay
+          active={isModalActive}
+          setModalActive={setModalActive}
+          ingredientData={ingredientData}
+        />
+      }
+    </>
   );
 }
 

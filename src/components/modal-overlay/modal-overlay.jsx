@@ -26,7 +26,7 @@ const ModalOverlay = ({ setModalActive, modalType, ingredientData }) => {
       <div className={styles.overlay} onClick={() => setModalActive(false)}>
         <Modal
           setModalActive={setModalActive}
-          modalType={modalType}
+          modalType='ingredientData'
           ingredientData={ingredientData}
         />
       </div>
@@ -37,7 +37,6 @@ const ModalOverlay = ({ setModalActive, modalType, ingredientData }) => {
 
 ModalOverlay.propTypes = {
   setModalActive: PropTypes.func.isRequired,
-  modalType: PropTypes.string.isRequired,
   ingredientData: PropTypes.shape({
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

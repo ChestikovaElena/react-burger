@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 const IngredientCard = (props) => {
   return (
-    <li className={`mt-4 pl-8 ${styles.block}`} data-id={props.id}>
+    <li className={`mt-4 pl-8 ${styles.block}`}>
       <ConstructorElement 
         type={props.type}
         isLocked={props.isLocked}
@@ -65,40 +65,40 @@ const BurgerConstructor = ({ data }) => {
           (index === INDEXOFCHOSENBUN) ? (acc + p.price*2) : 0
       , 0
   );
+
   const [isModalActive, setModalActive] = useState(false);
   const [modalType, setModalType] = useState();
-  const [ingredientData, setIngredientData] = useState();
 
-  const getIngredientDetails = (id) => {
-    return data.find(item => item._id === id);
-  }
+  // const getIngredientDetails = (id) => {
+  //   return data.find(item => item._id === id);
+  // }
 
-  const handleIngredientClick = (e) => {
-    e.stopPropagation();
+  // const handleIngredientClick = (e) => {
+  //   e.stopPropagation();
 
-    if (e.target.classList.item(0)&&e.target.classList.item(0).includes('constructor-element')) {
-      const parentNode = e.target.closest('[data-id]');
-      const currentIngredient = getIngredientDetails(parentNode.getAttribute('data-id'));
-      setModalType('ingredientDetails');
-      setIngredientData({
-        image: currentIngredient.image_large,
-        name: currentIngredient.name,
-        calories: currentIngredient.calories,
-        proteins: currentIngredient.proteins,
-        fat: currentIngredient.fat,
-        carbohydrates: currentIngredient.carbohydrates,
-      });
-      setModalActive(true);
-    }
-  }
+  //   if (e.target.classList.item(0)&&e.target.classList.item(0).includes('constructor-element')) {
+  //     const parentNode = e.target.closest('[data-id]');
+  //     const currentIngredient = getIngredientDetails(parentNode.getAttribute('data-id'));
+  //     setModalType('ingredientDetails');
+  //     setIngredientData({
+  //       image: currentIngredient.image_large,
+  //       name: currentIngredient.name,
+  //       calories: currentIngredient.calories,
+  //       proteins: currentIngredient.proteins,
+  //       fat: currentIngredient.fat,
+  //       carbohydrates: currentIngredient.carbohydrates,
+  //     });
+  //     setModalActive(true);
+  //   }
+  // }
 
-  useEffect(() =>{
-    document.addEventListener('click', handleIngredientClick)
+  // useEffect(() =>{
+  //   document.addEventListener('click', handleButtonClick)
 
-    return () => {
-      document.removeEventListener('click', handleIngredientClick)
-    }
-  })
+  //   return () => {
+  //     document.removeEventListener('click', handleButtonClick)
+  //   }
+  // })
 
   const handleButtonClick = (e) => {
     setModalActive(true);
@@ -112,7 +112,6 @@ const BurgerConstructor = ({ data }) => {
           {data[INDEXOFCHOSENBUN] && <IngredientCard
               type={'top'}
               name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
-              id={data[INDEXOFCHOSENBUN]._id}
               isLocked={true}
               price={data[INDEXOFCHOSENBUN].price}
               image={data[INDEXOFCHOSENBUN].image}
@@ -126,7 +125,6 @@ const BurgerConstructor = ({ data }) => {
                   key={`${item._id}`}
                   type={null}
                   name={item.name}
-                  id={item._id}
                   isLocked={false}
                   price={item.price}
                   image={item.image}
@@ -138,7 +136,6 @@ const BurgerConstructor = ({ data }) => {
           {data[INDEXOFCHOSENBUN] && <IngredientCard
             type={'bottom'}
             name={`${data[INDEXOFCHOSENBUN].name} (низ)`}
-            id={data[INDEXOFCHOSENBUN]._id}
             isLocked={true}
             price={data[INDEXOFCHOSENBUN].price}
             image={data[INDEXOFCHOSENBUN].image}
@@ -162,7 +159,6 @@ const BurgerConstructor = ({ data }) => {
           active={isModalActive}
           setModalActive={setModalActive}
           modalType={modalType}
-          ingredientData={ingredientData}
         />
       }
     </>
