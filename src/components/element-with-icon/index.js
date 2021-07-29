@@ -1,2 +1,2 @@
-import ElementWithIcon from './element-with-icon';
+import ElementWithIcon from './element-with-icon.jsx';
 export default ElementWithIcon;
