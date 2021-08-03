@@ -2,11 +2,11 @@ import {useState, useContext} from 'react';
 import {
   ConstructorElement,
   Button,
-  DragIcon,
-  CurrencyIcon
+  DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
+import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 import {DataContext} from '../../services/app-context';
@@ -61,15 +61,15 @@ const BurgerConstructor = () => {
   const { data } = dataState;
 
   const INDEXOFCHOSENBUN = 0;
-  const total = data.reduce(
-    (acc, p, index) =>
-      (index !== INDEXOFCHOSENBUN && p.type !== 'bun')
-        ?
-          (acc + p.price)
-        :
-          (index === INDEXOFCHOSENBUN) ? (acc + p.price*2) : 0
-      , 0
-  );
+  // const total = data.reduce(
+  //   (acc, p, index) =>
+  //     (index !== INDEXOFCHOSENBUN && p.type !== 'bun')
+  //       ?
+  //         (acc + p.price)
+  //       :
+  //         (index === INDEXOFCHOSENBUN) ? (acc + p.price*2) : 0
+  //     , 0
+  // );
 
   const [isModalActive, setModalActive] = useState(false);
 
@@ -115,12 +115,7 @@ const BurgerConstructor = () => {
           />}
         </Container>
         <div className={ `${styles.row_order} mt-10 mr-4` }>
-          <div className={ `${styles.total} pr-10`}>
-            <span className="text text_type_digits-medium pr-2">{total}</span>
-            <div className= { styles.icon }>
-              <CurrencyIcon type="primary" />
-            </div>
-          </div>
+          <TotalPrice />
           <Button type="primary" size="medium" onClick={handleButtonClick}>
             Оформить заказ
           </Button>
