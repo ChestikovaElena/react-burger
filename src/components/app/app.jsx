@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import HomePage from '../../pages/home-page';
+import {DataContext} from '../../services/app-context';
 
 function App() {
-  const [state, setState] = useState({
+  const [dataState, setDataState] = useState({
     isLoading: false,
     hasError: false,
     data: [],
@@ -14,20 +15,22 @@ function App() {
   }, []);
 
   const getIngredients = () => {
-    setState({...state, hasError: false, isLoading: true});
+    setDataState({...dataState, hasError: false, isLoading: true});
     fetch(API_SOURCE)
       .then(result => {
                         if (result.ok) {
                           return result.json();
                         } return Promise.reject(`Ошибка ${result.status}`);
                       })
-      .then(result => setState({...state, data: result.data, isLoading: false}))
-      .catch(error => setState({...state, hasError: true, isLoading: false}));
+      .then(result => setDataState({...dataState, data: result.data, isLoading: false}))
+      .catch(error => setDataState({...dataState, hasError: true, isLoading: false}));
   }
 
   return (
     <div>
-      <HomePage data={state.data} isLoading={state.isLoading} hasError={state.hasError}/>
+      <DataContext.Provider value={{ dataState, setDataState }}>
+        <HomePage />
+      </DataContext.Provider>
     </div>
   );
 }

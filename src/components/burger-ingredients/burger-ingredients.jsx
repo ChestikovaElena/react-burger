@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Counter,
   Tab,
@@ -8,6 +8,7 @@ import styles from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import Modal from '../modal';
 import IngredientDetails from '../ingredient-details';
+import {DataContext} from '../../services/app-context';
 
 const typeOfIngredients = [
   {type: "bun", name: "Булки"},
@@ -104,7 +105,10 @@ ListOfBlocks.propTypes = {
   children: PropTypes.array.isRequired
 }
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
+  const { dataState } = useContext(DataContext);
+  const { data } = dataState;
+
   const [isModalActive, setModalActive] = useState(false);
   const [ingredientData, setIngredientData] = useState();
 
@@ -148,20 +152,6 @@ const BurgerIngredients = ({ data }) => {
       }
     </>
   );
-}
-
-const ingredientPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-})
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
 }
 
 export default BurgerIngredients

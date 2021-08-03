@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -9,6 +9,7 @@ import Modal from '../modal';
 import OrderDetails from '../order-details';
 import styles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
+import {DataContext} from '../../services/app-context';
 
 const IngredientCard = (props) => {
   return (
@@ -55,7 +56,10 @@ const Container = (props) => {
   );
 }
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = () => {
+  const { dataState } = useContext(DataContext);
+  const { data } = dataState;
+
   const INDEXOFCHOSENBUN = 0;
   const total = data.reduce(
     (acc, p, index) =>
@@ -129,20 +133,6 @@ const BurgerConstructor = ({ data }) => {
       }
     </>
   );
-}
-
-const ingredientPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-})
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
 }
 
 export default BurgerConstructor
