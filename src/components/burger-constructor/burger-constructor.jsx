@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect, useReducer} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -61,26 +61,46 @@ const BurgerConstructor = () => {
   const { data } = dataState;
 
   const INDEXOFCHOSENBUN = 0;
-  // const total = data.reduce(
-  //   (acc, p, index) =>
-  //     (index !== INDEXOFCHOSENBUN && p.type !== 'bun')
-  //       ?
-  //         (acc + p.price)
-  //       :
-  //         (index === INDEXOFCHOSENBUN) ? (acc + p.price*2) : 0
-  //     , 0
-  // );
 
   const [isModalActive, setModalActive] = useState(false);
 
   const handleButtonClick = (e) => {
     setModalActive(true);
   }
-  
+
+  const totalPriceInitialState = { totalPrice: 0 };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'set':
+        return { totalPrice: action.payload };
+      case 'reset':
+        return totalPriceInitialState;
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  }
+
+  const [totalPriceState, totalPriceDispatch] = useReducer(reducer, totalPriceInitialState, undefined);
+
+  useEffect(() => {
+    const totalPrice = data.reduce(
+      (sum, item, index) =>
+        (index !== INDEXOFCHOSENBUN && item.type !== 'bun')
+          ?
+            (sum + item.price)
+          :
+            (index === INDEXOFCHOSENBUN) ? (sum + item.price*2) : 0
+        , 0
+    );
+    totalPriceDispatch({ type: 'set', payload: totalPrice });
+    }, [data]
+  );
+
   return (
     <>
       <section className={`${styles.column} pt-25 pl-4`}>
-        <Container>
+        <Container>{console.log(totalPriceState)}
           {data[INDEXOFCHOSENBUN] && <IngredientCard
               type={'top'}
               name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
@@ -115,7 +135,7 @@ const BurgerConstructor = () => {
           />}
         </Container>
         <div className={ `${styles.row_order} mt-10 mr-4` }>
-          <TotalPrice />
+          <TotalPrice totalPrice={totalPriceState.totalPrice}/>
           <Button type="primary" size="medium" onClick={handleButtonClick}>
             Оформить заказ
           </Button>
