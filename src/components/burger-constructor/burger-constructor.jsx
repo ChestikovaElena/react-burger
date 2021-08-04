@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect, useReducer, useMemo} from 'react';
+import {useState, useContext, useEffect, useReducer, useMemo, useCallback} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -60,11 +60,19 @@ const BurgerConstructor = () => {
   const { dataState } = useContext(DataContext);
   const { data } = dataState;
 
+  const API_SOURCE = 'https://norma.nomoreparties.space/api/orders';
   const INDEXOFCHOSENBUN = 0;
+  const arrayOfID = [];
 
   const [isModalActive, setModalActive] = useState(false);
+  const [orderInfo, setOrderInfo] = useState({
+    isLoading: false,
+    hasError: false,
+    orderNumber: '',
+  });
 
   const handleButtonClick = (e) => {
+    getOrderInfo();
     setModalActive(true);
   }
 
@@ -112,6 +120,31 @@ const BurgerConstructor = () => {
     ), [data]
   );
 
+  const getOrderInfo = () => {
+    setOrderInfo({...orderInfo, hasError: false, isLoading: true});
+    data.map((item,index) =>
+      {
+        if (index === INDEXOFCHOSENBUN || item.type !== 'bun') 
+          arrayOfID.push(item._id);
+      }
+    );
+    
+    fetch(API_SOURCE, {
+      method: 'POST',
+      body: JSON.stringify({"ingredients": arrayOfID}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(result => {
+                        if (result.ok) {
+                          return result.json();
+                        } return Promise.reject(`Ошибка ${result.status}`);
+                      })
+      .then(result => setOrderInfo({...orderInfo, orderNumber: result.order.number, isLoading: false}))
+      .catch(error => setOrderInfo({...orderInfo, hasError: true, isLoading: false}));
+  };
+
   return (
     <>
       <section className={`${styles.column} pt-25 pl-4`}>
@@ -147,7 +180,7 @@ const BurgerConstructor = () => {
       </section>
       {isModalActive && 
         <Modal setModalActive={setModalActive} title=''>
-          <OrderDetails />
+          <OrderDetails orderInfo={orderInfo}/>
         </Modal>
       }
     </>
