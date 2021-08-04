@@ -1,5 +1,6 @@
 import styles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 const OrderDetails = ({orderInfo}) => {
   const { isLoading, hasError, orderNumber } = orderInfo;
@@ -23,6 +24,16 @@ const OrderDetails = ({orderInfo}) => {
       <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
     </div>
   );
+}
+
+const orderInfoPropTypes = PropTypes.shape({
+  isLoading: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  orderNumber: PropTypes.string.isRequired
+});
+
+OrderDetails.prototypes = {
+  orderInfo: orderInfoPropTypes.isRequired
 }
 
 export default OrderDetails

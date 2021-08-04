@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect, useReducer, useMemo, useCallback} from 'react';
+import {useState, useContext, useEffect, useReducer, useMemo} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -57,12 +57,12 @@ const Container = (props) => {
 }
 
 const BurgerConstructor = () => {
-  const { dataState } = useContext(DataContext);
-  const { data } = dataState;
-
   const API_SOURCE = 'https://norma.nomoreparties.space/api/orders';
   const INDEXOFCHOSENBUN = 0;
   const arrayOfID = [];
+
+  const { dataState } = useContext(DataContext);
+  const { data } = dataState;
 
   const [isModalActive, setModalActive] = useState(false);
   const [orderInfo, setOrderInfo] = useState({
@@ -128,7 +128,7 @@ const BurgerConstructor = () => {
           arrayOfID.push(item._id);
       }
     );
-    
+
     fetch(API_SOURCE, {
       method: 'POST',
       body: JSON.stringify({"ingredients": arrayOfID}),
