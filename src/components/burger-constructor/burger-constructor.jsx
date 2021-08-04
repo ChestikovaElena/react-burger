@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect, useReducer} from 'react';
+import {useState, useContext, useEffect, useReducer, useMemo} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -97,32 +97,36 @@ const BurgerConstructor = () => {
     }, [data]
   );
 
+  const content = useMemo(
+    () => data.map((item,index) =>
+      index !== INDEXOFCHOSENBUN && item.type !== 'bun' &&
+      <IngredientCard
+        key={`${item._id}`}
+        type={null}
+        name={item.name}
+        isLocked={false}
+        price={item.price}
+        image={item.image}
+        isDraged={true}
+      />
+    ), [data]
+  );
+
   return (
     <>
       <section className={`${styles.column} pt-25 pl-4`}>
-        <Container>{console.log(totalPriceState)}
+        <Container>
           {data[INDEXOFCHOSENBUN] && <IngredientCard
-              type={'top'}
-              name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
-              isLocked={true}
-              price={data[INDEXOFCHOSENBUN].price}
-              image={data[INDEXOFCHOSENBUN].image}
-              isDraged={false}
+            type={'top'}
+            name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
+            isLocked={true}
+            price={data[INDEXOFCHOSENBUN].price}
+            image={data[INDEXOFCHOSENBUN].image}
+            isDraged={false}
           />}
           <li>
             <IngredientsList
-              children = {data.map((item,index) =>
-                index !== INDEXOFCHOSENBUN && item.type !== 'bun' &&
-                <IngredientCard
-                  key={`${item._id}`}
-                  type={null}
-                  name={item.name}
-                  isLocked={false}
-                  price={item.price}
-                  image={item.image}
-                  isDraged={true}
-                />
-              )}
+              children = {content}
             />
           </li>
           {data[INDEXOFCHOSENBUN] && <IngredientCard

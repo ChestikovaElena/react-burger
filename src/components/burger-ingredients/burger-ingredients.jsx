@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import {
   Counter,
   Tab,
@@ -132,18 +132,19 @@ const BurgerIngredients = () => {
     setModalActive(true);
   }
 
+  const content = useMemo(
+    () => typeOfIngredients.map(
+      (item,index) =>
+        <Block key={`block${index}`} type={item.type} name={item.name} data={data} handleClick={handleCardClick}/>
+    ), [data]
+  );
+
   return (
     <>
       <section className={`${styles.column} pt-10 mr-10`}>
         <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
         <Tabs/>
-        <ListOfBlocks
-          children =
-            {typeOfIngredients.map(
-              (item,index) =>
-                <Block key={`block${index}`} type={item.type} name={item.name} data={data} handleClick={handleCardClick}/>
-            )}
-        />
+        <ListOfBlocks children = {content} />
       </section>
       {isModalActive &&
         <Modal setModalActive={setModalActive} title='Детали ингредиента'>
