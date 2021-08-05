@@ -1,52 +1,12 @@
 import {useState, useContext, useEffect, useReducer, useMemo} from 'react';
-import {
-  ConstructorElement,
-  Button,
-  DragIcon
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
 import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
 import {DataContext} from '../../services/app-context';
-
-const IngredientCard = (props) => {
-  return (
-    <li className={`mt-4 pl-8 ${styles.block}`}>
-      <ConstructorElement 
-        type={props.type}
-        isLocked={props.isLocked}
-        text={props.name}
-        price={props.price}
-        thumbnail={props.image}
-      />
-      <div className={ styles.icon_wrapper }>
-        {props.isDraged&&<DragIcon type="primary" />}
-      </div>
-    </li>
-  );
-}
-
-IngredientCard.propTypes = {
-  type: PropTypes.string,
-  isLocked: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired
-}
-
-const IngredientsList = (props) =>{
-  return (
-    <ul className={`${styles.ingredients_list} `}>
-      {props.children}
-    </ul>
-  );
-}
-
-IngredientsList.propTypes = {
-  children: PropTypes.array.isRequired
-}
+import { IngredientCard } from './ingredient-card';
+import { IngredientsList } from './ingredient-list';
 
 const Container = (props) => {
   return (
@@ -85,7 +45,7 @@ const BurgerConstructor = () => {
       case 'reset':
         return totalPriceInitialState;
       default:
-        throw new Error(`Wrong type of action: ${action.type}`);
+        return state;
     }
   }
 
