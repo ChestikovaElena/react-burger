@@ -69,7 +69,7 @@ const BurgerConstructor = () => {
     () => data.map((item,index) =>
       index !== INDEXOFCHOSENBUN && item.type !== 'bun' &&
       <IngredientCard
-        key={`${item._id}`}
+        key={`${item.index}`}
         type={null}
         name={item.name}
         isLocked={false}
