@@ -1,14 +1,12 @@
-const initialState = {
-  ingredients: [],
-  selectedIngredients: [],
-  currentIngredient: {},
-  order: {}
-}
+import { combineReducers } from 'redux';
+import { dataReducer } from './data';
+import { selectedIngredientReducer } from './selected-ingredient';
+import { ingredientDetailsReducer } from './ingredient-details';
+import { orderReducer } from './order';
 
-export const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    
-    default:
-      return state
-  }
-}
+export const rootReducer = combineReducers({
+  data: dataReducer,
+  selectedingredients: selectedIngredientReducer,
+  currentIngredient: ingredientDetailsReducer,
+  order: orderReducer
+});

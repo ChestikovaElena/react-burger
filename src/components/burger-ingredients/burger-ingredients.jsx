@@ -1,17 +1,28 @@
-import { useState, useContext, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-ingredients.module.css';
 import Modal from '../modal';
 import IngredientDetails from '../ingredient-details';
 import { Tabs } from './tabs';
-import { DataContext } from '../../services/app-context';
 import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
-
+import { getIngredients } from '../../services/actions/data';
 
 const BurgerIngredients = ({ upgradeDataSelected }) => {
-  const { dataState } = useContext(DataContext);
-  const { data } = dataState;
+  const dispatch = useDispatch();
+  const {
+    data,
+    dataRequest,
+    dataFailed
+  } = useSelector(state => state.data);
+
+  useEffect(
+    () => {
+      if (!data.length) dispatch(getIngredients());
+    },
+    [dispatch]
+  );
 
   const [isModalActive, setModalActive] = useState(false);
   const [ingredientData, setIngredientData] = useState();
@@ -47,18 +58,29 @@ const BurgerIngredients = ({ upgradeDataSelected }) => {
   }
 
   const content = useMemo(
-    () => typeOfIngredients.map(
-      (item,index) =>
-        <Block key={`block${index}`} type={item.type} name={item.name} data={data} handleClick={handleCardClick}/>
-    ), [data]
+    () => {
+      return dataRequest ? (
+        <div className="text text_type_main-large">Подождите. Ингредиенты загружаются...</div>
+      ) : (
+        <>
+          <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
+          <Tabs/>
+          <ListOfBlocks>
+            {typeOfIngredients.map(
+              (item,index) =>
+                <Block key={`block${index}`} type={item.type} name={item.name} data={data} handleClick={handleCardClick}/>
+            )}
+          </ListOfBlocks>
+        </>
+      );
+    },
+    [dataRequest, data]
   );
 
   return (
     <>
       <section className={`${styles.column} pt-10 mr-10`}>
-        <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
-        <Tabs/>
-        <ListOfBlocks children = {content} />
+        {content}
       </section>
       {isModalActive &&
         <Modal setModalActive={setModalActive} title='Детали ингредиента'>
