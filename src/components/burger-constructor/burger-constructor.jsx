@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect, useReducer, useMemo} from 'react';
+import React, {useState, useContext, useEffect, useReducer, useMemo} from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
@@ -16,14 +16,14 @@ const Container = (props) => {
   );
 }
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ dataSelected, setDataSelected }) => {
   const API_SOURCE = 'https://norma.nomoreparties.space/api/orders';
   const INDEXOFCHOSENBUN = 0;
   const arrayOfID = [];
 
-  const { dataState } = useContext(DataContext);
-  const { data } = dataState;
-
+  // const { dataState } = useContext(DataContext);
+  // const { data } = dataState;
+  
   const [isModalActive, setModalActive] = useState(false);
   const [orderInfo, setOrderInfo] = useState({
     isLoading: false,
@@ -52,7 +52,7 @@ const BurgerConstructor = () => {
   const [totalPriceState, totalPriceDispatch] = useReducer(reducer, totalPriceInitialState, undefined);
 
   useEffect(() => {
-    const totalPrice = data.reduce(
+    const totalPrice = dataSelected.reduce(
       (sum, item, index) =>
         (index !== INDEXOFCHOSENBUN && item.type !== 'bun')
           ?
@@ -62,27 +62,27 @@ const BurgerConstructor = () => {
         , 0
     );
     totalPriceDispatch({ type: 'set', payload: totalPrice });
-    }, [data]
+    }, [dataSelected]
   );
 
-  const content = useMemo(
-    () => data.map((item,index) =>
-      index !== INDEXOFCHOSENBUN && item.type !== 'bun' &&
-      <IngredientCard
-        key={`${item.index}`}
-        type={null}
-        name={item.name}
-        isLocked={false}
-        price={item.price}
-        image={item.image}
-        isDraged={true}
-      />
-    ), [data]
-  );
-
+  // const content = useMemo(
+  //   () => dataSelected.map((item,index) => 
+  //     item.type !== 'bun' &&
+  //     <IngredientCard
+  //       key={`${index}`}
+  //       type={null}
+  //       name={item.name}
+  //       isLocked={false}
+  //       price={item.price}
+  //       image={item.image}
+  //       isDraged={true}
+  //     />
+  //   ), [dataSelected]
+  // );
+  
   const getOrderInfo = () => {
     setOrderInfo({...orderInfo, hasError: false, isLoading: true});
-    data.map((item,index) =>
+    dataSelected.map((item,index) =>
       {
         if (index === INDEXOFCHOSENBUN || item.type !== 'bun') 
           arrayOfID.push(item._id);
@@ -108,35 +108,52 @@ const BurgerConstructor = () => {
   return (
     <>
       <section className={`${styles.column} pt-25 pl-4`}>
-        <Container>
-          {data[INDEXOFCHOSENBUN] && <IngredientCard
-            type={'top'}
-            name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
-            isLocked={true}
-            price={data[INDEXOFCHOSENBUN].price}
-            image={data[INDEXOFCHOSENBUN].image}
-            isDraged={false}
-          />}
-          <li>
-            <IngredientsList
-              children = {content}
-            />
-          </li>
-          {data[INDEXOFCHOSENBUN] && <IngredientCard
-            type={'bottom'}
-            name={`${data[INDEXOFCHOSENBUN].name} (низ)`}
-            isLocked={true}
-            price={data[INDEXOFCHOSENBUN].price}
-            image={data[INDEXOFCHOSENBUN].image}
-            isDraged={false}
-          />}
-        </Container>
-        <div className={ `${styles.row_order} mt-10 mr-4` }>
-          <TotalPrice totalPrice={totalPriceState.totalPrice}/>
-          <Button type="primary" size="medium" onClick={handleButtonClick}>
-            Оформить заказ
-          </Button>
-        </div>
+        {dataSelected.length!==0 && 
+          <>
+            <Container>
+              {/* {dataSelected[INDEXOFCHOSENBUN] && <IngredientCard
+                type={'top'}
+                name={`${dataSelected[INDEXOFCHOSENBUN].name} (верх)`}
+                isLocked={true}
+                price={dataSelected[INDEXOFCHOSENBUN].price}
+                image={dataSelected[INDEXOFCHOSENBUN].image}
+                isDraged={false}
+              />} */}
+              <li>
+                <IngredientsList
+                  children={
+                    dataSelected.map((item,index) => 
+                      item.type !== 'bun' &&
+                      <IngredientCard
+                        key={`${index}`}
+                        type={null}
+                        name={item.name}
+                        isLocked={false}
+                        price={item.price}
+                        image={item.image}
+                        isDraged={true}
+                      />
+                    )
+                  }
+                />
+              </li>
+              {/* {dataSelected[INDEXOFCHOSENBUN] && <IngredientCard
+                type={'bottom'}
+                name={`${dataSelected[INDEXOFCHOSENBUN].name} (низ)`}
+                isLocked={true}
+                price={dataSelected[INDEXOFCHOSENBUN].price}
+                image={dataSelected[INDEXOFCHOSENBUN].image}
+                isDraged={false}
+              />} */}
+            </Container>
+            <div className={ `${styles.row_order} mt-10 mr-4` }>
+              <TotalPrice totalPrice={totalPriceState.totalPrice}/>
+              <Button type="primary" size="medium" onClick={handleButtonClick}>
+                Оформить заказ
+              </Button>
+            </div>
+          </>
+        }
       </section>
       {isModalActive && 
         <Modal setModalActive={setModalActive} title=''>

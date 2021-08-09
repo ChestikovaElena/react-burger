@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import HomePage from '../../pages/home-page';
-import {DataContext} from '../../services/app-context';
+import { DataContext } from '../../services/app-context';
 
 function App() {
   const [dataState, setDataState] = useState({

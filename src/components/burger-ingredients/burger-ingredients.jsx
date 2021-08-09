@@ -9,7 +9,7 @@ import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
 
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ upgradeDataSelected }) => {
   const { dataState } = useContext(DataContext);
   const { data } = dataState;
 
@@ -22,7 +22,17 @@ const BurgerIngredients = () => {
 
   const handleCardClick = (e) => {
     const parentNode = e.currentTarget;
-    const currentIngredient = getIngredientDetails(parentNode.getAttribute('data-id'));
+    const currentIngredient = 
+      getIngredientDetails(parentNode.getAttribute('data-id'));
+
+    // let newDataSelected = dataSelected;
+    // if (currentIngredient.type !== 'bun') {
+    //   newDataSelected.push(currentIngredient)
+    // } else {
+      
+    // }
+    console.log(currentIngredient);
+    upgradeDataSelected(currentIngredient);
     
     setIngredientData({
       image: currentIngredient.image_large,

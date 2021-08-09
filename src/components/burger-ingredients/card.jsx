@@ -5,7 +5,7 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 export const Card = (props) =>{
   return (
     <li className={ `${styles.block_item} mb-8` } data-id={props.id} onClick={props.handleClick}>
-      <Counter count={1} size="default" />
+      <Counter count={0} size="default" />
       <div>
         <img src={props.image} alt={props.name}/>
       </div>
