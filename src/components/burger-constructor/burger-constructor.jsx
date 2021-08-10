@@ -1,10 +1,9 @@
-import React, {useState, useContext, useEffect, useReducer, useMemo} from 'react';
+import {useState, useEffect, useReducer, useMemo} from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
 import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
-import {DataContext} from '../../services/app-context';
 import { IngredientCard } from './ingredient-card';
 import { IngredientsList } from './ingredient-list';
 

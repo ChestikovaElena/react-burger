@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 
-const ModalOverlay = ({ setModalActive, children }) => {
+const ModalOverlay = ({ handleCloseClick, children }) => {
   const escFunction = (e) => {
     if (e.keyCode === 27) {
-      setModalActive(false)
+      handleCloseClick();
     }
   }
 
@@ -18,23 +18,15 @@ const ModalOverlay = ({ setModalActive, children }) => {
   }, []);
   
   return (
-    <div className={styles.overlay} onClick={() => setModalActive(false)}>
+    <div className={styles.overlay} onClick={handleCloseClick}>
       {children}
     </div>
   );
 }
 
 ModalOverlay.propTypes = {
-  setModalActive: PropTypes.func.isRequired,
+  handleCloseClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  // ingredientData: PropTypes.shape({
-  //   image: PropTypes.string.isRequired,
-  //   name: PropTypes.string.isRequired,
-  //   calories: PropTypes.number.isRequired,
-  //   proteins: PropTypes.number.isRequired,
-  //   fat: PropTypes.number.isRequired,
-  //   carbohydrates: PropTypes.number.isRequired
-  // })
 }
 
 export default ModalOverlay

@@ -23,6 +23,5 @@ export const Block = ({ data, name, type, handleClick }) =>{
 
 Block.propTypes = {
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired
+  type: PropTypes.string.isRequired
 }
