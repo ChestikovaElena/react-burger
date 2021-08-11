@@ -24,7 +24,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
   const [isModalActive, setModalActive] = useState(false);
-  
+   
   const handleButtonClick = (e) => {
     let arrayOfID = [];
     dataSelected.map(item => arrayOfID.push(item._id));

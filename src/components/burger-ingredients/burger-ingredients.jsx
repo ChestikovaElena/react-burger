@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-ingredients.module.css';
 import Modal from '../modal';
@@ -41,6 +41,21 @@ const BurgerIngredients = () => {
     });
   }
 
+  const refContainer = useRef(null);
+  const refBun = useRef(null);
+  const refSauce = useRef(null);
+  const refMain = useRef(null);
+
+  const [current, setCurrent] = useState('bun');
+  const scrollHendler = (e) => {
+    const currentTab =
+      refContainer.current.scrollTop-refBun.current.clientHeight<0 ? 'bun'
+      :
+        refContainer.current.scrollTop-refBun.current.clientHeight-refSauce.current.clientHeight<0 ? 'sauce'
+        : 'main';
+    setCurrent(currentTab);
+  }
+  
   const content = useMemo(
     () => {
       return dataRequest ? (
@@ -51,18 +66,30 @@ const BurgerIngredients = () => {
         ) : (
           <>
             <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
-            <Tabs/>
-            <ListOfBlocks>
+            <Tabs current={current} setCurrent={setCurrent}/>
+            <ListOfBlocks
+              refContainer={refContainer}
+              scrollHendler={scrollHendler}
+            >
               {typeOfIngredients.map(
-                (item,index) =>
-                  <Block key={`block${index}`} type={item.type} name={item.name} data={data} handleClick={handleCardClick}/>
+                (item, index) =>
+                  <Block
+                    key={`block${index}`}
+                    type={item.type}
+                    name={item.name}
+                    data={data}
+                    handleClick={handleCardClick}
+                    refBun={refBun}
+                    refSauce={refSauce}
+                    refMain={refMain}
+                  />
               )}
             </ListOfBlocks>
           </>
         )
       )
     },
-    [dataRequest, data]
+    [dataRequest, data, current]
   );
 
   return (
