@@ -10,5 +10,5 @@ export const IngredientsList = (props) =>{
 }
 
 IngredientsList.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.node.isRequired
 }

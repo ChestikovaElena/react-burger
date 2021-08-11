@@ -18,7 +18,7 @@ const initialState = {
 
   ingredientData: {},
 
-  selectedIngredients: [],
+  dataSelected: [],
 
   order: {},
   orderRequest: false,
@@ -63,13 +63,21 @@ export const rootReducer = (state = initialState, action) => {
     case ADD_SELECTED_INGREDIENT: {
       return {
         ...state,
-        selectedIngredients: [...state.selectedIngredients, ...state.ingredients.filter(item => item.id === action.id)]
+        dataSelected: 
+          [...state.data].filter(item => item._id === action.id)[0].type !== 'bun' ?
+            [...state.dataSelected,
+              ...state.data.filter(item => item._id === action.id)
+            ] 
+            :
+            [...state.dataSelected.filter(item => item.type !== 'bun'),
+              ...state.data.filter(item => item._id === action.id)
+            ]
       }
     }
     case DELETE_SELECTED_INGREDIENT: {
       return {
         ...state,
-        selectedIngredients: [...state.selectedIngredients.filter(item => item.id !== action.id)]
+        dataSelected: [...state.dataSelected.filter(item => item._id !== action.id)]
       }
     }
     case GET_ORDER_REQUEST: {
@@ -81,7 +89,7 @@ export const rootReducer = (state = initialState, action) => {
     case GET_ORDER_SUCCESS: {
       return {
         ...state,
-        data: action.data,
+        order: action.order,
         orderRequest: false,
         orderFailed: false
       }

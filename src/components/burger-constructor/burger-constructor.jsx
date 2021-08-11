@@ -1,4 +1,5 @@
-import {useState, useEffect, useReducer, useMemo} from 'react';
+import { useState, useEffect, useReducer, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
@@ -6,6 +7,7 @@ import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
 import { IngredientCard } from './ingredient-card';
 import { IngredientsList } from './ingredient-list';
+import { getOrderInformation } from '../../services/actions';
 
 const Container = (props) => {
   return (
@@ -15,23 +17,19 @@ const Container = (props) => {
   );
 }
 
-const BurgerConstructor = ({ dataSelected, setDataSelected }) => {
-  const API_SOURCE = 'https://norma.nomoreparties.space/api/orders';
-  const INDEXOFCHOSENBUN = 0;
-  const arrayOfID = [];
+const BurgerConstructor = () => {
+  const { dataSelected } = useSelector((state) => ({
+    dataSelected: state.dataSelected,
+  }));
+  const dispatch = useDispatch();
 
-  // const { dataState } = useContext(DataContext);
-  // const { data } = dataState;
-  
   const [isModalActive, setModalActive] = useState(false);
-  const [orderInfo, setOrderInfo] = useState({
-    isLoading: false,
-    hasError: false,
-    orderNumber: '',
-  });
-
+  
   const handleButtonClick = (e) => {
-    getOrderInfo();
+    let arrayOfID = [];
+    dataSelected.map(item => arrayOfID.push(item._id));
+    
+    dispatch(getOrderInformation(arrayOfID));
     setModalActive(true);
   }
 
@@ -53,97 +51,71 @@ const BurgerConstructor = ({ dataSelected, setDataSelected }) => {
   useEffect(() => {
     const totalPrice = dataSelected.reduce(
       (sum, item, index) =>
-        (index !== INDEXOFCHOSENBUN && item.type !== 'bun')
+        (item.type !== 'bun')
           ?
             (sum + item.price)
           :
-            (index === INDEXOFCHOSENBUN) ? (sum + item.price*2) : 0
+            (sum + item.price*2)
         , 0
     );
     totalPriceDispatch({ type: 'set', payload: totalPrice });
     }, [dataSelected]
   );
 
-  // const content = useMemo(
-  //   () => dataSelected.map((item,index) => 
-  //     item.type !== 'bun' &&
-  //     <IngredientCard
-  //       key={`${index}`}
-  //       type={null}
-  //       name={item.name}
-  //       isLocked={false}
-  //       price={item.price}
-  //       image={item.image}
-  //       isDraged={true}
-  //     />
-  //   ), [dataSelected]
-  // );
+  const bun = useMemo(
+    () => {
+      return dataSelected.filter(item => item.type === 'bun')
+    },
+    [dataSelected]
+  );
   
-  const getOrderInfo = () => {
-    setOrderInfo({...orderInfo, hasError: false, isLoading: true});
-    dataSelected.map((item,index) =>
-      {
-        if (index === INDEXOFCHOSENBUN || item.type !== 'bun') 
-          arrayOfID.push(item._id);
-      }
-    );
-
-    fetch(API_SOURCE, {
-      method: 'POST',
-      body: JSON.stringify({"ingredients": arrayOfID}),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(result => {
-                        if (result.ok) {
-                          return result.json();
-                        } return Promise.reject(`Ошибка ${result.status}`);
-                      })
-      .then(result => setOrderInfo({...orderInfo, orderNumber: result.order.number, isLoading: false}))
-      .catch(error => setOrderInfo({...orderInfo, hasError: true, isLoading: false}));
-  };
+  const filler = useMemo(
+    () => {
+      return dataSelected.filter(item => item.type !== 'bun')
+    },
+    [dataSelected]
+  );
 
   return (
     <>
-      <section className={`${styles.column} pt-25 pl-4`}>
-        {dataSelected.length!==0 && 
+      {dataSelected.length===0 ? (
+        <p className='text text_type_main-large mt-15'>Выберите ингредиенты для бургера</p>
+      ) : (
+        <section className={`${styles.column} pt-25 pl-4`}>
           <>
             <Container>
-              {/* {dataSelected[INDEXOFCHOSENBUN] && <IngredientCard
+              {bun.length!==0 && <IngredientCard
                 type={'top'}
-                name={`${dataSelected[INDEXOFCHOSENBUN].name} (верх)`}
+                name={`${bun[0].name} (верх)`}
                 isLocked={true}
-                price={dataSelected[INDEXOFCHOSENBUN].price}
-                image={dataSelected[INDEXOFCHOSENBUN].image}
+                price={bun[0].price}
+                image={bun[0].image}
                 isDraged={false}
-              />} */}
+              />}
               <li>
-                <IngredientsList
-                  children={
-                    dataSelected.map((item,index) => 
-                      item.type !== 'bun' &&
-                      <IngredientCard
-                        key={`${index}`}
-                        type={null}
-                        name={item.name}
-                        isLocked={false}
-                        price={item.price}
-                        image={item.image}
-                        isDraged={true}
-                      />
-                    )
-                  }
-                />
+                {filler.length!==0 && <IngredientsList>
+                  {dataSelected.map((item,index) => 
+                    item.type !== 'bun' &&
+                    <IngredientCard
+                      key={`${index}`}
+                      type={null}
+                      name={item.name}
+                      isLocked={false}
+                      price={item.price}
+                      image={item.image}
+                      isDraged={true}
+                    />
+                  )}
+                </IngredientsList>}
               </li>
-              {/* {dataSelected[INDEXOFCHOSENBUN] && <IngredientCard
+              {bun.length!==0 && <IngredientCard
                 type={'bottom'}
-                name={`${dataSelected[INDEXOFCHOSENBUN].name} (низ)`}
+                name={`${bun[0].name} (низ)`}
                 isLocked={true}
-                price={dataSelected[INDEXOFCHOSENBUN].price}
-                image={dataSelected[INDEXOFCHOSENBUN].image}
+                price={bun[0].price}
+                image={bun[0].image}
                 isDraged={false}
-              />} */}
+              />}
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
               <TotalPrice totalPrice={totalPriceState.totalPrice}/>
@@ -152,11 +124,11 @@ const BurgerConstructor = ({ dataSelected, setDataSelected }) => {
               </Button>
             </div>
           </>
-        }
-      </section>
+        </section>
+      )}
       {isModalActive && 
         <Modal setModalActive={setModalActive} title=''>
-          <OrderDetails orderInfo={orderInfo}/>
+          <OrderDetails />
         </Modal>
       }
     </>

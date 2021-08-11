@@ -8,7 +8,7 @@ import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
 import { getIngredients } from '../../services/actions';
-import { ADD_INGREDIENT_DATA } from '../../services/actions';
+import { ADD_INGREDIENT_DATA, ADD_SELECTED_INGREDIENT } from '../../services/actions';
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -35,6 +35,10 @@ const BurgerIngredients = () => {
       id
     });
     setModalActive(true);
+    dispatch({
+      type: ADD_SELECTED_INGREDIENT,
+      id
+    });
   }
 
   const content = useMemo(
