@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
+import { useDrag } from 'react-dnd';
 import styles from './burger-ingredients.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export const Card = ({ id, image, name, price, type, count, handleClick }) =>{
+export const Card = ({ id, image, name, price, count, type }) =>{
+  const [{  },dragRef] = useDrag({
+    type: 'ingredient',
+    item: { id, type },
+  });
+
   return (
-    <li
-      className={ `${styles.block_item} mb-8` }
-      data-id={id} data-type={type} onClick={handleClick}>
+    <div ref={dragRef}>
       <Counter count={count} size="default" />
       <div>
         <img src={image} alt={name}/>
@@ -16,15 +20,15 @@ export const Card = ({ id, image, name, price, type, count, handleClick }) =>{
         <CurrencyIcon type='primary' />
       </div>
       <h4 className={`${styles.item_title} text text_type_main-default`}>{name}</h4>
-    </li>
+    </div>
   );
 }
 
 Card.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 }

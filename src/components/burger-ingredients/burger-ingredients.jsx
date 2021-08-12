@@ -9,11 +9,7 @@ import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
 import { getIngredients } from '../../services/actions';
 import { 
-  ADD_INGREDIENT_DATA,
-  ADD_SELECTED_INGREDIENT,
-  INCREASE_COUNT_BUN,
-  INCREASE_COUNT_FILLER,
-  DECREASE_COUNT
+  ADD_INGREDIENT_DATA
 } from '../../services/actions';
 
 const BurgerIngredients = () => {
@@ -42,21 +38,7 @@ const BurgerIngredients = () => {
       id
     });
     setModalActive(true);
-    dispatch({
-      type: ADD_SELECTED_INGREDIENT,
-      id
-    });
-    if (type === 'bun') {
-      dispatch({
-        type: INCREASE_COUNT_BUN,
-        id
-      })
-    } else {
-      dispatch({
-        type: INCREASE_COUNT_FILLER,
-        id
-      })
-    }
+    
     
   }
 

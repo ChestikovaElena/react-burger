@@ -1,3 +1,5 @@
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import AppHeader from '../../components/app-header';
 import BurgerIngredients from '../../components/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor';
@@ -8,8 +10,10 @@ const HomePage = () => {
     <>
       <AppHeader />
       <main className={ styles.main }>
-        <BurgerIngredients />
-        <BurgerConstructor />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
       </main>
     </>
   );

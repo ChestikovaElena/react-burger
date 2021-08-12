@@ -9,9 +9,11 @@ import {
   DELETE_INGREDIENT_DATA,
   ADD_SELECTED_INGREDIENT,
   DELETE_SELECTED_INGREDIENT,
+  REORDER_SELECTED_INGREDIENTS,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED
+  GET_ORDER_FAILED,
+  CLEAR_DATA
 } from '../actions';
 
 const initialState = {
@@ -115,6 +117,12 @@ export const rootReducer = (state = initialState, action) => {
         dataSelected: [...state.dataSelected.filter(item => item.customID !== action.customID)]
       }
     }
+    case REORDER_SELECTED_INGREDIENTS: {
+      return {
+        ...state,
+        dataSelected: action.payload
+      }
+    }
     case GET_ORDER_REQUEST: {
       return {
         ...state,
@@ -134,6 +142,9 @@ export const rootReducer = (state = initialState, action) => {
         ...state,
         orderFailed: true
       }
+    }
+    case CLEAR_DATA: {
+      return initialState
     }
     default:
       return state

@@ -12,17 +12,48 @@ export const Block = ({ data, name, type, handleClick, refBun, refSauce, refMain
         children = {
           data.filter(item => item.type === type)
           .map((item) =>
-            <Card
-              key={`${item._id}`} image={item.image_large} name={item.name} type={type}
-              count={item.count} price={item.price} id={item._id} handleClick={handleClick}
-            />)
+            <li
+              key={`${item._id}`}
+              className={ `${styles.block_item} mb-8` }
+              data-id={item._id} data-type={type} onClick={handleClick}
+            >
+                <Card
+                  image={item.image_large} name={item.name} type={type}
+                  count={item.count} price={item.price} id={item._id}
+                />
+            </li>
+          )
         }
       />
     </li>
   );
 }
 
-Block.propTypes = {
+const ingredientPropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  image_large: PropTypes.string.isRequired,
+  image_mobile: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  price: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+})
+
+Block.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  refBun: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
+  refSauce: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
+  refMain: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
 }

@@ -1,5 +1,10 @@
 .column {
   width: 600px;
+  border: 2px solid transparent;
+}
+
+.column_isHover {
+  border: 2px solid #4C4CFF;
 }
 
 .ingredients_list {

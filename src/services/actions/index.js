@@ -11,10 +11,13 @@ export const DELETE_INGREDIENT_DATA = 'DELETE_INGREDIENT_DATA';
 
 export const ADD_SELECTED_INGREDIENT = 'ADD_SELECTED_INGREDIENT';
 export const DELETE_SELECTED_INGREDIENT = 'DELETE_SELECTED_INGREDIENT';
+export const REORDER_SELECTED_INGREDIENTS = 'REORDER_SELECTED_INGREDIENTS';
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
+
+export const CLEAR_DATA = 'CLEAR_DATA';
 
 const API_SOURCE_DATA = 'https://norma.nomoreparties.space/api/ingredients';
 const API_SOURCE_ORDER = 'https://norma.nomoreparties.space/api/orders';

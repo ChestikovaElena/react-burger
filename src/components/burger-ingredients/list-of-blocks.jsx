@@ -16,5 +16,10 @@ export const ListOfBlocks = ({ children, refContainer, scrollHendler }) => {
 }
 
 ListOfBlocks.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.array.isRequired,
+  refContainer: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
+  scrollHendler: PropTypes.func.isRequired,
 }
