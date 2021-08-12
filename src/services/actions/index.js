@@ -2,6 +2,10 @@ export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
+export const INCREASE_COUNT_BUN = 'INCREASE_COUNT_BUN';
+export const INCREASE_COUNT_FILLER = 'INCREASE_COUNT_FILLER';
+export const DECREASE_COUNT = 'DECREASE_COUNT';
+
 export const ADD_INGREDIENT_DATA = 'ADD_INGREDIENT_DATA';
 export const DELETE_INGREDIENT_DATA = 'DELETE_INGREDIENT_DATA';
 
@@ -27,9 +31,14 @@ export function getIngredients() {
         } return Promise.reject(`Ошибка ${res.status}`)
       })
       .then(res => {
+        let resWithCount = res.data.map(item => {
+          let ingredient = Object.assign({}, item);
+          ingredient.count = 0;
+          return ingredient;
+        });
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
-          data: res.data
+          data: resWithCount
         });
       })
       .catch(error => {
@@ -57,7 +66,7 @@ export function getOrderInformation(arrayOfID) {
           return res.json();
         } return Promise.reject(`Ошибка ${res.status}`)
       })
-      .then(res => {console.log(res)
+      .then(res => {
         dispatch({
           type: GET_ORDER_SUCCESS,
           order: res.order

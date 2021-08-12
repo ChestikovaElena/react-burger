@@ -2,6 +2,9 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
+  INCREASE_COUNT_BUN,
+  INCREASE_COUNT_FILLER,
+  DECREASE_COUNT,
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT_DATA,
   ADD_SELECTED_INGREDIENT,
@@ -47,6 +50,38 @@ export const rootReducer = (state = initialState, action) => {
         dataFailed: true
       }
     }
+    case INCREASE_COUNT_BUN: {
+      return {
+        ...state,
+        data: [...state.data]
+          .map(item => item.type==='bun' ?
+            item._id === action.id ?
+              {...item, count: 1}
+              :
+              {...item, count: 0}
+            :
+            item)
+      }
+    }
+    case INCREASE_COUNT_FILLER: {
+      return {
+        ...state,
+        data: [...state.data]
+        .map( item => item._id === action.id ?
+          {...item, count: ++item.count}
+          :
+          item
+        )
+      }
+    }
+    case DECREASE_COUNT: {
+      return {
+        ...state,
+        data: [...state.data].map(item => 
+          item._id === action.id ? {...item, count: --item.count} : item
+        )
+      }
+    }
     case ADD_INGREDIENT_DATA: {
       return {
         ...state,
@@ -66,18 +101,18 @@ export const rootReducer = (state = initialState, action) => {
         dataSelected: 
           [...state.data].filter(item => item._id === action.id)[0].type !== 'bun' ?
             [...state.dataSelected,
-              ...state.data.filter(item => item._id === action.id)
-            ] 
+              {...state.data.filter(item => item._id === action.id)[0], customID: String((new Date()).getTime())}
+            ]
             :
             [...state.dataSelected.filter(item => item.type !== 'bun'),
-              ...state.data.filter(item => item._id === action.id)
+              {...state.data.filter(item => item._id === action.id)[0], customID: String((new Date()).getTime())}
             ]
       }
     }
     case DELETE_SELECTED_INGREDIENT: {
       return {
         ...state,
-        dataSelected: [...state.dataSelected.filter(item => item._id !== action.id)]
+        dataSelected: [...state.dataSelected.filter(item => item.customID !== action.customID)]
       }
     }
     case GET_ORDER_REQUEST: {

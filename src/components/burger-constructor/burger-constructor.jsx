@@ -26,11 +26,16 @@ const BurgerConstructor = () => {
   const [isModalActive, setModalActive] = useState(false);
    
   const handleButtonClick = (e) => {
-    let arrayOfID = [];
-    dataSelected.map(item => arrayOfID.push(item._id));
+    if (dataSelected.filter(item => item.type === 'bun').length!==0) {
+      let arrayOfID = [];
+      dataSelected.map(item => arrayOfID.push(item._id));
+      
+      dispatch(getOrderInformation(arrayOfID));
+      setModalActive(true);
+    } else {
+      alert('Выберите булку');
+    }
     
-    dispatch(getOrderInformation(arrayOfID));
-    setModalActive(true);
   }
 
   const totalPriceInitialState = { totalPrice: 0 };
@@ -90,6 +95,8 @@ const BurgerConstructor = () => {
                 isLocked={true}
                 price={bun[0].price}
                 image={bun[0].image}
+                id={bun[0]._id}
+                customID={bun[0].customID}
                 isDraged={false}
               />}
               <li>
@@ -103,6 +110,8 @@ const BurgerConstructor = () => {
                       isLocked={false}
                       price={item.price}
                       image={item.image}
+                      id={item._id}
+                      customID={item.customID}
                       isDraged={true}
                     />
                   )}
@@ -114,6 +123,8 @@ const BurgerConstructor = () => {
                 isLocked={true}
                 price={bun[0].price}
                 image={bun[0].image}
+                id={bun[0]._id}
+                customID={bun[0].customID}
                 isDraged={false}
               />}
             </Container>

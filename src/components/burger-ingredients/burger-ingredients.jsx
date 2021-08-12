@@ -8,7 +8,13 @@ import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
 import { getIngredients } from '../../services/actions';
-import { ADD_INGREDIENT_DATA, ADD_SELECTED_INGREDIENT } from '../../services/actions';
+import { 
+  ADD_INGREDIENT_DATA,
+  ADD_SELECTED_INGREDIENT,
+  INCREASE_COUNT_BUN,
+  INCREASE_COUNT_FILLER,
+  DECREASE_COUNT
+} from '../../services/actions';
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -30,6 +36,7 @@ const BurgerIngredients = () => {
   const handleCardClick = (e) => {
     const parentNode = e.currentTarget;
     const id = parentNode.getAttribute('data-id');
+    const type = parentNode.getAttribute('data-type');
     dispatch({
       type: ADD_INGREDIENT_DATA,
       id
@@ -39,6 +46,18 @@ const BurgerIngredients = () => {
       type: ADD_SELECTED_INGREDIENT,
       id
     });
+    if (type === 'bun') {
+      dispatch({
+        type: INCREASE_COUNT_BUN,
+        id
+      })
+    } else {
+      dispatch({
+        type: INCREASE_COUNT_FILLER,
+        id
+      })
+    }
+    
   }
 
   const refContainer = useRef(null);

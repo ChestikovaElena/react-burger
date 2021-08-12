@@ -13,8 +13,8 @@ export const Block = ({ data, name, type, handleClick, refBun, refSauce, refMain
           data.filter(item => item.type === type)
           .map((item) =>
             <Card
-              key={`${item._id}`} image={item.image_large} name={item.name}
-              price={item.price} id={item._id} handleClick={handleClick}
+              key={`${item._id}`} image={item.image_large} name={item.name} type={type}
+              count={item.count} price={item.price} id={item._id} handleClick={handleClick}
             />)
         }
       />
