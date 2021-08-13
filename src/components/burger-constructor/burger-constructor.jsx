@@ -29,9 +29,11 @@ const BurgerConstructor = () => {
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop({ id, type }) {
+      const customID = String((new Date()).getTime());
       dispatch({
         type: ADD_SELECTED_INGREDIENT,
-        id
+        id: id,
+        customID: customID
       });
       if (type === 'bun') {
         dispatch({

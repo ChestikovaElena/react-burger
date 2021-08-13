@@ -103,11 +103,11 @@ export const rootReducer = (state = initialState, action) => {
         dataSelected: 
           [...state.data].filter(item => item._id === action.id)[0].type !== 'bun' ?
             [...state.dataSelected,
-              {...state.data.filter(item => item._id === action.id)[0], customID: String((new Date()).getTime())}
+              {...state.data.filter(item => item._id === action.id)[0], customID: action.customID}
             ]
             :
             [...state.dataSelected.filter(item => item.type !== 'bun'),
-              {...state.data.filter(item => item._id === action.id)[0], customID: String((new Date()).getTime())}
+              {...state.data.filter(item => item._id === action.id)[0], customID: action.customID}
             ]
       }
     }
