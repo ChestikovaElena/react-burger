@@ -9,7 +9,8 @@ import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
 import { getIngredients } from '../../services/actions';
 import { 
-  ADD_INGREDIENT_DATA
+  ADD_INGREDIENT_DATA,
+  DELETE_INGREDIENT_DATA,
 } from '../../services/actions';
 
 const BurgerIngredients = () => {
@@ -29,17 +30,22 @@ const BurgerIngredients = () => {
 
   const [isModalActive, setModalActive] = useState(false);
 
+  useEffect(
+    () => {
+      if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA }); console.log('go')};
+    },
+    [isModalActive]
+  );
+
   const handleCardClick = (e) => {
     const parentNode = e.currentTarget;
     const id = parentNode.getAttribute('data-id');
-    const type = parentNode.getAttribute('data-type');
+    // const type = parentNode.getAttribute('data-type');
     dispatch({
       type: ADD_INGREDIENT_DATA,
       id
     });
     setModalActive(true);
-    
-    
   }
 
   const refContainer = useRef(null);

@@ -144,7 +144,10 @@ export const rootReducer = (state = initialState, action) => {
       }
     }
     case CLEAR_DATA: {
-      return initialState
+      return {
+        ...state,
+        dataSelected: []
+      }
     }
     default:
       return state
