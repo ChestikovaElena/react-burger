@@ -1,6 +1,7 @@
-import { useState, useEffect, useReducer, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
@@ -33,16 +34,15 @@ const BurgerConstructor = () => {
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop({ id, type }) {
-      const customID = String((new Date()).getTime());
+      const customID = uuidv4();
       const newDataSelected = type !== 'bun' ?
-          [...dataSelected,
-            {...data.filter(item => item._id === id)[0], customID: customID}
-          ]
-        :
-          [...dataSelected.filter(item => item.type !== 'bun'),
-            {...data.filter(item => item._id === id)[0], customID: customID}
-          ];
-      
+        [...dataSelected,
+          {...data.filter(item => item._id === id)[0], customID: customID}
+        ]
+      :
+        [...dataSelected.filter(item => item.type !== 'bun'),
+          {...data.filter(item => item._id === id)[0], customID: customID}
+        ];
       dispatch({
         type: ADD_SELECTED_INGREDIENT,
         newDataSelected
