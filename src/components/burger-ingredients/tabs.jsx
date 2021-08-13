@@ -4,24 +4,24 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { typeOfIngredients } from './type-of-ingredients';
 
-export const Tabs = ({ current, setCurrent }) => {
+export const Tabs = ({ current, setTab }) => {
   const content = useMemo(
     () => {
       return (
         <>
-          <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+          <Tab value="bun" active={current === 'bun'} onClick={setTab}>
             {typeOfIngredients[0].name}
           </Tab>
-          <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+          <Tab value="sauce" active={current === 'sauce'} onClick={setTab}>
             {typeOfIngredients[1].name}
           </Tab>
-          <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+          <Tab value="main" active={current === 'main'} onClick={setTab}>
             {typeOfIngredients[2].name}
           </Tab>
         </>
       )
     },
-    [current, setCurrent]
+    [current, setTab]
   );
   return (
     <div className={ `${styles.header} mb-10` }>
@@ -32,5 +32,5 @@ export const Tabs = ({ current, setCurrent }) => {
 
 Tabs.propTypes = {
   current: PropTypes.string.isRequired,
-  setCurrent: PropTypes.func.isRequired,
+  setTab: PropTypes.func.isRequired,
 }

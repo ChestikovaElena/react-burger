@@ -63,6 +63,13 @@ const BurgerIngredients = () => {
         : 'main';
     setCurrent(currentTab);
   }
+
+  const setTab = (tab) => {
+    setCurrent(tab);
+    const element =
+      tab === 'bun' ? refBun.current : tab === 'sauce' ? refSauce.current : refMain.current;
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  }
   
   const content = useMemo(
     () => {
@@ -74,7 +81,7 @@ const BurgerIngredients = () => {
         ) : (
           <>
             <h2 className='text text_type_main-large pb-5'>Соберите бургер</h2>
-            <Tabs current={current} setCurrent={setCurrent}/>
+            <Tabs current={current} setTab={setTab}/>
             <ListOfBlocks
               refContainer={refContainer}
               scrollHendler={scrollHendler}

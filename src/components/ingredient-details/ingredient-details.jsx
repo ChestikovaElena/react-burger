@@ -14,7 +14,7 @@ const IngredientDetails = () => {
         <div className="text text_type_main-medium mb-8">Подождите. Информация загружается...</div>
       ) : (
         <>
-          <img src={ingredientData.image} alt={ingredientData.name} className='mb-4'/>
+          <img src={ingredientData.image_large} alt={ingredientData.name} className='mb-4'/>
           <h3 className='text text_type_main-medium mb-8'>{ingredientData.name}</h3>
           <ListOfFeatures
             children =

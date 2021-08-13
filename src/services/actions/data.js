@@ -18,7 +18,7 @@ export function getIngredients() {
     return fetch(API_SOURCE_DATA)
       .then(getResponseData)
       .then(res => {
-        let resWithCount = res.data.map(item => {
+        const resWithCount = res.data.map(item => {
           let ingredient = Object.assign({}, item);
           ingredient.count = 0;
           return ingredient;

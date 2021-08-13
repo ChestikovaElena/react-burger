@@ -85,35 +85,21 @@ const BurgerConstructor = () => {
     }
   }
 
-  const totalPriceInitialState = { totalPrice: 0 };
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case 'set':
-        return { totalPrice: action.payload };
-      case 'reset':
-        return totalPriceInitialState;
-      default:
-        return state;
-    }
-  }
-
-  const [totalPriceState, totalPriceDispatch] = useReducer(reducer, totalPriceInitialState, undefined);
-
-  useEffect(() => {
-    const totalPrice = dataSelected.reduce(
-      (sum, item, index) =>
-        (item.type !== 'bun')
-          ?
-            (sum + item.price)
-          :
-            (sum + item.price*2)
-        , 0
-    );
-    totalPriceDispatch({ type: 'set', payload: totalPrice });
-    }, [dataSelected]
+  const totalPrice = useMemo(
+    ()=> {
+      return dataSelected.reduce(
+        (sum, item, index) =>
+          (item.type !== 'bun')
+            ?
+              (sum + item.price)
+            :
+              (sum + item.price*2)
+          , 0
+      );
+    },
+    [dataSelected]
   );
-
+  
   const bun = useMemo(
     () => {
       return dataSelected.filter(item => item.type === 'bun')
@@ -193,7 +179,7 @@ const BurgerConstructor = () => {
               }
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
-              <TotalPrice totalPrice={totalPriceState.totalPrice}/>
+              <TotalPrice totalPrice={totalPrice}/>
               <Button type="primary" size="medium" onClick={handleButtonClick}>
                 Оформить заказ
               </Button>
