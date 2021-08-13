@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
+import { ESC_KEYCODE } from '../../utils/constants';
 
 const ModalOverlay = ({ handleCloseClick, children }) => {
   const escFunction = (e) => {
-    if (e.keyCode === 27) {
+    if (e.keyCode === ESC_KEYCODE) {
       handleCloseClick();
     }
   }

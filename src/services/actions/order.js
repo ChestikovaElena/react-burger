@@ -19,13 +19,13 @@ export function getOrderInformation(arrayOfID) {
       }
     })
       .then(getResponseData)
-      .then(res => {console.log(res);
+      .then(res => {
         dispatch({
           type: GET_ORDER_SUCCESS,
           order: res.order
         });
       })
-      .catch(error => {console.log(error);
+      .catch(error => {
         dispatch({
           type: GET_ORDER_FAILED
         });
