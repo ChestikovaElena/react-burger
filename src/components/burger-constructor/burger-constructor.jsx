@@ -14,10 +14,6 @@ import {
   REORDER_SELECTED_INGREDIENTS,
   CLEAR_SELECTED_INGREDIENTS
 } from '../../services/actions/data-selected';
-import {
-  INCREASE_COUNT_BUN,
-  INCREASE_COUNT_FILLER,
-} from '../../services/actions/data';
 
 const Container = (props) => {
   return (
@@ -51,17 +47,6 @@ const BurgerConstructor = () => {
         type: ADD_SELECTED_INGREDIENT,
         newDataSelected
       });
-      if (type === 'bun') {
-        dispatch({
-          type: INCREASE_COUNT_BUN,
-          id
-        })
-      } else {
-        dispatch({
-          type: INCREASE_COUNT_FILLER,
-          id
-        })
-      }
     },
     collect: monitor => ({
       isHover: monitor.isOver(),

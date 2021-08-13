@@ -1,10 +1,7 @@
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED,
-  INCREASE_COUNT_BUN,
-  INCREASE_COUNT_FILLER,
-  DECREASE_COUNT
+  GET_INGREDIENTS_FAILED
 } from '../actions/data';
 
 const initialState = {
@@ -33,38 +30,6 @@ export const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         dataFailed: true
-      }
-    }
-    case INCREASE_COUNT_BUN: {
-      return {
-        ...state,
-        data: [...state.data]
-          .map(item => item.type==='bun' ?
-            item._id === action.id ?
-              {...item, count: 1}
-              :
-              {...item, count: 0}
-            :
-            item)
-      }
-    }
-    case INCREASE_COUNT_FILLER: {
-      return {
-        ...state,
-        data: [...state.data]
-        .map( item => item._id === action.id ?
-          {...item, count: ++item.count}
-          :
-          item
-        )
-      }
-    }
-    case DECREASE_COUNT: {
-      return {
-        ...state,
-        data: [...state.data].map(item => 
-          item._id === action.id ? {...item, count: --item.count} : item
-        )
       }
     }
     default:

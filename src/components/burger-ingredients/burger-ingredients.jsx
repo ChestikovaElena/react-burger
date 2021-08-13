@@ -15,10 +15,11 @@ import {
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const { data, dataRequest, dataFailed } = useSelector((state) => ({
+  const { data, dataRequest, dataFailed, dataSelected } = useSelector((state) => ({
     data: state.data.data,
     dataRequest: state.data.dataRequest,
     dataFailed: state.data.dataFailed,
+    dataSelected: state.dataSelected.dataSelected
   }));
   
   useEffect(
@@ -70,6 +71,19 @@ const BurgerIngredients = () => {
       tab === 'bun' ? refBun.current : tab === 'sauce' ? refSauce.current : refMain.current;
     if (element) element.scrollIntoView({ behavior: "smooth" });
   }
+
+  const countOfIngredients = useMemo(
+    ()=> {
+      const counters = {};
+      dataSelected.forEach((ingredient) => {
+        if (!counters[ingredient._id]) counters[ingredient._id] = 0;
+        counters[ingredient._id]++;
+        if (ingredient.type === 'bun') counters[ingredient._id] = 1;
+      });
+    return counters;
+    },
+    [dataSelected]
+  );
   
   const content = useMemo(
     () => {
@@ -97,6 +111,7 @@ const BurgerIngredients = () => {
                     refBun={refBun}
                     refSauce={refSauce}
                     refMain={refMain}
+                    countOfIngredients={countOfIngredients}
                   />
               )}
             </ListOfBlocks>
@@ -104,7 +119,7 @@ const BurgerIngredients = () => {
         )
       )
     },
-    [dataRequest, data, current]
+    [dataRequest, data, current, countOfIngredients]
   );
 
   return (
