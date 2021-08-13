@@ -5,9 +5,9 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 
 const OrderDetails = () => {
   const { order, orderRequest, orderFailed } = useSelector(state => ({
-    order: state.order,
-    orderRequest: state.orderRequest,
-    orderFailed: state.orderFailed,
+    order: state.order.order,
+    orderRequest: state.order.orderRequest,
+    orderFailed: state.order.orderFailed,
   }));
 
   const content = useMemo(

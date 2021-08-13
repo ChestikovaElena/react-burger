@@ -8,14 +8,16 @@ import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
 import { IngredientCard } from './ingredient-card';
 import { IngredientsList } from './ingredient-list';
-import { getOrderInformation } from '../../services/actions';
+import { getOrderInformation } from '../../services/actions/order';
 import {
   ADD_SELECTED_INGREDIENT,
+  REORDER_SELECTED_INGREDIENTS,
+  CLEAR_SELECTED_INGREDIENTS
+} from '../../services/actions/data-selected';
+import {
   INCREASE_COUNT_BUN,
   INCREASE_COUNT_FILLER,
-  REORDER_SELECTED_INGREDIENTS,
-  CLEAR_DATA
-} from '../../services/actions';
+} from '../../services/actions/data';
 
 const Container = (props) => {
   return (
@@ -26,14 +28,28 @@ const Container = (props) => {
 }
 
 const BurgerConstructor = () => {
+  const { data, dataSelected } = useSelector((state) => ({
+    data: state.data.data,
+    dataSelected: state.dataSelected.dataSelected,
+  }));
+  const dispatch = useDispatch();
+  
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop({ id, type }) {
       const customID = String((new Date()).getTime());
+      const newDataSelected = type !== 'bun' ?
+          [...dataSelected,
+            {...data.filter(item => item._id === id)[0], customID: customID}
+          ]
+        :
+          [...dataSelected.filter(item => item.type !== 'bun'),
+            {...data.filter(item => item._id === id)[0], customID: customID}
+          ];
+      
       dispatch({
         type: ADD_SELECTED_INGREDIENT,
-        id: id,
-        customID: customID
+        newDataSelected
       });
       if (type === 'bun') {
         dispatch({
@@ -52,11 +68,6 @@ const BurgerConstructor = () => {
     })
   });
 
-  const { dataSelected } = useSelector((state) => ({
-    dataSelected: state.dataSelected,
-  }));
-  const dispatch = useDispatch();
-
   const [isModalActive, setModalActive] = useState(false);
    
   const handleButtonClick = (e) => {
@@ -67,12 +78,11 @@ const BurgerConstructor = () => {
       dispatch(getOrderInformation(arrayOfID));
       setModalActive(true);
       dispatch({
-        type: CLEAR_DATA
+        type: CLEAR_SELECTED_INGREDIENTS
       })
     } else {
       alert('Выберите булку');
     }
-    
   }
 
   const totalPriceInitialState = { totalPrice: 0 };
@@ -150,7 +160,7 @@ const BurgerConstructor = () => {
                 </li>
               }
               <li>
-                {filler.length!==0 && <IngredientsList>
+                {filler && filler.length!==0 && <IngredientsList>
                   {dataSelected.map((item,index) => 
                     item.type !== 'bun' &&
                       <IngredientCard
@@ -169,7 +179,7 @@ const BurgerConstructor = () => {
                   )}
                 </IngredientsList>}
               </li>
-              {bun.length!==0 && 
+              {bun && bun.length!==0 && 
                 <li className={`mt-4 pl-8 ${styles.block}`}>
                   <ConstructorElement 
                     type={'bottom'}

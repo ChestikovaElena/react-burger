@@ -5,7 +5,7 @@ import { productFeatures, Feature, ListOfFeatures } from './feature';
 
 const IngredientDetails = () => {
   const { ingredientData } = useSelector((state) => ({
-    ingredientData: state.ingredientData
+    ingredientData: state.ingredient.ingredientData
   }));
 
   const content = useMemo(

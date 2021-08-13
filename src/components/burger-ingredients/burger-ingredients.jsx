@@ -7,18 +7,18 @@ import { Tabs } from './tabs';
 import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
-import { getIngredients } from '../../services/actions';
+import { getIngredients } from '../../services/actions/data';
 import { 
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT_DATA,
-} from '../../services/actions';
+} from '../../services/actions/ingredient-details';
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
   const { data, dataRequest, dataFailed } = useSelector((state) => ({
-    data: state.data,
-    dataRequest: state.dataRequest,
-    dataFailed: state.dataFailed,
+    data: state.data.data,
+    dataRequest: state.data.dataRequest,
+    dataFailed: state.data.dataFailed,
   }));
   
   useEffect(
@@ -32,7 +32,7 @@ const BurgerIngredients = () => {
 
   useEffect(
     () => {
-      if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA }); console.log('go')};
+      if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA });};
     },
     [isModalActive]
   );
@@ -40,10 +40,11 @@ const BurgerIngredients = () => {
   const handleCardClick = (e) => {
     const parentNode = e.currentTarget;
     const id = parentNode.getAttribute('data-id');
-    // const type = parentNode.getAttribute('data-type');
+    const ingredientData = [...data].filter(item => item._id === id)&&
+      [...data].filter(item => item._id === id)[0];
     dispatch({
       type: ADD_INGREDIENT_DATA,
-      id
+      ingredientData
     });
     setModalActive(true);
   }
