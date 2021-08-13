@@ -1,3 +1,5 @@
+import { getResponseData } from "../../utils/getResponseData";
+
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
@@ -16,18 +18,14 @@ export function getOrderInformation(arrayOfID) {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } return Promise.reject(`Ошибка ${res.status}`)
-      })
-      .then(res => {
+      .then(getResponseData)
+      .then(res => {console.log(res);
         dispatch({
           type: GET_ORDER_SUCCESS,
           order: res.order
         });
       })
-      .catch(error => {
+      .catch(error => {console.log(error);
         dispatch({
           type: GET_ORDER_FAILED
         });

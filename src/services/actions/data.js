@@ -1,3 +1,5 @@
+import { getResponseData } from "../../utils/getResponseData";
+
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -14,11 +16,7 @@ export function getIngredients() {
       type: GET_INGREDIENTS_REQUEST
     });
     return fetch(API_SOURCE_DATA)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } return Promise.reject(`Ошибка ${res.status}`)
-      })
+      .then(getResponseData)
       .then(res => {
         let resWithCount = res.data.map(item => {
           let ingredient = Object.assign({}, item);
