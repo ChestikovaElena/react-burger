@@ -1,51 +1,20 @@
-import {useState} from 'react';
-import {
-  ConstructorElement,
-  Button,
-  DragIcon,
-  CurrencyIcon
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState, useMemo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
+import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
+import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
-
-const IngredientCard = (props) => {
-  return (
-    <li className={`mt-4 pl-8 ${styles.block}`}>
-      <ConstructorElement 
-        type={props.type}
-        isLocked={props.isLocked}
-        text={props.name}
-        price={props.price}
-        thumbnail={props.image}
-      />
-      <div className={ styles.icon_wrapper }>
-        {props.isDraged&&<DragIcon type="primary" />}
-      </div>
-    </li>
-  );
-}
-
-IngredientCard.propTypes = {
-  type: PropTypes.string,
-  isLocked: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired
-}
-
-const IngredientsList = (props) =>{
-  return (
-    <ul className={`${styles.ingredients_list} `}>
-      {props.children}
-    </ul>
-  );
-}
-
-IngredientsList.propTypes = {
-  children: PropTypes.array.isRequired
-}
+import { IngredientCard } from './ingredient-card';
+import { IngredientsList } from './ingredient-list';
+import { getOrderInformation } from '../../services/actions/order';
+import {
+  ADD_SELECTED_INGREDIENT,
+  REORDER_SELECTED_INGREDIENTS,
+  CLEAR_SELECTED_INGREDIENTS
+} from '../../services/actions/data-selected';
 
 const Container = (props) => {
   return (
@@ -55,73 +24,155 @@ const Container = (props) => {
   );
 }
 
-const BurgerConstructor = ({ data }) => {
-  const INDEXOFCHOSENBUN = 0;
-  const total = data.reduce(
-    (acc, p, index) =>
-      (index !== INDEXOFCHOSENBUN && p.type !== 'bun')
-        ?
-          (acc + p.price)
-        :
-          (index === INDEXOFCHOSENBUN) ? (acc + p.price*2) : 0
-      , 0
-  );
+const BurgerConstructor = () => {
+  const { data, dataSelected } = useSelector((state) => ({
+    data: state.data.data,
+    dataSelected: state.dataSelected.dataSelected,
+  }));
+  const dispatch = useDispatch();
+  
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop({ id, type }) {
+      const customID = uuidv4();
+      const newDataSelected = type !== 'bun' ?
+        [...dataSelected,
+          {...data.filter(item => item._id === id)[0], customID: customID}
+        ]
+      :
+        [...dataSelected.filter(item => item.type !== 'bun'),
+          {...data.filter(item => item._id === id)[0], customID: customID}
+        ];
+      dispatch({
+        type: ADD_SELECTED_INGREDIENT,
+        newDataSelected
+      });
+    },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    })
+  });
 
   const [isModalActive, setModalActive] = useState(false);
-
+   
   const handleButtonClick = (e) => {
-    setModalActive(true);
+    if (dataSelected.filter(item => item.type === 'bun').length!==0) {
+      let arrayOfID = [];
+      dataSelected.map(item => arrayOfID.push(item._id));
+      
+      dispatch(getOrderInformation(arrayOfID));
+      setModalActive(true);
+      dispatch({
+        type: CLEAR_SELECTED_INGREDIENTS
+      })
+    } else {
+      alert('Выберите булку');
+    }
   }
+
+  const totalPrice = useMemo(
+    ()=> {
+      return dataSelected.reduce(
+        (sum, item, index) =>
+          (item.type !== 'bun')
+            ?
+              (sum + item.price)
+            :
+              (sum + item.price*2)
+          , 0
+      );
+    },
+    [dataSelected]
+  );
   
+  const bun = useMemo(
+    () => {
+      return dataSelected.filter(item => item.type === 'bun')
+    },
+    [dataSelected]
+  );
+  
+  const filler = useMemo(
+    () => {
+      return dataSelected.filter(item => item.type !== 'bun')
+    },
+    [dataSelected]
+  );
+
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const newSelectedData = [...dataSelected];
+      newSelectedData.splice(hoverIndex, 0, newSelectedData.splice(dragIndex, 1)[0]);
+      dispatch({
+        type: REORDER_SELECTED_INGREDIENTS,
+        payload: newSelectedData
+      })
+    }, [dataSelected]
+  )
+
   return (
     <>
-      <section className={`${styles.column} pt-25 pl-4`}>
-        <Container>
-          {data[INDEXOFCHOSENBUN] && <IngredientCard
-              type={'top'}
-              name={`${data[INDEXOFCHOSENBUN].name} (верх)`}
-              isLocked={true}
-              price={data[INDEXOFCHOSENBUN].price}
-              image={data[INDEXOFCHOSENBUN].image}
-              isDraged={false}
-          />}
-          <li>
-            <IngredientsList
-              children = {data.map((item,index) =>
-                index !== INDEXOFCHOSENBUN && item.type !== 'bun' &&
-                <IngredientCard
-                  key={`${item._id}`}
-                  type={null}
-                  name={item.name}
-                  isLocked={false}
-                  price={item.price}
-                  image={item.image}
-                  isDraged={true}
-                />
-              )}
-            />
-          </li>
-          {data[INDEXOFCHOSENBUN] && <IngredientCard
-            type={'bottom'}
-            name={`${data[INDEXOFCHOSENBUN].name} (низ)`}
-            isLocked={true}
-            price={data[INDEXOFCHOSENBUN].price}
-            image={data[INDEXOFCHOSENBUN].image}
-            isDraged={false}
-          />}
-        </Container>
-        <div className={ `${styles.row_order} mt-10 mr-4` }>
-          <div className={ `${styles.total} pr-10`}>
-            <span className="text text_type_digits-medium pr-2">{total}</span>
-            <div className= { styles.icon }>
-              <CurrencyIcon type="primary" />
+      <section className={`${styles.column} ${isHover ? styles.column_isHover : ''} pt-25 pl-4`} ref={dropTarget}>
+        {dataSelected.length===0 ? (
+          <p className='text text_type_main-large mt-15'>Перетащите сюда ингредиенты для бургера</p>
+        ) : (
+          <>
+            <Container>
+              {bun.length!==0 && 
+                <li className={`mt-4 pl-8 ${styles.block}`}>
+                  <ConstructorElement 
+                    type={'top'}
+                    isLocked={true}
+                    text={`${bun[0].name} (верх)`}
+                    price={bun[0].price}
+                    thumbnail={bun[0].image}
+                    id={bun[0]._id}
+                  />
+                </li>
+              }
+              <li>
+                {filler && filler.length!==0 && <IngredientsList>
+                  {dataSelected.map((item,index) => 
+                    item.type !== 'bun' &&
+                      <IngredientCard
+                        key={`${index}`}
+                        index={index}
+                        type={null}
+                        name={item.name}
+                        isLocked={false}
+                        price={item.price}
+                        image={item.image}
+                        id={item._id}
+                        customID={item.customID}
+                        isDraged={true}
+                        moveCard={moveCard}
+                      />
+                  )}
+                </IngredientsList>}
+              </li>
+              {bun && bun.length!==0 && 
+                <li className={`mt-4 pl-8 ${styles.block}`}>
+                  <ConstructorElement 
+                    type={'bottom'}
+                    isLocked={true}
+                    text={`${bun[0].name} (низ)`}
+                    price={bun[0].price}
+                    thumbnail={bun[0].image}
+                    id={bun[0]._id}
+                  />
+                </li>
+              }
+            </Container>
+            <div className={ `${styles.row_order} mt-10 mr-4` }>
+              <TotalPrice totalPrice={totalPrice}/>
+              <Button type="primary" size="medium" onClick={handleButtonClick}>
+                Оформить заказ
+              </Button>
             </div>
-          </div>
-          <Button type="primary" size="medium" onClick={handleButtonClick}>
-            Оформить заказ
-          </Button>
-        </div>
+          </>
+        )}
       </section>
+      
       {isModalActive && 
         <Modal setModalActive={setModalActive} title=''>
           <OrderDetails />
@@ -129,20 +180,6 @@ const BurgerConstructor = ({ data }) => {
       }
     </>
   );
-}
-
-const ingredientPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-})
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
 }
 
 export default BurgerConstructor

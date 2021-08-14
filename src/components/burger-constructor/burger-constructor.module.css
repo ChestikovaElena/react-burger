@@ -1,5 +1,10 @@
 .column {
   width: 600px;
+  border: 2px solid transparent;
+}
+
+.column_isHover {
+  border: 2px solid #4C4CFF;
 }
 
 .ingredients_list {
@@ -43,12 +48,3 @@ div .icon_wrapper {
   justify-content: flex-end;
 }
 
-.total {
-  display: flex;
-  align-items: center;
-}
-
-.icon svg {
-  width : 36px;
-  height: 36px;
-}
