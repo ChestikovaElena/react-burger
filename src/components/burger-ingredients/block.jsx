@@ -17,10 +17,10 @@ export const Block = ({ data, name, type, handleClick, refBun, refSauce, refMain
               className={ `${styles.block_item} mb-8` }
               data-id={item._id} data-type={type} onClick={handleClick}
             >
-                <Card
-                  image={item.image_large} name={item.name} type={type}
-                  count={countOfIngredients[item._id] || 0} price={item.price} id={item._id}
-                />
+              <Card
+                image={item.image_large} name={item.name} type={type}
+                count={countOfIngredients[item._id] || 0} price={item.price} id={item._id}
+              />
             </li>
           )
         }
