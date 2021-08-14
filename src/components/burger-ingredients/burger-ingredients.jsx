@@ -7,7 +7,7 @@ import { Tabs } from './tabs';
 import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
 import { typeOfIngredients } from './type-of-ingredients';
-import { getIngredients } from '../../services/actions/data';
+import { getIngredients } from '../../services/actions/data-ingredients';
 import { 
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT_DATA,
