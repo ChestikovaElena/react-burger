@@ -16,5 +16,5 @@ export const TitleMessage = ({ text, marginTop }) => {
 
 TitleMessage.propTypes = {
   text: PropTypes.string.isRequired,
-  marginTop: PropTypes.number.isRequired,
+  marginTop: PropTypes.string.isRequired,
 }

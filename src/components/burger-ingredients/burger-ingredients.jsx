@@ -6,6 +6,7 @@ import IngredientDetails from '../ingredient-details';
 import { Tabs } from './tabs';
 import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
+import Loader from '../loader';
 import { typeOfIngredients } from './type-of-ingredients';
 import { getIngredients } from '../../services/actions/data-ingredients';
 import { 
@@ -88,7 +89,7 @@ const BurgerIngredients = () => {
   const content = useMemo(
     () => {
       return dataRequest ? (
-        <div className="text text_type_main-large">Подождите. Ингредиенты загружаются...</div>
+        <Loader />
       ) : (
         dataFailed ? (
           <div className="text text_type_main-large">Произошла ошибка. Перезагрузите браузер.</div>

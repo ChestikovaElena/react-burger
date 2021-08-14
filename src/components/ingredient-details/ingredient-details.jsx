@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.css';
 import { productFeatures, Feature, ListOfFeatures } from './feature';
+import Loader from '../loader';
 
 const IngredientDetails = () => {
   const { ingredientData } = useSelector((state) => ({
@@ -11,7 +12,7 @@ const IngredientDetails = () => {
   const content = useMemo(
     () => {
       return !ingredientData ? (
-        <div className="text text_type_main-medium mb-8">Подождите. Информация загружается...</div>
+        <Loader />
       ) : (
         <>
           <img src={ingredientData.image_large} alt={ingredientData.name} className='mb-4'/>
