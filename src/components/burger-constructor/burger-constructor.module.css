@@ -7,9 +7,16 @@
   border: 2px solid #4C4CFF;
 }
 
+.title_message {
+  background-color: #1C1C21;
+  text-align: center;
+  border: 1px dashed #4C4CFF;
+  border-radius: 50px;
+}
+
 .ingredients_list {
-  height: 39vh;
-  overflow-y: scroll;
+  max-height: 39vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }

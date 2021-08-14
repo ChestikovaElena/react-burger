@@ -9,6 +9,7 @@ import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
 import { IngredientCard } from './ingredient-card';
 import { IngredientsList } from './ingredient-list';
+import { TitleMessage } from './title-message';
 import { getOrderInformation } from '../../services/actions/order';
 import {
   ADD_SELECTED_INGREDIENT,
@@ -113,11 +114,14 @@ const BurgerConstructor = () => {
     <>
       <section className={`${styles.column} ${isHover ? styles.column_isHover : ''} pt-25 pl-4`} ref={dropTarget}>
         {dataSelected.length===0 ? (
-          <p className='text text_type_main-large mt-15'>Перетащите сюда ингредиенты для бургера</p>
+          <TitleMessage
+            text='Переместите сюда ингредиенты для бургера'
+            marginTop='15'
+          />
         ) : (
           <>
             <Container>
-              {bun.length!==0 && 
+              {bun.length!==0 ? 
                 <li className={`mt-4 pl-8 ${styles.block}`}>
                   <ConstructorElement 
                     type={'top'}
@@ -128,28 +132,40 @@ const BurgerConstructor = () => {
                     id={bun[0]._id}
                   />
                 </li>
+                :
+                <TitleMessage
+                  text='Переместите сюда булку (верх)'
+                  marginTop='15'
+                />
               }
               <li>
-                {filler && filler.length!==0 && <IngredientsList>
-                  {dataSelected.map((item,index) => 
-                    item.type !== 'bun' &&
-                      <IngredientCard
-                        key={`${index}`}
-                        index={index}
-                        type={null}
-                        name={item.name}
-                        isLocked={false}
-                        price={item.price}
-                        image={item.image}
-                        id={item._id}
-                        customID={item.customID}
-                        isDraged={true}
-                        moveCard={moveCard}
-                      />
-                  )}
-                </IngredientsList>}
+                {filler && filler.length!==0 ?
+                  <IngredientsList>
+                    {dataSelected.map((item,index) => 
+                      item.type !== 'bun' &&
+                        <IngredientCard
+                          key={`${index}`}
+                          index={index}
+                          type={null}
+                          name={item.name}
+                          isLocked={false}
+                          price={item.price}
+                          image={item.image}
+                          id={item._id}
+                          customID={item.customID}
+                          isDraged={true}
+                          moveCard={moveCard}
+                        />
+                    )}
+                  </IngredientsList>
+                  :
+                  <TitleMessage
+                    text='Переместите сюда начинку'
+                    marginTop='5'
+                  />
+                }
               </li>
-              {bun && bun.length!==0 && 
+              {bun && bun.length!==0 ? 
                 <li className={`mt-4 pl-8 ${styles.block}`}>
                   <ConstructorElement 
                     type={'bottom'}
@@ -160,13 +176,18 @@ const BurgerConstructor = () => {
                     id={bun[0]._id}
                   />
                 </li>
+                :
+                <TitleMessage
+                  text='Переместите сюда булку (низ)'
+                  marginTop='5'
+                />
               }
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
               <TotalPrice totalPrice={totalPrice}/>
-              <Button type="primary" size="medium" onClick={handleButtonClick}>
+              {bun.length!==0 && <Button type="primary" size="medium" onClick={handleButtonClick}>
                 Оформить заказ
-              </Button>
+              </Button>}
             </div>
           </>
         )}
