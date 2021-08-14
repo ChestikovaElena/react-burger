@@ -101,11 +101,10 @@ const BurgerConstructor = () => {
 
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
-      const newSelectedData = [...dataSelected];
-      newSelectedData.splice(hoverIndex, 0, newSelectedData.splice(dragIndex, 1)[0]);
       dispatch({
         type: REORDER_SELECTED_INGREDIENTS,
-        payload: newSelectedData
+        dragIndex: dragIndex,
+        hoverIndex: hoverIndex,
       })
     }, [dataSelected]
   )
