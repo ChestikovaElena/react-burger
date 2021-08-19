@@ -1,7 +1,7 @@
 .wrapper {
-  background-image: url("../images/bg.png");
   width: 100vw;
   height: 100vh;
+  background-image: url("../images/bg.png");
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;

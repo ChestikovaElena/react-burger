@@ -1,3 +1,4 @@
 .menu_list {
   display: flex;
+  margin-right: -8px;
 }

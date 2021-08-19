@@ -1,0 +1,10 @@
+.wrapper {
+  margin-top: 16.5vh;
+  width: 480px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

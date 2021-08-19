@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const MenuItem = (props) => {
   return (
-    <li>
+    <li className='mr-2'>
       <ElementWithIcon icon={props.icon} text={props.text} type={props.type} link={props.link}/>
     </li>
   );
