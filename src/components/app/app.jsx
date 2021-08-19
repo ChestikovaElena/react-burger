@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { HomePage } from '../../pages';
+import { HomePage, NotFound404 } from '../../pages';
 
 function App() {
   return (
@@ -7,6 +7,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <HomePage />
+        </Route>
+        <Route>
+          <NotFound404 />
         </Route>
       </Switch>
     </Router>

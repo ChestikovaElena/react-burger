@@ -1,2 +1,4 @@
 import { HomePage } from './home-page.jsx';
-export { HomePage };
+import { NotFound404 } from './not-found.jsx';
+
+export { HomePage, NotFound404 };

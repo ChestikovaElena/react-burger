@@ -1,0 +1,25 @@
+.wrapper {
+  background-image: url("../images/bg.png");
+  width: 100vw;
+  height: 100vh;
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+
+.container {
+  margin: auto;
+  text-align: center;
+}
+
+.content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.link {
+  color: var(--color-title);
+}
