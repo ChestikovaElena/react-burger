@@ -16,11 +16,27 @@ const AppHeader = () =>{
           <div className={ styles.header_content}>
             <Menu
               children={[
-                {icon: ICON_BURGER_ACTIVE, text: "Конструктор", type: ""},
-                {icon: ICON_LIST_INACTIVE, text: "Лента заказов", type: "text_color_inactive"}
+                {
+                  icon: ICON_BURGER_ACTIVE,
+                  text: "Конструктор",
+                  type: "",
+                  link: "/"
+                },
+                {
+                  icon: ICON_LIST_INACTIVE,
+                  text: "Лента заказов",
+                  type: "text_color_inactive",
+                  link: "/list-orders"
+                }
               ]
               .map((item, index) =>
-                <MenuItem key={`menu${index}`} icon={item.icon} text={item.text} type={item.type}/>
+                <MenuItem
+                  key={`menu${index}`}
+                  icon={item.icon}
+                  text={item.text}
+                  type={item.type}
+                  link={item.link}
+                />
               )
             }/>
             <div className={styles.elements_wrapper}>
@@ -29,6 +45,7 @@ const AppHeader = () =>{
                 icon={<ProfileIcon type="secondary"/>}
                 text={"Личный кабинет"}
                 type="text_color_inactive"
+                link={'/profile'}
               />
             </div>
           </div>
