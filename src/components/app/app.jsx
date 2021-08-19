@@ -1,10 +1,15 @@
-import HomePage from '../../pages/home-page';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HomePage } from '../../pages';
 
 function App() {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

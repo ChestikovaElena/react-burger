@@ -79,7 +79,7 @@ const BurgerIngredients = () => {
       dataSelected.forEach((ingredient) => {
         if (!counters[ingredient._id]) counters[ingredient._id] = 0;
         counters[ingredient._id]++;
-        if (ingredient.type === 'bun') counters[ingredient._id] = 1;
+        if (ingredient.type === 'bun') counters[ingredient._id] = 2;
       });
     return counters;
     },
