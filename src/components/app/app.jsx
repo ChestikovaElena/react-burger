@@ -5,7 +5,7 @@ import
     NotFound404,
     ProfilePage,
     LoginPage,
-    RegisterPage,
+    RegistrationPage,
     ForgotPasswordPage,
     ResetPasswordPage,
     IngredientPage
@@ -26,7 +26,7 @@ function App() {
             <LoginPage />
           </Route>
           <Route path="/register" exact>
-            <RegisterPage />
+            <RegistrationPage />
           </Route>
           <Route path="/forgot-password" exact>
             <ForgotPasswordPage />
