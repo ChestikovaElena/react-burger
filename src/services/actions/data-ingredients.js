@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/getResponseData";
+import { getResponseData } from "../../utils/get-response-data";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';

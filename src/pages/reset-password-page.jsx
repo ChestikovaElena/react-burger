@@ -17,6 +17,10 @@ export const ResetPasswordPage = () => {
     });
   }
 
+  const onIconClick = (e) => {
+    console.log('Нажали на иконку');
+  }
+
   return (
     <FormWrapper title="Восстановление пароля">
       <div className="mb-6">
