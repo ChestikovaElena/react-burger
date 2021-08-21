@@ -4,11 +4,11 @@ import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { resetPassword } from '../services/actions/auth';
+import { resetPassword, registrate } from '../services/actions/auth';
 
 export const ForgotPasswordPage = () => {
-  const {isResetingPassword, resetPasswordRequest, resetPasswordFailed } = useSelector((state) => ({
-    isResetingPassword: state.auth.isResetingPassword,
+  const {isResetPassword, resetPasswordRequest, resetPasswordFailed } = useSelector((state) => ({
+    isResetPassword: state.auth.isResetPassword,
     resetPasswordRequest: state.auth.resetPasswordRequest,
     resetPasswordFailed: state.auth.resetPasswordFailed,
   }));
@@ -30,12 +30,13 @@ export const ForgotPasswordPage = () => {
   const resetPasswordClick = useCallback(
     e => {
       e.preventDefault();
+      dispatch(registrate(state.email, "111", "4"));
       dispatch(resetPassword(state.email));
     },
-    [dispatch]
+    [dispatch, state]
   );
 
-  if (isResetingPassword) {
+  if (isResetPassword) {
     return (
       <Redirect to={{ pathname: '/reset-password' }} />
     )

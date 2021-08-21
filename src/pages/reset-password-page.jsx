@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
+import { restorePassword, registrate } from '../services/actions/auth';
 
 export const ResetPasswordPage = () => {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => ({
+    token: state.auth.token
+  }))
+
   const [state, setState] = useState({
     newPassword: '',
     code: ''
@@ -16,6 +23,14 @@ export const ResetPasswordPage = () => {
       [target.name]: target.value
     });
   }
+
+  const restorePasswordClick = useCallback(
+    e => {
+      e.preventDefault();
+      dispatch(restorePassword(state.newPassword, token));
+    },
+    [state, dispatch]
+  );
 
   const onIconClick = (e) => {
     console.log('Нажали на иконку');
@@ -52,7 +67,7 @@ export const ResetPasswordPage = () => {
         />
       </div>
       <div className="mb-20">
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={restorePasswordClick}>
           Сохранить
         </Button>
       </div>
