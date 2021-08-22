@@ -7,8 +7,8 @@ import { restorePassword, registrate } from '../services/actions/auth';
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => ({
-    token: state.auth.token
+  const { accessToken } = useSelector((state) => ({
+    accessToken: state.auth.accessToken
   }))
 
   const [state, setState] = useState({
@@ -27,7 +27,7 @@ export const ResetPasswordPage = () => {
   const restorePasswordClick = useCallback(
     e => {
       e.preventDefault();
-      dispatch(restorePassword(state.newPassword, token));
+      dispatch(restorePassword(state.newPassword, accessToken));
     },
     [state, dispatch]
   );

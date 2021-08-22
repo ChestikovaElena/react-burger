@@ -1,6 +1,8 @@
 import { getResponseData } from "../../utils/get-response-data";
 
-export const LOG_IN = 'LOG_IN';
+export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
+export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
+export const LOG_IN_FAILED = 'LOG_IN_FAILED';
 export const LOG_OUT = 'LOG_OUT';
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
@@ -43,14 +45,14 @@ export function resetPassword(email) {
   }
 }
 
-export function restorePassword(password, token) {
+export function restorePassword(password, accessToken) {
   return function(dispatch) {
     dispatch({
       type: RESTORE_PASSWORD_REQUEST
     });
     return fetch(API_SOURCE_PASSWORD_RESTORE, {
       method: 'POST',
-      body: JSON.stringify({"password": password, "token": token}),
+      body: JSON.stringify({"password": password, "token": accessToken}),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -90,8 +92,9 @@ export function registrate(email, password, name) {
         }
         dispatch({
           type: SIGN_IN_SUCCESS,
-          token: authToken,
+          accessToken: authToken,
         });
+        localStorage.setItem("refreshToken", res.refreshToken);
       })
       .catch(error => {
         dispatch({

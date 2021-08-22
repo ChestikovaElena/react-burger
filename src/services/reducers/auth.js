@@ -1,5 +1,7 @@
 import {
-  LOG_IN,
+  LOG_IN_REQUEST,
+  LOG_IN_SUCCESS,
+  LOG_IN_FAILED,
   LOG_OUT,
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
@@ -13,8 +15,7 @@ import {
 } from "../actions/auth";
 
 const initialState = {
-  // isLoggingIn: false,
-  token: '',
+  accessToken: '',
   registrateRequest: false,
   registrateFailed: false,
   isResetPassword: false,
@@ -36,7 +37,7 @@ export const authReducer = (state = initialState, action) => {
     case SIGN_IN_SUCCESS: {
       return {
         ...state,
-        token: action.token,
+        accessToken: action.accessToken,
         registrateRequest: false,
         registrateFailed: false
       }
