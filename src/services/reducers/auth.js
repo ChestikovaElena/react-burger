@@ -6,6 +6,9 @@ import {
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
   SIGN_IN_FAILED,
+  REFRESH_TOKEN_REQUEST,
+  REFRESH_TOKEN_SUCCESS,
+  REFRESH_TOKEN_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
@@ -20,6 +23,8 @@ const initialState = {
   logInFailed: false,
   registrateRequest: false,
   registrateFailed: false,
+  refreshTokenRequest: false,
+  refreshTokenFailed: false,
   isResetPassword: false,
   resetPasswordRequest: false,
   resetPasswordFailed: false,
@@ -70,7 +75,46 @@ export const authReducer = (state = initialState, action) => {
         registrateFailed: true
       }
     }
-
+    case LOG_IN_REQUEST: {
+      return {
+        ...state,
+        logInRequest: true
+      }
+    }
+    case LOG_IN_SUCCESS: {
+      return {
+        ...state,
+        accessToken: action.accessToken,
+        logInRequest: false,
+        logInFailed: false
+      }
+    }
+    case LOG_IN_FAILED: {
+      return {
+        ...state,
+        LogInFailed: true
+      }
+    }
+    case REFRESH_TOKEN_REQUEST: {
+      return {
+        ...state,
+        refreshTokenRequest: true
+      }
+    }
+    case REFRESH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        accessToken: action.accessToken,
+        refreshTokenRequest: false,
+        refreshTokenFailed: false
+      }
+    }
+    case REFRESH_TOKEN_FAILED: {
+      return {
+        ...state,
+        refreshTokenFailed: true
+      }
+    }
     case RESET_PASSWORD_REQUEST: {
       return {
         ...state,

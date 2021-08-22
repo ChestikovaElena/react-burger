@@ -3,13 +3,21 @@ import { getResponseData } from "../../utils/get-response-data";
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILED = 'LOG_IN_FAILED';
+
 export const LOG_OUT = 'LOG_OUT';
+
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
+
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILED = 'REFRESH_TOKEN_FAILED';
+
 export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
+
 export const RESTORE_PASSWORD_REQUEST = 'RESTORE_PASSWORD_REQUEST';
 export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
 export const RESTORE_PASSWORD_FAILED = 'RESTORE_PASSWORD_FAILED';
@@ -18,6 +26,7 @@ const API_SOURCE_PASSWORD_RESET = "https://norma.nomoreparties.space/api/passwor
 const API_SOURCE_PASSWORD_RESTORE = "https://norma.nomoreparties.space/api/password-reset/reset";
 const API_SOURCE_REGISTRATE = "https://norma.nomoreparties.space/api/auth/register";
 const API_SOURCE_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
+const API_SOURCE_REFRESH_TOKEN="https://norma.nomoreparties.space/api/auth/token";
 
 export function resetPassword(email) {
   return function(dispatch) {
@@ -132,6 +141,38 @@ export function logIn(email, password) {
       .catch(error => {
         dispatch({
           type: LOG_IN_FAILED
+        });
+      })
+  }
+}
+
+export function refreshToken(refreshToken) {
+  return function(dispatch) {
+    dispatch({
+      type: REFRESH_TOKEN_REQUEST
+    });
+    return fetch(API_SOURCE_REFRESH_TOKEN, {
+      method: 'POST',
+      body: JSON.stringify({"token": "{{refreshToken}}"}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(getResponseData)
+      .then(res => {
+        let authToken;
+        if (res.accessToken.indexOf('Bearer') === 0) {
+          authToken = res.accessToken.split('Bearer ')[1];
+        }
+        dispatch({
+          type: REFRESH_TOKEN_SUCCESS,
+          accessToken: authToken,
+        });
+        localStorage.setItem("refreshToken", res.refreshToken);
+      })
+      .catch(error => {
+        dispatch({
+          type: REFRESH_TOKEN_FAILED
         });
       })
   }
