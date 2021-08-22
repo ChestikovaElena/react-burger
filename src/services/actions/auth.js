@@ -17,6 +17,7 @@ export const RESTORE_PASSWORD_FAILED = 'RESTORE_PASSWORD_FAILED';
 const API_SOURCE_PASSWORD_RESET = "https://norma.nomoreparties.space/api/password-reset";
 const API_SOURCE_PASSWORD_RESTORE = "https://norma.nomoreparties.space/api/password-reset/reset";
 const API_SOURCE_REGISTRATE = "https://norma.nomoreparties.space/api/auth/register";
+const API_SOURCE_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
 
 export function resetPassword(email) {
   return function(dispatch) {
@@ -99,6 +100,38 @@ export function registrate(email, password, name) {
       .catch(error => {
         dispatch({
           type: SIGN_IN_FAILED
+        });
+      })
+  }
+}
+
+export function logIn(email, password) {
+  return function(dispatch) {
+    dispatch({
+      type: LOG_IN_REQUEST
+    });
+    return fetch(API_SOURCE_LOGIN, {
+      method: 'POST',
+      body: JSON.stringify({"email": email, "password": password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(getResponseData)
+      .then(res => {
+        let authToken;
+        if (res.accessToken.indexOf('Bearer') === 0) {
+          authToken = res.accessToken.split('Bearer ')[1];
+        }
+        dispatch({
+          type: LOG_IN_SUCCESS,
+          accessToken: authToken,
+        });
+        localStorage.setItem("refreshToken", res.refreshToken);
+      })
+      .catch(error => {
+        dispatch({
+          type: LOG_IN_FAILED
         });
       })
   }

@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useCallback ,useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
+import { registrate } from '../../services/actions/auth';
 
 export const RegistrationForm = () => {
+  const dispatch = useDispatch();
+
   const [state, setState] = useState({
     name: '',
     email: '',
@@ -22,6 +26,14 @@ export const RegistrationForm = () => {
     console.log('Нажали на иконку');
   }
 
+  const handleClickRegistrate = useCallback(
+    e => {
+      e.preventDefault();
+      dispatch(registrate(state.email, state.password, state.name));
+    },
+    [state, dispatch]
+  );
+  
   return (
     <FormWrapper title="Вход">
       <div className="mb-6">
@@ -65,7 +77,7 @@ export const RegistrationForm = () => {
         />
       </div>
       <div className="mb-20">
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={handleClickRegistrate}>
           Зарегистрироваться
         </Button>
       </div>

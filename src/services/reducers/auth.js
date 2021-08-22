@@ -16,6 +16,8 @@ import {
 
 const initialState = {
   accessToken: '',
+  logInRequest: false,
+  logInFailed: false,
   registrateRequest: false,
   registrateFailed: false,
   isResetPassword: false,
@@ -28,6 +30,26 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOG_IN_REQUEST: {
+      return {
+        ...state,
+        logInRequest: true
+      }
+    }
+    case LOG_IN_SUCCESS: {
+      return {
+        ...state,
+        accessToken: action.accessToken,
+        logInRequest: false,
+        logInFailed: false
+      }
+    }
+    case LOG_IN_FAILED: {
+      return {
+        ...state,
+        LogInFailed: true
+      }
+    }
     case SIGN_IN_REQUEST: {
       return {
         ...state,
