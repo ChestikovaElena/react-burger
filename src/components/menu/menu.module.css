@@ -1,4 +1,10 @@
-.menu_list {
+.menu_row {
   display: flex;
   margin-right: -8px;
+}
+
+.menu_column {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
 }

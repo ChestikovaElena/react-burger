@@ -15,6 +15,7 @@ const AppHeader = () =>{
         <div className="pt-4 pb-4">
           <div className={ styles.header_content}>
             <Menu
+              style = "row"
               children={[
                 {
                   icon: ICON_BURGER_ACTIVE,

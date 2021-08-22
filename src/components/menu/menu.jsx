@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 const Menu = (props) => {
   return (
     <nav className={ styles.menu }>
-      <ul className={ styles.menu_list }>
+      <ul className=
+        { props.style === 'row' ? styles.menu_row : styles.menu_column }>
         {props.children}
       </ul>
     </nav>
@@ -12,7 +13,8 @@ const Menu = (props) => {
 }
 
 Menu.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.array.isRequired,
+  style: PropTypes.string.isRequired
 }
 
 export default Menu

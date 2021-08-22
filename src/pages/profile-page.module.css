@@ -1,0 +1,11 @@
+.section {
+  display: flex;
+}
+
+.left_column {
+  width: 320px;
+}
+
+.section div {
+  margin-top: 0;
+}
