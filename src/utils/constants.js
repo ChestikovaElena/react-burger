@@ -1,1 +1,3 @@
 export const ESC_KEYCODE = 27;
+export const SECONDS_IN_MINUTE = 60;
+export const MILLISECONDS_IN_SECOND = 1000;

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
@@ -24,13 +24,10 @@ export const ResetPasswordPage = () => {
     });
   }
 
-  const restorePasswordClick = useCallback(
-    e => {
-      e.preventDefault();
-      dispatch(restorePassword(state.newPassword, accessToken));
-    },
-    [state, dispatch]
-  );
+  const restorePasswordClick = e => {
+    e.preventDefault();
+    dispatch(restorePassword(state.newPassword, accessToken));
+  }
 
   const onIconClick = (e) => {
     console.log('Нажали на иконку');

@@ -1,4 +1,4 @@
-import { useCallback ,useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
@@ -26,13 +26,10 @@ export const RegistrationForm = () => {
     console.log('Нажали на иконку');
   }
 
-  const handleClickRegistrate = useCallback(
-    e => {
-      e.preventDefault();
-      dispatch(registrate(state.email, state.password, state.name));
-    },
-    [state, dispatch]
-  );
+  const handleClickRegistrate = e => {
+    e.preventDefault();
+    dispatch(registrate(state.email, state.password, state.name));
+  }
   
   return (
     <FormWrapper title="Вход">

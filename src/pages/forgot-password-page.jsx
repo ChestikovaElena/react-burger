@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -27,14 +27,11 @@ export const ForgotPasswordPage = () => {
     });
   }
 
-  const resetPasswordClick = useCallback(
-    e => {
-      e.preventDefault();
-      dispatch(registrate(state.email, "111", "4"));
-      dispatch(resetPassword(state.email));
-    },
-    [dispatch, state]
-  );
+  const resetPasswordClick = e => {
+    e.preventDefault();
+    dispatch(registrate(state.email, "111", "4"));
+    dispatch(resetPassword(state.email));
+  }
 
   if (isResetPassword) {
     return (

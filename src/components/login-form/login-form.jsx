@@ -1,6 +1,5 @@
-import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
@@ -8,10 +7,6 @@ import { logIn } from '../../services/actions/auth';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-
-  const { accessToken } = useSelector((state) => ({
-    accessToken: state.auth.accessToken
-  }))
 
   const [state, setState] = useState({
     email: '',
@@ -30,18 +25,9 @@ export const LoginForm = () => {
     console.log('Нажали на иконку');
   }
 
-  const handleClickLogIn = useCallback(
-    e => {
-      e.preventDefault();
-      dispatch(logIn(state.email, state.password));
-    },
-    [state, dispatch]
-  );
-
-  if (accessToken!=='') {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    )
+  const handleClickLogIn = e => {
+    e.preventDefault();
+    dispatch(logIn(state.email, state.password));
   }
 
   return (

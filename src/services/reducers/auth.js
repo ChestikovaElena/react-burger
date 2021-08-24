@@ -2,7 +2,9 @@ import {
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_IN_FAILED,
-  LOG_OUT,
+  LOG_OUT_REQUEST,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAILED,
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
   SIGN_IN_FAILED,
@@ -18,9 +20,10 @@ import {
 } from "../actions/auth";
 
 const initialState = {
-  accessToken: '',
   logInRequest: false,
   logInFailed: false,
+  logOutRequest: false,
+  logOutFailed: false,
   registrateRequest: false,
   registrateFailed: false,
   refreshTokenRequest: false,
@@ -44,7 +47,6 @@ export const authReducer = (state = initialState, action) => {
     case LOG_IN_SUCCESS: {
       return {
         ...state,
-        accessToken: action.accessToken,
         logInRequest: false,
         logInFailed: false
       }
@@ -53,6 +55,25 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         LogInFailed: true
+      }
+    }
+    case LOG_OUT_REQUEST: {
+      return {
+        ...state,
+        logOutRequest: true
+      }
+    }
+    case LOG_OUT_SUCCESS: {
+      return {
+        ...state,
+        logOutRequest: false,
+        logOutFailed: false
+      }
+    }
+    case LOG_OUT_FAILED: {
+      return {
+        ...state,
+        LogOutFailed: true
       }
     }
     case SIGN_IN_REQUEST: {
@@ -64,7 +85,6 @@ export const authReducer = (state = initialState, action) => {
     case SIGN_IN_SUCCESS: {
       return {
         ...state,
-        accessToken: action.accessToken,
         registrateRequest: false,
         registrateFailed: false
       }
@@ -84,7 +104,6 @@ export const authReducer = (state = initialState, action) => {
     case LOG_IN_SUCCESS: {
       return {
         ...state,
-        accessToken: action.accessToken,
         logInRequest: false,
         logInFailed: false
       }
@@ -104,7 +123,6 @@ export const authReducer = (state = initialState, action) => {
     case REFRESH_TOKEN_SUCCESS: {
       return {
         ...state,
-        accessToken: action.accessToken,
         refreshTokenRequest: false,
         refreshTokenFailed: false
       }

@@ -1,10 +1,13 @@
 import { getResponseData } from "../../utils/get-response-data";
+import { setCookie, deleteCookie } from "../../utils/cookie";
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILED = 'LOG_IN_FAILED';
 
-export const LOG_OUT = 'LOG_OUT';
+export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
+export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const LOG_OUT_FAILED = 'LOG_OUT_FAILED';
 
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
@@ -22,18 +25,14 @@ export const RESTORE_PASSWORD_REQUEST = 'RESTORE_PASSWORD_REQUEST';
 export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
 export const RESTORE_PASSWORD_FAILED = 'RESTORE_PASSWORD_FAILED';
 
-const API_SOURCE_PASSWORD_RESET = "https://norma.nomoreparties.space/api/password-reset";
-const API_SOURCE_PASSWORD_RESTORE = "https://norma.nomoreparties.space/api/password-reset/reset";
-const API_SOURCE_REGISTRATE = "https://norma.nomoreparties.space/api/auth/register";
-const API_SOURCE_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
-const API_SOURCE_REFRESH_TOKEN="https://norma.nomoreparties.space/api/auth/token";
+const API_SOURCE = "https://norma.nomoreparties.space/api/";
 
 export function resetPassword(email) {
   return function(dispatch) {
     dispatch({
       type: RESET_PASSWORD_REQUEST
     });
-    return fetch(API_SOURCE_PASSWORD_RESET, {
+    return fetch(`${API_SOURCE}password-reset`, {
       method: 'POST',
       body: JSON.stringify({"email": email}),
       headers: {
@@ -60,7 +59,7 @@ export function restorePassword(password, accessToken) {
     dispatch({
       type: RESTORE_PASSWORD_REQUEST
     });
-    return fetch(API_SOURCE_PASSWORD_RESTORE, {
+    return fetch(`${API_SOURCE}password-reset/reset`, {
       method: 'POST',
       body: JSON.stringify({"password": password, "token": accessToken}),
       headers: {
@@ -87,7 +86,7 @@ export function registrate(email, password, name) {
     dispatch({
       type: SIGN_IN_REQUEST
     });
-    return fetch(API_SOURCE_REGISTRATE, {
+    return fetch(`${API_SOURCE}auth/register`, {
       method: 'POST',
       body: JSON.stringify({"email": email, "password": password, "name": name}),
       headers: {
@@ -102,9 +101,9 @@ export function registrate(email, password, name) {
         }
         dispatch({
           type: SIGN_IN_SUCCESS,
-          accessToken: authToken,
         });
-        localStorage.setItem("refreshToken", res.refreshToken);
+        setCookie("accessToken", authToken, 1);
+        localStorage.setItem('refreshToken', res.refreshToken);
       })
       .catch(error => {
         dispatch({
@@ -119,7 +118,7 @@ export function logIn(email, password) {
     dispatch({
       type: LOG_IN_REQUEST
     });
-    return fetch(API_SOURCE_LOGIN, {
+    return fetch(`${API_SOURCE}auth/login`, {
       method: 'POST',
       body: JSON.stringify({"email": email, "password": password}),
       headers: {
@@ -134,9 +133,9 @@ export function logIn(email, password) {
         }
         dispatch({
           type: LOG_IN_SUCCESS,
-          accessToken: authToken,
         });
-        localStorage.setItem("refreshToken", res.refreshToken);
+        setCookie("accessToken", authToken, 1);
+        localStorage.setItem('refreshToken', res.refreshToken);
       })
       .catch(error => {
         dispatch({
@@ -146,14 +145,14 @@ export function logIn(email, password) {
   }
 }
 
-export function refreshToken(refreshToken) {
+export function logOut(refreshToken) {
   return function(dispatch) {
     dispatch({
-      type: REFRESH_TOKEN_REQUEST
+      type: LOG_OUT_REQUEST
     });
-    return fetch(API_SOURCE_REFRESH_TOKEN, {
+    return fetch(`${API_SOURCE}auth/logout`, {
       method: 'POST',
-      body: JSON.stringify({"token": "{{refreshToken}}"}),
+      body: JSON.stringify({"token": `{{${refreshToken}}}` }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -165,10 +164,43 @@ export function refreshToken(refreshToken) {
           authToken = res.accessToken.split('Bearer ')[1];
         }
         dispatch({
-          type: REFRESH_TOKEN_SUCCESS,
-          accessToken: authToken,
+          type: LOG_IN_SUCCESS,
         });
-        localStorage.setItem("refreshToken", res.refreshToken);
+        setCookie("accessToken", authToken, 1);
+        localStorage.setItem('refreshToken', res.refreshToken);
+      })
+      .catch(error => {
+        dispatch({
+          type: LOG_IN_FAILED
+        });
+      })
+  }
+}
+
+export function refreshToken(refreshToken, afterRefresh) {
+  return function(dispatch) {
+    dispatch({
+      type: REFRESH_TOKEN_REQUEST
+    });
+    return fetch(`${API_SOURCE}auth/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"token": `{{${refreshToken}}}`})
+    })
+      .then(getResponseData)
+      .then(res => {
+        let authToken;
+        if (res.accessToken.indexOf('Bearer') === 0) {
+          authToken = res.accessToken.split('Bearer ')[1];
+        }
+        dispatch({
+          type: REFRESH_TOKEN_SUCCESS
+        });
+        localStorage.setItem('refreshToken', res.refreshToken);
+        setCookie('accessToken', authToken, 1);
+        dispatch(afterRefresh);
       })
       .catch(error => {
         dispatch({
