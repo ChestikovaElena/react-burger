@@ -1,5 +1,5 @@
 import { getResponseData } from "../../utils/get-response-data";
-import { setCookie, deleteCookie } from "../../utils/cookie";
+import { getCookie, setCookie, deleteCookie } from "../../utils/cookie";
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -16,6 +16,10 @@ export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
 export const REFRESH_TOKEN_FAILED = 'REFRESH_TOKEN_FAILED';
+
+export const GET_USER_DATA_REQUEST = 'GET_USER_DATA_REQUEST';
+export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS';
+export const GET_USER_DATA_FAILED = 'GET_USER_DATA_FAILED';
 
 export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
@@ -102,7 +106,7 @@ export function registrate(email, password, name) {
         dispatch({
           type: SIGN_IN_SUCCESS,
         });
-        setCookie("accessToken", authToken, 1);
+        setCookie("accessToken", authToken, 5);
         localStorage.setItem('refreshToken', res.refreshToken);
       })
       .catch(error => {
@@ -134,7 +138,7 @@ export function logIn(email, password) {
         dispatch({
           type: LOG_IN_SUCCESS,
         });
-        setCookie("accessToken", authToken, 1);
+        setCookie("accessToken", authToken, 5);
         localStorage.setItem('refreshToken', res.refreshToken);
       })
       .catch(error => {
@@ -166,12 +170,39 @@ export function logOut(refreshToken) {
         dispatch({
           type: LOG_IN_SUCCESS,
         });
-        setCookie("accessToken", authToken, 1);
+        setCookie("accessToken", authToken, 5);
         localStorage.setItem('refreshToken', res.refreshToken);
       })
       .catch(error => {
         dispatch({
           type: LOG_IN_FAILED
+        });
+      })
+  }
+}
+
+export function getUserData() {
+  return function(dispatch) {
+    dispatch({
+      type: GET_USER_DATA_REQUEST
+    });
+    return fetch(`${API_SOURCE}auth/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer `+getCookie('accessToken')
+      }
+    })
+      .then(getResponseData)
+      .then(res => {
+        dispatch({
+          type: GET_USER_DATA_SUCCESS,
+          user: res.user
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: GET_USER_DATA_FAILED
         });
       })
   }
@@ -199,7 +230,7 @@ export function refreshToken(refreshToken, afterRefresh) {
           type: REFRESH_TOKEN_SUCCESS
         });
         localStorage.setItem('refreshToken', res.refreshToken);
-        setCookie('accessToken', authToken, 1);
+        setCookie('accessToken', authToken, 5);
         dispatch(afterRefresh);
       })
       .catch(error => {

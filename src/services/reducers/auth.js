@@ -11,6 +11,9 @@ import {
   REFRESH_TOKEN_REQUEST,
   REFRESH_TOKEN_SUCCESS,
   REFRESH_TOKEN_FAILED,
+  GET_USER_DATA_REQUEST,
+  GET_USER_DATA_SUCCESS,
+  GET_USER_DATA_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
@@ -20,6 +23,9 @@ import {
 } from "../actions/auth";
 
 const initialState = {
+  user: {},
+  userDataRequest: false,
+  userDataFailed: false,
   logInRequest: false,
   logInFailed: false,
   logOutRequest: false,
@@ -131,6 +137,26 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         refreshTokenFailed: true
+      }
+    }
+    case GET_USER_DATA_REQUEST: {
+      return {
+        ...state,
+        userDataRequest: true
+      }
+    }
+    case GET_USER_DATA_SUCCESS: {
+      return {
+        ...state,
+        user: action.user,
+        userDataRequest: false,
+        userDataFailed: false
+      }
+    }
+    case GET_USER_DATA_FAILED: {
+      return {
+        ...state,
+        userDataFailed: true
       }
     }
     case RESET_PASSWORD_REQUEST: {

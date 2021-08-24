@@ -1,11 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
+import { getUserData } from '../../services/actions/auth';
 
 export const ProfileForm = () => {
+  const dispatch = useDispatch();
+  const { user, userDataRequest, userDataFailed } = useSelector((state) => ({
+    user: state.auth.user,
+    userDataRequest: state.auth.userDataRequest,
+    userDataFailed: state.auth.userDataFailed,
+  }));
+
+  useEffect(
+    () => {
+      if (!user.length) dispatch(getUserData());
+    },
+    [dispatch]
+  );
+
   const [state, setState] = useState({
-    name: '',
-    email: '',
+    name: user.name || '',
+    email: user.email || '',
     password: ''
   });
 
