@@ -1,15 +1,17 @@
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import LoginForm from '../components/login-form';
-import { getCookie } from '../utils/cookie';
 
 export const LoginPage = () => {
-  const accessToken = getCookie('access_token');
+  const {isLoggedIn } = useSelector((state) => ({
+    isLoggedIn: state.auth.isLoggedIn
+  }));
 
-  // if (accessToken && localStorage.getItem('refreshToken)) {
-  //   return (
-  //     <Redirect to={{ pathname: '/' }} />
-  //   )
-  // }
+  if (isLoggedIn) {
+    return (
+      <Redirect to={{ pathname: '/' }} />
+    )
+  }
 
   return (
     <LoginForm />

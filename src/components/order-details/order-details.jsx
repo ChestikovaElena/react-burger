@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Loader from '../loader';
+import Preloader from '../preloader';
 
 const OrderDetails = () => {
   const { order, orderRequest, orderFailed } = useSelector(state => ({
@@ -14,7 +14,7 @@ const OrderDetails = () => {
   const content = useMemo(
     () => {
       return orderRequest ? (
-        <Loader />
+        <Preloader />
         ) : (
         orderFailed ? (
           <p className="text text_type_main-medium">Произошла ошибка. Обратитесь в техподдержку.</p>

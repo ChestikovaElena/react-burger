@@ -4,13 +4,14 @@ import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { resetPassword, registrate } from '../services/actions/auth';
+import { resetPassword } from '../services/actions/auth';
+import Preloader from '../components/preloader';
 
 export const ForgotPasswordPage = () => {
-  const {isResetPassword, resetPasswordRequest, resetPasswordFailed } = useSelector((state) => ({
-    isResetPassword: state.auth.isResetPassword,
-    resetPasswordRequest: state.auth.resetPasswordRequest,
-    resetPasswordFailed: state.auth.resetPasswordFailed,
+  const {isForgotPassword, forgotPasswordRequest, forgotPasswordFailed } = useSelector((state) => ({
+    isForgotPassword: state.auth.isForgotPassword,
+    gorgotPasswordRequest: state.auth.gorgotPasswordRequest,
+    forgotPasswordFailed: state.auth.forgotPasswordFailed,
   }));
 
   const dispatch = useDispatch();
@@ -29,42 +30,44 @@ export const ForgotPasswordPage = () => {
 
   const resetPasswordClick = e => {
     e.preventDefault();
-    dispatch(registrate(state.email, "111", "4"));
     dispatch(resetPassword(state.email));
   }
 
-  if (isResetPassword) {
+  if (isForgotPassword) {
     return (
       <Redirect to={{ pathname: '/reset-password' }} />
     )
   }
 
   return (
-    <FormWrapper title="Восстановление пароля">
-      <div className="mb-6">
-        <Input
-          type={'email'}
-          placeholder={'Укажите e-mail'}
-          onChange={handleInputChange}
-          icon={null}
-          value={state.email}
-          name={'email'}
-          error={false}
-          errorText={''}
-          size={'default'}
+    forgotPasswordRequest ?
+      <Preloader />
+    : 
+      <FormWrapper title="Восстановление пароля">
+        <div className="mb-6">
+          <Input
+            type={'email'}
+            placeholder={'Укажите e-mail'}
+            onChange={handleInputChange}
+            icon={null}
+            value={state.email}
+            name={'email'}
+            error={false}
+            errorText={''}
+            size={'default'}
+          />
+        </div>
+        <div className="mb-20">
+          <Button type="primary" size="medium" onClick={resetPasswordClick}>
+            Восстановить
+          </Button>
+        </div>
+        <SpanWithLink
+          buttonText="Войти"
+          link="/login"
+          spanText="Вспомнили пароль?"
+          mb="0"
         />
-      </div>
-      <div className="mb-20">
-        <Button type="primary" size="medium" onClick={resetPasswordClick}>
-          Восстановить
-        </Button>
-      </div>
-      <SpanWithLink
-        buttonText="Войти"
-        link="/login"
-        spanText="Вспомнили пароль?"
-        mb="0"
-      />
-    </FormWrapper>
+      </FormWrapper>
   )
 }

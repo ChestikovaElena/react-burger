@@ -21,9 +21,13 @@ export const GET_USER_DATA_REQUEST = 'GET_USER_DATA_REQUEST';
 export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS';
 export const GET_USER_DATA_FAILED = 'GET_USER_DATA_FAILED';
 
-export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
-export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
+export const PATCH_USER_DATA_REQUEST = 'PATCH_USER_DATA_REQUEST';
+export const PATCH_USER_DATA_SUCCESS = 'PATCH_USER_DATA_SUCCESS';
+export const PATCH_USER_DATA_FAILED = 'PATCH_USER_DATA_FAILED';
+
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED';
 
 export const RESTORE_PASSWORD_REQUEST = 'RESTORE_PASSWORD_REQUEST';
 export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
@@ -34,7 +38,7 @@ const API_SOURCE = "https://norma.nomoreparties.space/api/";
 export function resetPassword(email) {
   return function(dispatch) {
     dispatch({
-      type: RESET_PASSWORD_REQUEST
+      type: FORGOT_PASSWORD_REQUEST
     });
     return fetch(`${API_SOURCE}password-reset`, {
       method: 'POST',
@@ -46,26 +50,26 @@ export function resetPassword(email) {
       .then(getResponseData)
       .then(res => {
         dispatch({
-          type: RESET_PASSWORD_SUCCESS,
+          type: FORGOT_PASSWORD_SUCCESS,
           isResetPassword: res.success
         });
       })
       .catch(error => {
         dispatch({
-          type: RESET_PASSWORD_FAILED
+          type: FORGOT_PASSWORD_FAILED
         });
       })
   }
 }
 
-export function restorePassword(password, accessToken) {
+export function restorePassword(password, code) {
   return function(dispatch) {
     dispatch({
       type: RESTORE_PASSWORD_REQUEST
     });
     return fetch(`${API_SOURCE}password-reset/reset`, {
       method: 'POST',
-      body: JSON.stringify({"password": password, "token": accessToken}),
+      body: JSON.stringify({"password": password, "token": code}),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -215,6 +219,43 @@ export function getUserData() {
       })
   }
 }
+
+export function patchUserData(payload) {
+  return function(dispatch) {
+    dispatch({
+      type: PATCH_USER_DATA_REQUEST
+    });
+    return fetch(`${API_SOURCE}auth/user`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ` + getCookie('accessToken')
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(getResponseData)
+      .then(res => {
+        dispatch({
+          type: PATCH_USER_DATA_SUCCESS,
+          user: res.user
+        });
+      })
+      .catch(error => {
+        error.then(
+          error => {
+            if (error.message === "jwt malformed") {
+              dispatch(refreshToken(getUserData()))
+            } else {
+              dispatch({
+                type: PATCH_USER_DATA_FAILED
+              });
+            }
+          }
+        );
+      })
+  }
+}
+
 
 export function refreshToken(afterRefresh) {
   return function(dispatch) {

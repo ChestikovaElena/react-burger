@@ -14,18 +14,22 @@ import {
   GET_USER_DATA_REQUEST,
   GET_USER_DATA_SUCCESS,
   GET_USER_DATA_FAILED,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAILED,
+  PATCH_USER_DATA_REQUEST,
+  PATCH_USER_DATA_SUCCESS,
+  PATCH_USER_DATA_FAILED,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
   RESTORE_PASSWORD_REQUEST,
   RESTORE_PASSWORD_SUCCESS,
   RESTORE_PASSWORD_FAILED
 } from "../actions/auth";
 
 const initialState = {
-  user: {},
+  user: {name: '', email: ''},
   userDataRequest: false,
   userDataFailed: false,
+  isLoggedIn: false,
   logInRequest: false,
   logInFailed: false,
   logOutRequest: false,
@@ -34,9 +38,9 @@ const initialState = {
   registrateFailed: false,
   refreshTokenRequest: false,
   refreshTokenFailed: false,
-  isResetPassword: false,
-  resetPasswordRequest: false,
-  resetPasswordFailed: false,
+  isForgotPassword: false,
+  forgotPasswordRequest: false,
+  forgotPasswordFailed: false,
   isResetPassword: false,
   resetPasswordRequest: false,
   resetPasswordFailed: false,
@@ -53,6 +57,7 @@ export const authReducer = (state = initialState, action) => {
     case LOG_IN_SUCCESS: {
       return {
         ...state,
+        isLoggedIn: true,
         logInRequest: false,
         logInFailed: false
       }
@@ -72,6 +77,7 @@ export const authReducer = (state = initialState, action) => {
     case LOG_OUT_SUCCESS: {
       return {
         ...state,
+        isLoggedIn: false,
         logOutRequest: false,
         logOutFailed: false
       }
@@ -91,6 +97,7 @@ export const authReducer = (state = initialState, action) => {
     case SIGN_IN_SUCCESS: {
       return {
         ...state,
+        isLoggedIn: true,
         registrateRequest: false,
         registrateFailed: false
       }
@@ -99,25 +106,6 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         registrateFailed: true
-      }
-    }
-    case LOG_IN_REQUEST: {
-      return {
-        ...state,
-        logInRequest: true
-      }
-    }
-    case LOG_IN_SUCCESS: {
-      return {
-        ...state,
-        logInRequest: false,
-        logInFailed: false
-      }
-    }
-    case LOG_IN_FAILED: {
-      return {
-        ...state,
-        LogInFailed: true
       }
     }
     case REFRESH_TOKEN_REQUEST: {
@@ -139,13 +127,15 @@ export const authReducer = (state = initialState, action) => {
         refreshTokenFailed: true
       }
     }
-    case GET_USER_DATA_REQUEST: {
+    case GET_USER_DATA_REQUEST:
+    case PATCH_USER_DATA_REQUEST: {
       return {
         ...state,
         userDataRequest: true
       }
     }
-    case GET_USER_DATA_SUCCESS: {
+    case GET_USER_DATA_SUCCESS:
+    case PATCH_USER_DATA_SUCCESS: {
       return {
         ...state,
         user: action.user,
@@ -153,30 +143,31 @@ export const authReducer = (state = initialState, action) => {
         userDataFailed: false
       }
     }
-    case GET_USER_DATA_FAILED: {
+    case GET_USER_DATA_FAILED:
+    case PATCH_USER_DATA_FAILED: {
       return {
         ...state,
         userDataFailed: true
       }
     }
-    case RESET_PASSWORD_REQUEST: {
+    case FORGOT_PASSWORD_REQUEST: {
       return {
         ...state,
-        resetPasswordRequest: true
+        forgotPasswordRequest: true
       }
     }
-    case RESET_PASSWORD_SUCCESS: {
+    case FORGOT_PASSWORD_SUCCESS: {
       return {
         ...state,
-        isResetPassword: action.isResetPassword,
-        resetPasswordRequest: false,
-        resetPasswordFailed: false
+        isForgotPassword: action.isResetPassword,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false
       }
     }
-    case RESET_PASSWORD_FAILED: {
+    case FORGOT_PASSWORD_FAILED: {
       return {
         ...state,
-        resetPasswordFailed: true
+        forgotPasswordFailed: true
       }
     }
     case RESTORE_PASSWORD_REQUEST: {

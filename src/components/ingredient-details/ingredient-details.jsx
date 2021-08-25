@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.css';
 import { productFeatures, Feature, ListOfFeatures } from './feature';
-import Loader from '../loader';
+import Preloader from '../preloader';
 
 const IngredientDetails = () => {
   const { ingredientData } = useSelector((state) => ({
@@ -12,7 +12,7 @@ const IngredientDetails = () => {
   const content = useMemo(
     () => {
       return !ingredientData ? (
-        <Loader />
+        <Preloader />
       ) : (
         <>
           <img src={ingredientData.image_large} alt={ingredientData.name} className='mb-4'/>

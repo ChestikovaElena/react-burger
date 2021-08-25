@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
@@ -7,8 +8,8 @@ import { restorePassword, registrate } from '../services/actions/auth';
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((state) => ({
-    accessToken: state.auth.accessToken
+  const { isForgotPassword } = useSelector((state) => ({
+    isForgotPassword: state.auth.isForgotPassword
   }))
 
   const [state, setState] = useState({
@@ -26,11 +27,17 @@ export const ResetPasswordPage = () => {
 
   const restorePasswordClick = e => {
     e.preventDefault();
-    dispatch(restorePassword(state.newPassword, accessToken));
+    dispatch(restorePassword(state.newPassword, state.code));
   }
 
   const onIconClick = (e) => {
     console.log('Нажали на иконку');
+  }
+
+  if (!isForgotPassword) {
+    return (
+      <Redirect to={{ pathname: '/forgot-password' }} />
+    )
   }
 
   return (

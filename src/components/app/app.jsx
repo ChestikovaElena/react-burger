@@ -12,6 +12,7 @@ import
   } from '../../pages';
 import AppHeader from '../app-header';
 import styles from './app.module.css';
+import ProtectedRoute from '../protected-route';
 
 function App() {
   return (
@@ -34,9 +35,9 @@ function App() {
           <Route path="/reset-password" exact>
             <ResetPasswordPage />
           </Route>
-          <Route path="/profile" exact>
+          <ProtectedRoute path="/profile" exact>
             <ProfilePage />
-          </Route>
+          </ProtectedRoute>
           <Route path="/ingredients/:id" exact>
             <IngredientPage />
           </Route>
