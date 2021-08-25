@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-export function ProtectedRoute({ children, ...rest }) {
+export function NoAuthRoute({ children, ...rest }) {
   const {isLoggedIn } = useSelector((state) => ({
     isLoggedIn: state.auth.isLoggedIn
   }));
@@ -10,10 +10,10 @@ export function ProtectedRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={() => 
-        isLoggedIn ? (
+        !isLoggedIn ? (
         children
       ) : (
-        <Redirect to={{ pathname: '/login' }} />
+        <Redirect to={{ pathname: '/' }} />
       )}
     />
   );

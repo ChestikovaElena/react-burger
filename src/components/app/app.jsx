@@ -13,6 +13,7 @@ import
 import AppHeader from '../app-header';
 import styles from './app.module.css';
 import ProtectedRoute from '../protected-route';
+import NoAuthRoute from '../no-auth-route';
 
 function App() {
   return (
@@ -23,18 +24,18 @@ function App() {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          <Route path="/login" exact>
+          <NoAuthRoute path="/login" exact>
             <LoginPage />
-          </Route>
-          <Route path="/register" exact>
+          </NoAuthRoute>
+          <NoAuthRoute path="/register" exact>
             <RegistrationPage />
-          </Route>
-          <Route path="/forgot-password" exact>
+          </NoAuthRoute>
+          <NoAuthRoute path="/forgot-password" exact>
             <ForgotPasswordPage />
-          </Route>
-          <Route path="/reset-password" exact>
+          </NoAuthRoute>
+          <NoAuthRoute path="/reset-password" exact>
             <ResetPasswordPage />
-          </Route>
+          </NoAuthRoute>
           <ProtectedRoute path="/profile" exact>
             <ProfilePage />
           </ProtectedRoute>
