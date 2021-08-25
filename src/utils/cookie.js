@@ -5,7 +5,7 @@ export function setCookie(name, value, minutes) {
   if (minutes) {
     let date = new Date();
     date.setTime(date.getTime() + (minutes * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND));
-    expires = "; expires=" + date.toGMTString();
+    expires = "; expires=" + date.toUTCString();
   }
   value = encodeURIComponent(value);
   const updatedCookie = name + '=' + value + expires + "; path=/";

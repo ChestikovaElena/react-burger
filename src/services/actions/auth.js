@@ -190,7 +190,7 @@ export function getUserData() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer `+getCookie('accessToken')
+        authorization: `Bearer ` + getCookie('accessToken')
       }
     })
       .then(getResponseData)
@@ -201,14 +201,22 @@ export function getUserData() {
         });
       })
       .catch(error => {
-        dispatch({
-          type: GET_USER_DATA_FAILED
-        });
+        error.then(
+          error => {
+            if (error.message === "jwt malformed") {
+              dispatch(refreshToken(getUserData()))
+            } else {
+              dispatch({
+                type: GET_USER_DATA_FAILED
+              });
+            }
+          }
+        );
       })
   }
 }
 
-export function refreshToken(refreshToken, afterRefresh) {
+export function refreshToken(afterRefresh) {
   return function(dispatch) {
     dispatch({
       type: REFRESH_TOKEN_REQUEST
@@ -218,7 +226,7 @@ export function refreshToken(refreshToken, afterRefresh) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({"token": `{{${refreshToken}}}`})
+      body: JSON.stringify({"token": localStorage.getItem('refreshToken')})
     })
       .then(getResponseData)
       .then(res => {

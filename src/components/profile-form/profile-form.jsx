@@ -20,10 +20,21 @@ export const ProfileForm = () => {
   );
 
   const [state, setState] = useState({
-    name: user.name || '',
-    email: user.email || '',
+    name: '',
+    email: '',
     password: ''
   });
+
+  useEffect(
+    () => {
+      setState({
+        ...state,
+        name: user.name,
+        email: user.email
+      });
+    },
+    [user]
+  );
 
   const handleInputChange = (e) => {
     const target = e.target;
