@@ -256,7 +256,6 @@ export function patchUserData(payload) {
   }
 }
 
-
 export function refreshToken(afterRefresh) {
   return function(dispatch) {
     dispatch({

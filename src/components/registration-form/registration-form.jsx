@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  Input,
+  EmailInput,
+  PasswordInput
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
 import { registrate } from '../../services/actions/auth';
@@ -47,30 +52,17 @@ export const RegistrationForm = () => {
         />
       </div>
       <div className="mb-6">
-        <Input
-          type={'email'}
-          placeholder={'E-mail'}
+        <EmailInput
           onChange={handleInputChange}
-          icon={null}
           value={state.email}
           name={'email'}
-          error={false}
-          errorText={''}
-          size={'default'}
         />
       </div>
       <div className="mb-6">
-        <Input
-          type={'password'}
-          placeholder={'Пароль'}
+        <PasswordInput
           onChange={handleInputChange}
-          icon={'ShowIcon'}
           value={state.password}
           name={'password'}
-          error={false}
-          onIconClick={onIconClick}
-          errorText={''}
-          size={'default'}
         />
       </div>
       <div className="mb-20">

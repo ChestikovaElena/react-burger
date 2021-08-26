@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import 
   {
     HomePage,
@@ -14,8 +16,23 @@ import AppHeader from '../app-header';
 import styles from './app.module.css';
 import ProtectedRoute from '../protected-route';
 import NoAuthRoute from '../no-auth-route';
+import { getCookie } from '../../utils/cookie';
+import { getUserData } from '../../services/actions/auth';
 
 function App() {
+  const dispatch = useDispatch();
+  const {isLoggedIn } = useSelector((state) => ({
+    isLoggedIn: state.auth.isLoggedIn
+  }));
+
+  useEffect(
+    () => {
+      if (!isLoggedIn && localStorage.getItem('refreshToken'))
+        dispatch(getUserData());
+    },
+    [dispatch]
+  );
+
   return (
     <Router>
       <AppHeader />

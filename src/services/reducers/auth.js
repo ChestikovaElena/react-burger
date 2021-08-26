@@ -138,6 +138,7 @@ export const authReducer = (state = initialState, action) => {
     case PATCH_USER_DATA_SUCCESS: {
       return {
         ...state,
+        isLoggedIn: true,
         user: action.user,
         userDataRequest: false,
         userDataFailed: false
