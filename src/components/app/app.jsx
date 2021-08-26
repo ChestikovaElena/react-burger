@@ -16,7 +16,6 @@ import AppHeader from '../app-header';
 import styles from './app.module.css';
 import ProtectedRoute from '../protected-route';
 import NoAuthRoute from '../no-auth-route';
-import { getCookie } from '../../utils/cookie';
 import { getUserData } from '../../services/actions/auth';
 
 function App() {
@@ -42,7 +41,7 @@ function App() {
             <HomePage />
           </Route>
           <NoAuthRoute path="/login" exact>
-            <LoginPage />
+            <LoginPage isLoggedIn={ isLoggedIn }/>
           </NoAuthRoute>
           <NoAuthRoute path="/register" exact>
             <RegistrationPage />

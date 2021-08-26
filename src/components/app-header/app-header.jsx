@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
 import {
   Logo,
-  ProfileIcon
+  ProfileIcon,
+  ListIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 import {ICON_BURGER_ACTIVE, ICON_LIST_INACTIVE} from '../icons/icons.js';
@@ -9,6 +11,10 @@ import MenuItem from '../menu-item';
 import Menu from '../menu';
 
 const AppHeader = () =>{
+  const { isLoggedIn } = useSelector((state) => ({
+    isLoggedIn: state.auth.isLoggedIn
+  }));
+
   return (
     <div className={ styles.container }>
       <header className="header">
@@ -43,10 +49,10 @@ const AppHeader = () =>{
             <div className={styles.elements_wrapper}>
               <Logo/>
               <ElementWithIcon
-                icon={<ProfileIcon type="secondary"/>}
-                text={"Личный кабинет"}
+                icon={isLoggedIn ? <ProfileIcon type="secondary"/> : <ListIcon type="secondary" />}
+                text={isLoggedIn ? "Личный кабинет" : "Войти"}
                 type="text_color_inactive"
-                link={'/profile'}
+                link={isLoggedIn ? '/profile' : '/login'}
               />
             </div>
           </div>

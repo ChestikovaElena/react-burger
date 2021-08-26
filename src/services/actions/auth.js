@@ -1,5 +1,6 @@
 import { getResponseData } from "../../utils/get-response-data";
 import { getCookie, setCookie, deleteCookie } from "../../utils/cookie";
+import { LIFE_OF_COOKIE_IN_MINUTES } from "../../utils/constants";
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -110,7 +111,7 @@ export function registrate(email, password, name) {
         dispatch({
           type: SIGN_IN_SUCCESS,
         });
-        setCookie("accessToken", authToken, 5);
+        setCookie("accessToken", authToken, LIFE_OF_COOKIE_IN_MINUTES);
         localStorage.setItem('refreshToken', res.refreshToken);
       })
       .catch(error => {
@@ -121,7 +122,7 @@ export function registrate(email, password, name) {
   }
 }
 
-export function logIn(email, password) {
+export function logIn(email, password, cb) {
   return function(dispatch) {
     dispatch({
       type: LOG_IN_REQUEST
@@ -142,14 +143,15 @@ export function logIn(email, password) {
         dispatch({
           type: LOG_IN_SUCCESS,
         });
-        setCookie("accessToken", authToken, 5);
+        setCookie("accessToken", authToken, LIFE_OF_COOKIE_IN_MINUTES);
         localStorage.setItem('refreshToken', res.refreshToken);
+        cb();
       })
       .catch(error => {
         dispatch({
           type: LOG_IN_FAILED
         });
-      })
+      });
   }
 }
 
@@ -274,7 +276,7 @@ export function refreshToken(afterRefresh) {
           type: REFRESH_TOKEN_SUCCESS
         });
         localStorage.setItem('refreshToken', res.refreshToken);
-        setCookie('accessToken', authToken, 5);
+        setCookie('accessToken', authToken, LIFE_OF_COOKIE_IN_MINUTES);
         dispatch(afterRefresh);
       })
       .catch(error => {
