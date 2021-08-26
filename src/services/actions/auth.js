@@ -153,33 +153,29 @@ export function logIn(email, password) {
   }
 }
 
-export function logOut(refreshToken) {
+export function logOut() {
   return function(dispatch) {
     dispatch({
       type: LOG_OUT_REQUEST
     });
     return fetch(`${API_SOURCE}auth/logout`, {
       method: 'POST',
-      body: JSON.stringify({"token": `{{${refreshToken}}}` }),
+      body: JSON.stringify({"token": localStorage.getItem('refreshToken') }),
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(getResponseData)
       .then(res => {
-        let authToken;
-        if (res.accessToken.indexOf('Bearer') === 0) {
-          authToken = res.accessToken.split('Bearer ')[1];
-        }
         dispatch({
-          type: LOG_IN_SUCCESS,
+          type: LOG_OUT_SUCCESS,
         });
-        setCookie("accessToken", authToken, 5);
-        localStorage.setItem('refreshToken', res.refreshToken);
+        deleteCookie("accessToken");
+        localStorage.removeItem('refreshToken');
       })
       .catch(error => {
         dispatch({
-          type: LOG_IN_FAILED
+          type: LOG_OUT_FAILED
         });
       })
   }
