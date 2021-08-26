@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
@@ -26,9 +27,10 @@ const Container = (props) => {
 }
 
 const BurgerConstructor = () => {
-  const { data, dataSelected } = useSelector((state) => ({
+  const { data, dataSelected, isLoggedIn } = useSelector((state) => ({
     data: state.data.data,
     dataSelected: state.dataSelected.dataSelected,
+    isLoggedIn: state.auth.isLoggedIn
   }));
   const dispatch = useDispatch();
   
@@ -55,19 +57,24 @@ const BurgerConstructor = () => {
   });
 
   const [isModalActive, setModalActive] = useState(false);
+  const [redirect, setRedirect] = useState(false);
    
   const handleButtonClick = (e) => {
-    if (dataSelected.filter(item => item.type === 'bun').length!==0) {
-      let arrayOfID = [];
-      dataSelected.map(item => arrayOfID.push(item._id));
-      
-      dispatch(getOrderInformation(arrayOfID));
-      setModalActive(true);
-      dispatch({
-        type: CLEAR_SELECTED_INGREDIENTS
-      })
+    if (!isLoggedIn) {
+      setRedirect(true);
     } else {
-      alert('Выберите булку');
+      if (dataSelected.filter(item => item.type === 'bun').length!==0) {
+        let arrayOfID = [];
+        dataSelected.map(item => arrayOfID.push(item._id));
+        
+        dispatch(getOrderInformation(arrayOfID));
+        setModalActive(true);
+        dispatch({
+          type: CLEAR_SELECTED_INGREDIENTS
+        })
+      } else {
+        alert('Выберите булку');
+      }
     }
   }
 
@@ -108,7 +115,13 @@ const BurgerConstructor = () => {
         hoverIndex: hoverIndex,
       })
     }, [dataSelected]
-  )
+  );
+
+  if (redirect) {
+    return (
+      <Redirect to={{ pathname: '/login' }} />
+    )
+  }
 
   return (
     <>

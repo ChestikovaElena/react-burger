@@ -79,13 +79,14 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         logOutRequest: false,
-        logOutFailed: false
+        logOutFailed: false,
+        user: {name: '', email: ''}
       }
     }
     case LOG_OUT_FAILED: {
       return {
         ...state,
-        LogOutFailed: true
+        logOutFailed: true
       }
     }
     case SIGN_IN_REQUEST: {
