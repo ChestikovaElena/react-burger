@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  Input,
+  EmailInput,
+  PasswordInput
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import { getUserData, patchUserData } from '../../services/actions/auth';
 
@@ -83,31 +88,17 @@ export const ProfileForm = () => {
         />
       </div>
       <div className="mb-6">
-        <Input
-          type={'email'}
-          placeholder={'E-mail'}
+        <EmailInput
           onChange={handleInputChange}
-          icon={'EditIcon'}
           value={state.email}
           name={'email'}
-          error={false}
-          onIconClick={onIconClick}
-          errorText={''}
-          size={'default'}
         />
       </div>
       <div className="mb-6">
-        <Input
-          type={'password'}
-          placeholder={'Пароль'}
+        <PasswordInput
           onChange={handleInputChange}
-          icon={'EditIcon'}
           value={state.password}
           name={'password'}
-          error={false}
-          onIconClick={onIconClick}
-          errorText={''}
-          size={'default'}
         />
       </div>
       <div className="mb-20">
