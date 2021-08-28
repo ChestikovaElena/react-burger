@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import styles from './burger-ingredients.module.css';
 import Modal from '../modal';
 import IngredientDetails from '../ingredient-details';

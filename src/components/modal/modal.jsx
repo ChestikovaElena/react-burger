@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 import { useCallback } from 'react';
+
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay';
 import styles from './modal.module.css';

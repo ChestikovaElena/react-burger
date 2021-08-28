@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import styles from './burger-ingredients.module.css';
 import { Card } from './card';
 import { BlockList } from './block-list';

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import styles from './ingredient-details.module.css';
 import { productFeatures, Feature, ListOfFeatures } from './feature';
 import Preloader from '../preloader';
 

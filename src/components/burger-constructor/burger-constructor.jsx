@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
@@ -81,7 +82,7 @@ const BurgerConstructor = () => {
   const totalPrice = useMemo(
     ()=> {
       return dataSelected.reduce(
-        (sum, item, index) =>
+        (sum, item) =>
           (item.type !== 'bun')
             ?
               (sum + item.price)

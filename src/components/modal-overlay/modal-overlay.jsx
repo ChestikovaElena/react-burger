@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
+
+import styles from './modal-overlay.module.css';
 import { ESC_KEYCODE } from '../../utils/constants';
 
 const ModalOverlay = ({ handleCloseClick, children }) => {

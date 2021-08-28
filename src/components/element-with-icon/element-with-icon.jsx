@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import styles from './element-with-icon.module.css';
 
 const ElementWithIcon = (props) => {

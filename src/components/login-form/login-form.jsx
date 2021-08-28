@@ -1,12 +1,13 @@
 import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation, Redirect } from 'react-router-dom';
+
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
 import { logIn } from '../../services/actions/auth';
 
-export const LoginForm = ({ isLoggedIn }) => {
+export const LoginForm = () => {
   const dispatch = useDispatch();
   
   const history = useHistory();

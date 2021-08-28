@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -25,9 +25,9 @@ export const IngredientPage = () => {
     [ingredientId, dispatch, data]
   );
 
-  const content = useMemo(
-    ()=> {
-      return !ingredientDataState ? (
+  return (
+    <>
+      {!ingredientDataState ? (
         <Preloader />
       ) : (
         <div className={`mt-30 ${styles.wrapper}`}>
@@ -36,14 +36,7 @@ export const IngredientPage = () => {
           </h2>
           <IngredientDetails ingredientDataFromPage={ingredientDataState}/>
         </div>
-      )
-    },
-    [ingredientDataState]
-  );
-
-  return (
-    <>
-      { content }
+      )}
     </>
   )
 }

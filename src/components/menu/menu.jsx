@@ -1,12 +1,13 @@
-import styles from './menu.module.css';
 import PropTypes from 'prop-types';
 
-const Menu = (props) => {
+import styles from './menu.module.css';
+
+const Menu = ({ children, style }) => {
   return (
     <nav className={ styles.menu }>
       <ul className=
-        { props.style === 'row' ? styles.menu_row : styles.menu_column }>
-        {props.children}
+        { style === 'row' ? styles.menu_row : styles.menu_column }>
+        {children}
       </ul>
     </nav>
   );

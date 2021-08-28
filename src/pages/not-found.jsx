@@ -17,20 +17,22 @@ export const NotFound404 = () => {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1 className="text text_type_main-large text_color_inactive">ERROR</h1>
-          <h2 className="text text_type_digits-large">404</h2>
-          <p className="text text_type_main-large text_color_inactive">This page is outside of the Universe</p>
-          <p className="text text_type_main-medium">
-            The page you are trying to access does not exist or has been moved.
-            Try going back to our homepage.
+          <h1 className="text text_type_main-large text_color_inactive">Такой страницы у нас нет</h1>
+          <p className="text text_type_main-medium text_color_inactive">Похоже вы допустили опечатку, набирая адрес, 
+            или воспользовались неисправной ссылкой.
           </p>
-          <Button
-            type="primary"
-            size="large"
-            onClick={goToHomePage}
-          >
-            Go to home page
-          </Button>
+          <div>
+            <p className="text text_type_main-medium mb-5">
+              Возможно здесь найдется то, что вам нужно
+            </p>
+            <Button
+              type="primary"
+              size="large"
+              onClick={goToHomePage}
+            >
+              Go to home page
+            </Button>
+          </div>
         </div>
       </div>
     </div>

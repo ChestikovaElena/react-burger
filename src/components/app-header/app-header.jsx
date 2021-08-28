@@ -8,7 +8,6 @@ import {
   BurgerIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import {ICON_BURGER_ACTIVE, ICON_LIST_INACTIVE} from '../icons/icons.js';
 import ElementWithIcon from '../element-with-icon';
 import NavItem from '../nav-item';
 import Menu from '../menu';
