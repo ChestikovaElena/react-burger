@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
 import { resetPassword } from '../services/actions/auth';
 import Preloader from '../components/preloader';
+import { validateEmail } from '../utils/validate-email';
 
 export const ForgotPasswordPage = () => {
-  const {isForgotPassword, forgotPasswordRequest, forgotPasswordFailed } = useSelector((state) => ({
+  const {isForgotPassword, forgotPasswordRequest } = useSelector((state) => ({
     isForgotPassword: state.auth.isForgotPassword,
-    gorgotPasswordRequest: state.auth.gorgotPasswordRequest,
-    forgotPasswordFailed: state.auth.forgotPasswordFailed,
+    gorgotPasswordRequest: state.auth.gorgotPasswordRequest
   }));
 
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ export const ForgotPasswordPage = () => {
   const [state, setState] = useState({
     email: ''
   });
+
+  const [errorText, setErrorText] = useState('');
 
   const handleInputChange = (e) => {
     const target = e.target;
@@ -30,7 +33,10 @@ export const ForgotPasswordPage = () => {
 
   const resetPasswordClick = e => {
     e.preventDefault();
-    dispatch(resetPassword(state.email));
+    if (validateEmail((state.email))) {
+      dispatch(resetPassword(state.email));
+    }
+    else setErrorText('Введите корректный email')
   }
 
   if (isForgotPassword) {
@@ -52,8 +58,8 @@ export const ForgotPasswordPage = () => {
             icon={null}
             value={state.email}
             name={'email'}
-            error={false}
-            errorText={''}
+            error={errorText === '' ? false : true}
+            errorText={errorText}
             size={'default'}
           />
         </div>

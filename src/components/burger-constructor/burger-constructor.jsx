@@ -115,7 +115,7 @@ const BurgerConstructor = () => {
         dragIndex: dragIndex,
         hoverIndex: hoverIndex,
       })
-    }, [dataSelected]
+    }, [dispatch]
   );
 
   if (redirect) {

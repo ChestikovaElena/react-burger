@@ -1,6 +1,16 @@
 import { getResponseData } from "../../utils/get-response-data";
 import { getCookie, setCookie, deleteCookie } from "../../utils/cookie";
 import { LIFE_OF_COOKIE_IN_MINUTES } from "../../utils/constants";
+import {
+  resetPasswordRequest,
+  restorePasswordRequest,
+  registrateRequest,
+  logInRequest,
+  logOutRequest,
+  getUserDataRequest,
+  patchUserDataRequest,
+  refreshTokenRequest
+} from "../api";
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -33,31 +43,21 @@ export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED';
 export const RESTORE_PASSWORD_REQUEST = 'RESTORE_PASSWORD_REQUEST';
 export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
 export const RESTORE_PASSWORD_FAILED = 'RESTORE_PASSWORD_FAILED';
+export const RESTORE_PASSWORD_RESET = 'RESTORE_PASSWORD_RESET';
 
-const API_SOURCE = "https://norma.nomoreparties.space/api/";
+export const AUTH_RESET = 'AUTH_RESET';
 
 export function resetPassword(email) {
   return function(dispatch) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST
     });
-    return fetch(`${API_SOURCE}password-reset`, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({"email": email})
-    })
+    resetPasswordRequest(email)
       .then(getResponseData)
       .then(res => {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
-          isResetPassword: res.success
+          isForgotPassword: res.success
         });
       })
       .catch(error => {
@@ -73,23 +73,12 @@ export function restorePassword(password, code) {
     dispatch({
       type: RESTORE_PASSWORD_REQUEST
     });
-    return fetch(`${API_SOURCE}password-reset/reset`, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({"password": password, "token": code})
-    })
+    restorePasswordRequest(password, code)
       .then(getResponseData)
       .then(res => {
         dispatch({
           type: RESTORE_PASSWORD_SUCCESS,
-          isRestorePassword: res.success
+          isResetPassword: res.success
         });
       })
       .catch(error => {
@@ -105,18 +94,7 @@ export function registrate(email, password, name) {
     dispatch({
       type: SIGN_IN_REQUEST
     });
-    return fetch(`${API_SOURCE}auth/register`, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({"email": email, "password": password, "name": name})
-    })
+    registrateRequest(email, password, name)
       .then(getResponseData)
       .then(res => {
         let authToken;
@@ -142,18 +120,7 @@ export function logIn(email, password, cb) {
     dispatch({
       type: LOG_IN_REQUEST
     });
-    return fetch(`${API_SOURCE}auth/login`, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({"email": email, "password": password})
-    })
+    logInRequest(email, password)
       .then(getResponseData)
       .then(res => {
         let authToken;
@@ -180,18 +147,7 @@ export function logOut() {
     dispatch({
       type: LOG_OUT_REQUEST
     });
-    return fetch(`${API_SOURCE}auth/logout`, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({"token": localStorage.getItem('refreshToken') })
-    })
+    logOutRequest()
       .then(getResponseData)
       .then(res => {
         dispatch({
@@ -213,18 +169,7 @@ export function getUserData() {
     dispatch({
       type: GET_USER_DATA_REQUEST
     });
-    return fetch(`${API_SOURCE}auth/user`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ` + getCookie('accessToken')
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer'
-    })
+    getUserDataRequest()
       .then(getResponseData)
       .then(res => {
         dispatch({
@@ -253,19 +198,7 @@ export function patchUserData(payload) {
     dispatch({
       type: PATCH_USER_DATA_REQUEST
     });
-    return fetch(`${API_SOURCE}auth/user`, {
-      method: 'PATCH',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ` + getCookie('accessToken')
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(payload)
-    })
+    patchUserDataRequest(payload)
       .then(getResponseData)
       .then(res => {
         dispatch({
@@ -273,6 +206,9 @@ export function patchUserData(payload) {
           user: res.user
         });
       })
+      // .catch(error => {
+      //   error.status(403).json({error: error.toString()})
+      // })
       .catch(error => {
         error.then(
           error => {
@@ -294,13 +230,7 @@ export function refreshToken(afterRefresh) {
     dispatch({
       type: REFRESH_TOKEN_REQUEST
     });
-    return fetch(`${API_SOURCE}auth/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({"token": localStorage.getItem('refreshToken')})
-    })
+    refreshTokenRequest(afterRefresh)
       .then(getResponseData)
       .then(res => {
         let authToken;

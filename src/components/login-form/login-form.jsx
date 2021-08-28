@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useLocation, Redirect } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
@@ -34,7 +34,7 @@ export const LoginForm = () => {
     };
     dispatch(logIn(state.email, state.password, cb));
   },
-    [logIn, state, history, location]
+    [dispatch, history, location, state]
   );
 
   return (

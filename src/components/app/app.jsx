@@ -30,7 +30,7 @@ function App() {
       if (!isLoggedIn && localStorage.getItem('refreshToken'))
         dispatch(getUserData());
     },
-    [dispatch]
+    [dispatch, isLoggedIn]
   );
 
   return (

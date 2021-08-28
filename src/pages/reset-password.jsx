@@ -1,21 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { restorePassword, registrate } from '../services/actions/auth';
+import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/auth';
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  const { isForgotPassword } = useSelector((state) => ({
-    isForgotPassword: state.auth.isForgotPassword
+  const { isForgotPassword, isResetPassword } = useSelector((state) => ({
+    isForgotPassword: state.auth.isForgotPassword,
+    isResetPassword: state.auth.isResetPassword
   }))
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: RESTORE_PASSWORD_RESET
+      })
+    }
+  }, []);
 
   const [state, setState] = useState({
     newPassword: '',
     code: ''
   });
+
+  const [iconValue, setIcon] = useState('ShowIcon');
 
   const handleInputChange = (e) => {
     const target = e.target;
@@ -31,7 +43,7 @@ export const ResetPasswordPage = () => {
   }
 
   const onIconClick = (e) => {
-    console.log('Нажали на иконку');
+    setIcon(iconValue === 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
   }
 
   if (!isForgotPassword) {
@@ -40,14 +52,20 @@ export const ResetPasswordPage = () => {
     )
   }
 
+  if (isResetPassword) {
+    return (
+      <Redirect to={{ pathname: '/login' }} />
+    )
+  }
+
   return (
     <FormWrapper title="Восстановление пароля">
       <div className="mb-6">
         <Input
-          type={'password'}
+          type={iconValue === 'ShowIcon' ? 'password' : 'text'}
           placeholder={'Введите новый пароль'}
           onChange={handleInputChange}
-          icon={'ShowIcon'}
+          icon={iconValue}
           value={state.newPassword}
           name={'newPassword'}
           error={false}

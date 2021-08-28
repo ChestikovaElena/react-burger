@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import {
   Button,
   Input,
@@ -25,10 +26,6 @@ export const RegistrationForm = () => {
       ...state,
       [target.name]: target.value
     });
-  }
-
-  const onIconClick = (e) => {
-    console.log('Нажали на иконку');
   }
 
   const handleClickRegistrate = e => {

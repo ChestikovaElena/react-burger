@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useCallback, useMemo, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './burger-ingredients.module.css';
@@ -28,7 +28,7 @@ const BurgerIngredients = () => {
     () => {
       if (!data.length) dispatch(getIngredients());
     },
-    [dispatch]
+    [data.length, dispatch]
   );
 
   const [isModalActive, setModalActive] = useState(false);
@@ -37,20 +37,22 @@ const BurgerIngredients = () => {
     () => {
       if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA })}
     },
-    [isModalActive]
+    [dispatch, isModalActive]
   );
 
-  const handleCardClick = (e) => {
-    const parentNode = e.currentTarget;
-    const id = parentNode.getAttribute('data-id');
-    const ingredientData = [...data].filter(item => item._id === id)&&
-      [...data].filter(item => item._id === id)[0];
-    dispatch({
-      type: ADD_INGREDIENT_DATA,
-      ingredientData
-    });
-    setModalActive(true);
-  }
+  const handleCardClick = useCallback(
+    (e) => {
+      const parentNode = e.currentTarget;
+      const id = parentNode.getAttribute('data-id');
+      const ingredientData = [...data].filter(item => item._id === id)&&
+        [...data].filter(item => item._id === id)[0];
+      dispatch({
+        type: ADD_INGREDIENT_DATA,
+        ingredientData
+      });
+      setModalActive(true);
+    }, [data, dispatch]
+  );
 
   const refContainer = useRef(null);
   const refBun = useRef(null);
@@ -121,7 +123,7 @@ const BurgerIngredients = () => {
         )
       )
     },
-    [dataRequest, data, current, countOfIngredients]
+    [data, dataRequest, dataFailed, current, countOfIngredients, handleCardClick]
   );
 
   return (

@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './span-with-link.module.css';
 
 export const SpanWithLink = ({ buttonText, link, spanText, mb }) => {
@@ -11,7 +12,7 @@ export const SpanWithLink = ({ buttonText, link, spanText, mb }) => {
     () => {
         history.replace({ pathname: link });
     },
-    [history]
+    [history, link]
   );
 
   return (

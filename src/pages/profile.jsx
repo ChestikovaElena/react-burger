@@ -1,12 +1,24 @@
+import { useDispatch } from 'react-redux';
+
 import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import ProfileForm from "../components/profile-form";
 import styles from "./profile.module.css";
+import { logOut, AUTH_RESET } from '../services/actions/auth';
 
 export const ProfilePage = () => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(logOut());
+    dispatch({
+      type: AUTH_RESET
+    })
+  }
+
   return (
     <section className={`mt-30 ${styles.section}`}>
-      <div className={ styles.left_column }>
+      <div className={ `mr-15 ${styles.left_column}` }>
         <aside>
           <Menu
               style="column"
@@ -22,7 +34,7 @@ export const ProfilePage = () => {
                 {
                   text: "Выход",
                   link: "/login",
-                  isLogOut: true
+                  onClickFunction: handleClick
                 }
               ]
               .map((item, index) =>
@@ -32,7 +44,7 @@ export const ProfilePage = () => {
                 >
                   <NavItem
                     link={item.link}
-                    isLogOut={item.isLogOut}
+                    onClickFunction={item.onClickFunction}
                   >
                     <span>{item.text}</span>
                   </NavItem>

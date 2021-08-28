@@ -1,22 +1,113 @@
 .wrapper {
   width: 100vw;
-  height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
   background-image: url("../images/bg.png");
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;
 }
 
-.container {
-  width: 70%;;
-  margin: auto;
-  text-align: center;
-}
-
 .content {
-  height: 100vh;
+  width: 35%;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+.spin {
+  position: absolute;
+}
+
+.spin_1 {
+  top: 46%;
+  left: 48%;
+  -webkit-animation: spin 20s linear infinite;
+  -moz-animation: spin 20s linear infinite;
+  animation: spin 20s linear infinite;
+}
+
+.spin_2 {
+  top: 51%;
+  left: 60%;
+  -webkit-animation: spin 40s linear infinite;
+  -moz-animation: spin 40s linear infinite;
+  animation: spin 40s linear infinite;
+}
+
+.spin_3 {
+  top: 51%;
+  left: 52%;
+  -webkit-animation: spin 15s linear infinite;
+  -moz-animation: spin 15s linear infinite;
+  animation: spin 15s linear infinite;
+}
+
+.spin_4 {
+  top: 51%;
+  left: 45%;
+  -webkit-animation: spin 60s linear infinite;
+  -moz-animation: spin 60s linear infinite;
+  animation: spin 60s linear infinite;
+}
+
+.burger {
+  background-image: url("../images/burger.png");
+  background-size: contain;
+  background-position: top;
+}
+
+.burger_1 {
+  width: 80px;
+  height: 80px;
+  -webkit-animation: moving 20s linear infinite;
+  -moz-animation: moving 20s linear infinite;
+  animation: moving 20s linear infinite;
+}
+
+.burger_2 {
+  width: 40px;
+  height: 40px;
+  -webkit-animation: moving 18s linear infinite;
+  -moz-animation: moving 18s linear infinite;
+  animation: moving 18s linear infinite;
+}
+
+.burger_3 {
+  width: 30px;
+  height: 30px;
+  -webkit-animation: moving 18s linear infinite;
+  -moz-animation: moving 18s linear infinite;
+  animation: moving 18s linear infinite;
+}
+
+.burger_4 {
+  width: 25px;
+  height: 25px;
+  -webkit-animation: moving 60s linear infinite;
+  -moz-animation: moving 60s linear infinite;
+  animation: moving 60s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg)
+               translate(-42vh)
+               rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg)
+               translate(-42vh) 
+               rotate(-360deg);
+  }
+}
+
+@keyframes moving {
+  100% {transform: rotate(-360deg);}
 }
