@@ -4,10 +4,12 @@ import styles from './ingredient-details.module.css';
 import { productFeatures, Feature, ListOfFeatures } from './feature';
 import Preloader from '../preloader';
 
-const IngredientDetails = () => {
-  const { ingredientData } = useSelector((state) => ({
+const IngredientDetails = ({ ingredientDataFromPage }) => {
+  let { ingredientData } = useSelector((state) => ({
     ingredientData: state.ingredient.ingredientData
   }));
+  
+  if (ingredientDataFromPage) ingredientData = ingredientDataFromPage;
 
   const content = useMemo(
     () => {
@@ -31,9 +33,9 @@ const IngredientDetails = () => {
   );
 
   return (
-    <div className={styles.wrapper}>
+    <>
       {content}
-    </div>
+    </>
   );
 }
 

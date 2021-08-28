@@ -4,28 +4,29 @@ import PropTypes from 'prop-types';
 import styles from './nav-item.module.css';
 import { logOut } from '../../services/actions/auth';
 
-export const NavItem = ({ text, link }) => {
+export const NavItem = ({ children, link, isLogOut }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    if (text='Выход') dispatch(logOut());
+    if (isLogOut) {
+      dispatch(logOut())
+    };
   }
 
   return (
-    <li className={`${styles.wrapper}`}>
-      <NavLink
-        to={{ pathname: link }}
-        className={`text text_type_main-medium text_color_inactive ${styles.item}`}
-        activeClassName={`text text_type_main-medium ${styles.item_active}`}
-        onClick={handleClick}
-      >
-        {text}
-      </NavLink>
-    </li>
+    <NavLink
+      to={{ pathname: link }}
+      className={`text text_type_main-medium text_color_inactive ${styles.item}`}
+      activeClassName={`text text_type_main-medium ${styles.item_active}`}
+      onClick={handleClick}
+    >
+      {children}
+    </NavLink>
   );
 }
 
 NavItem.propTypes = {
-  text: PropTypes.string,
-  link: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  link: PropTypes.string.isRequired,
+  isLogOut: PropTypes.bool
 }

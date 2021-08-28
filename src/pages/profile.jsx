@@ -1,7 +1,7 @@
 import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import ProfileForm from "../components/profile-form";
-import styles from "./profile-page.module.css";
+import styles from "./profile.module.css";
 
 export const ProfilePage = () => {
   return (
@@ -21,15 +21,22 @@ export const ProfilePage = () => {
                 },
                 {
                   text: "Выход",
-                  link: "/login"
+                  link: "/login",
+                  isLogOut: true
                 }
               ]
               .map((item, index) =>
-                <NavItem
+                <li
+                  className={`${styles.wrapper_item}`}
                   key={`menu${index}`}
-                  text={item.text}
-                  link={item.link}
-                />
+                >
+                  <NavItem
+                    link={item.link}
+                    isLogOut={item.isLogOut}
+                  >
+                    <span>{item.text}</span>
+                  </NavItem>
+                </li>
               )
             }
           />

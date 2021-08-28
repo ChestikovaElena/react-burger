@@ -9,3 +9,9 @@
 .section div {
   margin-top: 0;
 }
+
+.wrapper_item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}

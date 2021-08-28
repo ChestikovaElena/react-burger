@@ -1,9 +1,3 @@
-.wrapper {
-  height: 64px;
-  display: flex;
-  align-items: center;
-}
-
 .item {
   text-decoration: none;
 }

@@ -26,7 +26,9 @@ const Modal = ({ setModalActive, title, children }) => {
               <CloseIcon type="primery"/>
             </div>
           </div>
-          {children}
+          <div className={title !== 'Детали ингредиента' ? styles.wrapper : styles.wrapper_ingredient }>
+            {children}
+          </div>
         </div>
       </ModalOverlay>
     ),

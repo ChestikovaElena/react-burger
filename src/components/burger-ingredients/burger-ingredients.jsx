@@ -34,7 +34,7 @@ const BurgerIngredients = () => {
 
   useEffect(
     () => {
-      if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA });};
+      if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA })}
     },
     [isModalActive]
   );

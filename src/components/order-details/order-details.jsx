@@ -34,9 +34,9 @@ const OrderDetails = () => {
   );
 
   return (
-    <div className={styles.wrapper}>
+    <>
       {content}
-    </div>
+    </>
   );
 }
 

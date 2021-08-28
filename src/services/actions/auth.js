@@ -43,10 +43,15 @@ export function resetPassword(email) {
     });
     return fetch(`${API_SOURCE}password-reset`, {
       method: 'POST',
-      body: JSON.stringify({"email": email}),
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({"email": email})
     })
       .then(getResponseData)
       .then(res => {
@@ -70,10 +75,15 @@ export function restorePassword(password, code) {
     });
     return fetch(`${API_SOURCE}password-reset/reset`, {
       method: 'POST',
-      body: JSON.stringify({"password": password, "token": code}),
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({"password": password, "token": code})
     })
       .then(getResponseData)
       .then(res => {
@@ -97,10 +107,15 @@ export function registrate(email, password, name) {
     });
     return fetch(`${API_SOURCE}auth/register`, {
       method: 'POST',
-      body: JSON.stringify({"email": email, "password": password, "name": name}),
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({"email": email, "password": password, "name": name})
     })
       .then(getResponseData)
       .then(res => {
@@ -129,10 +144,15 @@ export function logIn(email, password, cb) {
     });
     return fetch(`${API_SOURCE}auth/login`, {
       method: 'POST',
-      body: JSON.stringify({"email": email, "password": password}),
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({"email": email, "password": password})
     })
       .then(getResponseData)
       .then(res => {
@@ -162,10 +182,15 @@ export function logOut() {
     });
     return fetch(`${API_SOURCE}auth/logout`, {
       method: 'POST',
-      body: JSON.stringify({"token": localStorage.getItem('refreshToken') }),
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({"token": localStorage.getItem('refreshToken') })
     })
       .then(getResponseData)
       .then(res => {
@@ -190,10 +215,15 @@ export function getUserData() {
     });
     return fetch(`${API_SOURCE}auth/user`, {
       method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ` + getCookie('accessToken')
-      }
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer'
     })
       .then(getResponseData)
       .then(res => {
@@ -225,10 +255,15 @@ export function patchUserData(payload) {
     });
     return fetch(`${API_SOURCE}auth/user`, {
       method: 'PATCH',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ` + getCookie('accessToken')
       },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
       body: JSON.stringify(payload)
     })
       .then(getResponseData)
