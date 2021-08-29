@@ -5,10 +5,10 @@ import LoginForm from '../components/login-form';
 
 export const LoginPage = () => {
   const {isLoggedIn } = useSelector((state) => ({
-    isLoggedIn: state.auth.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn
   }));
-
-  if (isLoggedIn) {
+  
+  if (isLoggedIn) {console.log(isLoggedIn);
     return (
       <Redirect to={{ pathname: '/' }} />
     )

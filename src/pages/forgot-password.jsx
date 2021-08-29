@@ -5,14 +5,14 @@ import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { resetPassword } from '../services/actions/auth';
+import { resetPassword } from '../services/actions/user';
 import Preloader from '../components/preloader';
 import { validateEmail } from '../utils/validate-email';
 
 export const ForgotPasswordPage = () => {
   const {isForgotPassword, forgotPasswordRequest } = useSelector((state) => ({
-    isForgotPassword: state.auth.isForgotPassword,
-    gorgotPasswordRequest: state.auth.gorgotPasswordRequest
+    isForgotPassword: state.user.isForgotPassword,
+    gorgotPasswordRequest: state.user.gorgotPasswordRequest
   }));
 
   const dispatch = useDispatch();

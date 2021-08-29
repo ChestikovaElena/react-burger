@@ -4,7 +4,7 @@ import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import ProfileForm from "../components/profile-form";
 import styles from "./profile.module.css";
-import { logOut, AUTH_RESET } from '../services/actions/auth';
+import { logOut, USER_RESET } from '../services/actions/user';
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -12,8 +12,8 @@ export const ProfilePage = () => {
   const handleClick = () => {
     dispatch(logOut());
     dispatch({
-      type: AUTH_RESET
-    })
+      type: USER_RESET
+    });
   }
 
   return (

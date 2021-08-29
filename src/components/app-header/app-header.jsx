@@ -14,7 +14,7 @@ import Menu from '../menu';
 
 const AppHeader = () =>{
   const { isLoggedIn } = useSelector((state) => ({
-    isLoggedIn: state.auth.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn
   }));
 
   return (

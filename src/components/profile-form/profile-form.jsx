@@ -9,13 +9,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import Preloader from '../preloader';
-import { getUserData, patchUserData } from '../../services/actions/auth';
+import { getUserData, patchUserData } from '../../services/actions/user';
 
 export const ProfileForm = () => {
   const dispatch = useDispatch();
-  const { user, userDataRequest } = useSelector((state) => ({
-    user: state.auth.user,
-    userDataRequest: state.auth.userDataRequest
+  const { user, userDataRequest, userDataFailed, userDataFailedMessage, refreshTokenFailed } = useSelector((state) => ({
+    user: state.user.user,
+    userDataRequest: state.user.userDataRequest,
+    userDataFailed: state.user.userDataFailed,
+    userDataFailedMessage: state.user.userDataFailedMessage,
+    refreshTokenFailed: state.user.refreshTokenFailed
   }));
 
   const inputRef = useRef(null);
@@ -89,7 +92,12 @@ export const ProfileForm = () => {
 
   return (
     <>
-      {userDataRequest ? (
+      {userDataRequest ? 
+        refreshTokenFailed ? (
+          <div className="text text_type_main-default text_color_inactive mr-2">
+            Перезагрузите страницу
+          </div>
+        ) : (
         <Preloader />
       ) : (
         <FormWrapper>
@@ -124,6 +132,13 @@ export const ProfileForm = () => {
               name={'password'}
             />
           </div>
+          {userDataFailed && userDataFailedMessage !== '' ? 
+            <p className="text text_type_main-medium text_color_inactive mb-5">
+              {userDataFailedMessage.charAt(0).toUpperCase() + userDataFailedMessage.slice(1)}
+            </p>
+            :
+            <></>
+          }
           <div className="mb-20">
             <Button type="primary" size="medium" onClick={handleClickSave}>
               Сохранить

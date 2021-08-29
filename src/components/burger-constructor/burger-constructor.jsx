@@ -31,7 +31,7 @@ const BurgerConstructor = () => {
   const { data, dataSelected, isLoggedIn } = useSelector((state) => ({
     data: state.data.data,
     dataSelected: state.dataSelected.dataSelected,
-    isLoggedIn: state.auth.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn
   }));
   const dispatch = useDispatch();
   

@@ -24,20 +24,23 @@ import {
   RESTORE_PASSWORD_SUCCESS,
   RESTORE_PASSWORD_FAILED,
   RESTORE_PASSWORD_RESET,
-  AUTH_RESET
-} from "../actions/auth";
+  USER_RESET
+} from "../actions/user";
 
 const initialState = {
   user: {name: '', email: ''},
   userDataRequest: false,
   userDataFailed: false,
+  userDataFailedMessage: '',
   isLoggedIn: false,
   logInRequest: false,
   logInFailed: false,
+  logInFailedMessage: '',
   logOutRequest: false,
   logOutFailed: false,
   registrateRequest: false,
   registrateFailed: false,
+  registrateFailedMessage: '',
   refreshTokenRequest: false,
   refreshTokenFailed: false,
   isForgotPassword: false,
@@ -48,7 +51,7 @@ const initialState = {
   resetPasswordFailed: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN_REQUEST: {
       return {
@@ -67,7 +70,9 @@ export const authReducer = (state = initialState, action) => {
     case LOG_IN_FAILED: {
       return {
         ...state,
-        LogInFailed: true
+        logInFailed: true,
+        logInRequest: false,
+        logInFailedMessage: action.message,
       }
     }
     case LOG_OUT_REQUEST: {
@@ -108,7 +113,9 @@ export const authReducer = (state = initialState, action) => {
     case SIGN_IN_FAILED: {
       return {
         ...state,
-        registrateFailed: true
+        registrateRequest: false,
+        registrateFailed: true,
+        registrateFailedMessage: action.message,
       }
     }
     case REFRESH_TOKEN_REQUEST: {
@@ -151,7 +158,9 @@ export const authReducer = (state = initialState, action) => {
     case PATCH_USER_DATA_FAILED: {
       return {
         ...state,
-        userDataFailed: true
+        userDataFailed: true,
+        userDataRequest: false,
+        userDataFailedMessage: action.message
       }
     }
     case FORGOT_PASSWORD_REQUEST: {
@@ -205,10 +214,26 @@ export const authReducer = (state = initialState, action) => {
         resetPasswordFailed: false
       }
     }
-    case AUTH_RESET: {
+    case USER_RESET: {
       return {
-        ...state,
-        initialState
+        user: {name: '', email: ''},
+        userDataRequest: false,
+        userDataFailed: false,
+        isLoggedIn: false,
+        logInRequest: false,
+        logInFailed: false,
+        logOutRequest: false,
+        logOutFailed: false,
+        registrateRequest: false,
+        registrateFailed: false,
+        refreshTokenRequest: false,
+        refreshTokenFailed: false,
+        isForgotPassword: false,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false,
+        isResetPassword: false,
+        resetPasswordRequest: false,
+        resetPasswordFailed: false,
       }
     }
     default:

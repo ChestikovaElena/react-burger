@@ -1,6 +1,7 @@
 export const getResponseData = (res) => {
-	if (!res.ok) {
-		return Promise.reject(res.json());
-	}
-	return res.json();
+  return res.ok ?
+    res.json()
+  : 
+    res.json()
+      .then((error) => Promise.reject(error));
 }

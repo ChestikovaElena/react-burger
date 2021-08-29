@@ -1,5 +1,5 @@
 import { getResponseData } from "../../utils/get-response-data";
-import { getCookie, setCookie, deleteCookie } from "../../utils/cookie";
+import { setCookie, deleteCookie } from "../../utils/cookie";
 import { LIFE_OF_COOKIE_IN_MINUTES } from "../../utils/constants";
 import {
   resetPasswordRequest,
@@ -45,7 +45,7 @@ export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
 export const RESTORE_PASSWORD_FAILED = 'RESTORE_PASSWORD_FAILED';
 export const RESTORE_PASSWORD_RESET = 'RESTORE_PASSWORD_RESET';
 
-export const AUTH_RESET = 'AUTH_RESET';
+export const USER_RESET = 'USER_RESET';
 
 export function resetPassword(email) {
   return function(dispatch) {
@@ -109,7 +109,8 @@ export function registrate(email, password, name) {
       })
       .catch(error => {
         dispatch({
-          type: SIGN_IN_FAILED
+          type: SIGN_IN_FAILED,
+          message: error.message,
         });
       })
   }
@@ -136,7 +137,8 @@ export function logIn(email, password, cb) {
       })
       .catch(error => {
         dispatch({
-          type: LOG_IN_FAILED
+          type: LOG_IN_FAILED,
+          message: error.message
         });
       });
   }
@@ -178,17 +180,14 @@ export function getUserData() {
         });
       })
       .catch(error => {
-        error.then(
-          error => {
-            if (error.message === "jwt malformed") {
-              dispatch(refreshToken(getUserData()))
-            } else {
-              dispatch({
-                type: GET_USER_DATA_FAILED
-              });
-            }
-          }
-        );
+        if (error.message === "jwt malformed") {
+          dispatch(refreshToken(getUserData()))
+        } else {
+          dispatch({
+            type: GET_USER_DATA_FAILED,
+            message: error.message,
+          });
+        }
       })
   }
 }
@@ -206,21 +205,15 @@ export function patchUserData(payload) {
           user: res.user
         });
       })
-      // .catch(error => {
-      //   error.status(403).json({error: error.toString()})
-      // })
       .catch(error => {
-        error.then(
-          error => {
-            if (error.message === "jwt malformed") {
-              dispatch(refreshToken(getUserData()))
-            } else {
-              dispatch({
-                type: PATCH_USER_DATA_FAILED
-              });
-            }
-          }
-        );
+        if (error.message === "jwt malformed") {
+          dispatch(refreshToken(getUserData()))
+        } else {
+          dispatch({
+            type: PATCH_USER_DATA_FAILED,
+            message: error.message,
+          });
+        }
       })
   }
 }

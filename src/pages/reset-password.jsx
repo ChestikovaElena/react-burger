@@ -5,13 +5,13 @@ import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/auth';
+import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/user';
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const { isForgotPassword, isResetPassword } = useSelector((state) => ({
-    isForgotPassword: state.auth.isForgotPassword,
-    isResetPassword: state.auth.isResetPassword
+    isForgotPassword: state.user.isForgotPassword,
+    isResetPassword: state.user.isResetPassword
   }))
 
   useEffect(() => {

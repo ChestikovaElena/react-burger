@@ -17,20 +17,21 @@ import AppHeader from '../app-header';
 import styles from './app.module.css';
 import ProtectedRoute from '../protected-route';
 import NoAuthRoute from '../no-auth-route';
-import { getUserData } from '../../services/actions/auth';
+import { getUserData } from '../../services/actions/user';
 
 function App() {
   const dispatch = useDispatch();
-  const {isLoggedIn } = useSelector((state) => ({
-    isLoggedIn: state.auth.isLoggedIn
+  const {isLoggedIn, logOutRequest } = useSelector((state) => ({
+    isLoggedIn: state.user.isLoggedIn,
+    logOutRequest: state.user.logOutRequest
   }));
 
   useEffect(
     () => {
-      if (!isLoggedIn && localStorage.getItem('refreshToken'))
+      if (!isLoggedIn && localStorage.getItem('refreshToken') && logOutRequest)
         dispatch(getUserData());
     },
-    [dispatch, isLoggedIn]
+    [dispatch, isLoggedIn, logOutRequest]
   );
 
   return (

@@ -1,15 +1,18 @@
 import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
-import { logIn } from '../../services/actions/auth';
+import { logIn } from '../../services/actions/user';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  
+  const { logInFailed, logInFailedMessage } = useSelector((state) => ({
+    logInFailed: state.user.logInFailed,
+    logInFailedMessage: state.user.logInFailedMessage
+  }))
   const history = useHistory();
   const location = useLocation();
 
@@ -53,6 +56,13 @@ export const LoginForm = () => {
           name={'password'}
         />
       </div>
+      {logInFailed && logInFailedMessage !== '' ? 
+        <p className="text text_type_main-medium text_color_inactive mb-5">
+          {logInFailedMessage.charAt(0).toUpperCase() + logInFailedMessage.slice(1)}
+        </p>
+        :
+        <></>
+      }
       <div className="mb-20">
         <Button type="primary" size="medium" onClick={handleClickLogIn}>
           Войти

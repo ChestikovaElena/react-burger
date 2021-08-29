@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Button,
@@ -9,10 +9,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
-import { registrate } from '../../services/actions/auth';
+import { registrate } from '../../services/actions/user';
 
 export const RegistrationForm = () => {
   const dispatch = useDispatch();
+  const { registrateFailed, registrateFailedMessage } = useSelector((state) => ({
+    registrateFailed: state.user.registrateFailed,
+    registrateFailedMessage: state.user.registrateFailedMessage,
+  }));
 
   const [state, setState] = useState({
     name: '',
@@ -62,6 +66,13 @@ export const RegistrationForm = () => {
           name={'password'}
         />
       </div>
+      {registrateFailed && registrateFailedMessage !== '' ? 
+        <p className="text text_type_main-medium text_color_inactive mb-5">
+          {registrateFailedMessage.charAt(0).toUpperCase() + registrateFailedMessage.slice(1)}
+        </p>
+        :
+        <></>
+      }
       <div className="mb-20">
         <Button type="primary" size="medium" onClick={handleClickRegistrate}>
           Зарегистрироваться
