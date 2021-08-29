@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { productFeatures, Feature, ListOfFeatures } from './feature';
 import Preloader from '../preloader';
 
@@ -36,6 +38,17 @@ const IngredientDetails = ({ ingredientDataFromPage }) => {
       {content}
     </>
   );
+}
+
+IngredientDetails.propTypes = {
+  ingredientDataFromPage: PropTypes.shape({
+    image_large: PropTypes.string,
+    name: PropTypes.string,
+    calories: PropTypes.number,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number
+  })
 }
 
 export default IngredientDetails;

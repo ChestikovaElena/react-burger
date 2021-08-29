@@ -49,6 +49,10 @@ export const ListOfFeatures = ({ children }) => {
   );
 }
 
+ListOfFeatures.propTypes = {
+  children: PropTypes.array
+}
+
 Feature.propTypes = {
   name: PropTypes.string.isRequired,
   measure: PropTypes.string.isRequired,

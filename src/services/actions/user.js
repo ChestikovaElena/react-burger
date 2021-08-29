@@ -152,11 +152,11 @@ export function logOut() {
     logOutRequest()
       .then(getResponseData)
       .then(res => {
+        deleteCookie("accessToken");
+        localStorage.removeItem('refreshToken');
         dispatch({
           type: LOG_OUT_SUCCESS,
         });
-        deleteCookie("accessToken");
-        localStorage.removeItem('refreshToken');
       })
       .catch(error => {
         dispatch({

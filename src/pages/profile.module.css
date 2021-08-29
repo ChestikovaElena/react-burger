@@ -15,4 +15,11 @@
   height: 64px;
   display: flex;
   align-items: center;
+  background-color: transparent;
+}
+
+.wrapper_item button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
 }

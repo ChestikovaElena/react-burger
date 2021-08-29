@@ -8,13 +8,13 @@ export const LoginPage = () => {
     isLoggedIn: state.user.isLoggedIn
   }));
   
-  if (isLoggedIn) {console.log(isLoggedIn);
+  if (isLoggedIn) {
     return (
       <Redirect to={{ pathname: '/' }} />
     )
+  } else {
+    return (
+      <LoginForm />
+    )
   }
-
-  return (
-    <LoginForm />
-  )
 }

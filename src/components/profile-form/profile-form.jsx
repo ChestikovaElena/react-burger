@@ -27,7 +27,7 @@ export const ProfileForm = () => {
     () => {
       if (!user.length) dispatch(getUserData());
     },
-    [dispatch, user.length]
+    [dispatch]
   );
 
   const [state, setState] = useState({

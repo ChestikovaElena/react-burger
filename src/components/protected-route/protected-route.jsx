@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export function ProtectedRoute({ children, ...rest }) {
   const {isLoggedIn } = useSelector((state) => ({
@@ -9,7 +10,7 @@ export function ProtectedRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render={({ location }) => 
+      render={({ location }) =>
         isLoggedIn ? (
         children
       ) : (
@@ -21,4 +22,9 @@ export function ProtectedRoute({ children, ...rest }) {
       )}
     />
   );
+}
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+  rest: PropTypes.object
 }

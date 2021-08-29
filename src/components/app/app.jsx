@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import 
   {
@@ -21,17 +21,13 @@ import { getUserData } from '../../services/actions/user';
 
 function App() {
   const dispatch = useDispatch();
-  const {isLoggedIn, logOutRequest } = useSelector((state) => ({
-    isLoggedIn: state.user.isLoggedIn,
-    logOutRequest: state.user.logOutRequest
-  }));
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(
     () => {
-      if (!isLoggedIn && localStorage.getItem('refreshToken') && logOutRequest)
-        dispatch(getUserData());
+      refreshToken && dispatch(getUserData());
     },
-    [dispatch, isLoggedIn, logOutRequest]
+    [dispatch, refreshToken]
   );
 
   return (
@@ -43,7 +39,7 @@ function App() {
             <HomePage />
           </Route>
           <NoAuthRoute path="/login" exact>
-            <LoginPage isLoggedIn={ isLoggedIn }/>
+            <LoginPage />
           </NoAuthRoute>
           <NoAuthRoute path="/register" exact>
             <RegistrationPage />

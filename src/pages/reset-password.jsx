@@ -37,13 +37,13 @@ export const ResetPasswordPage = () => {
     });
   }
 
+  const onIconClick = (e) => {
+    setIcon(iconValue === 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
+  }
+  
   const restorePasswordClick = e => {
     e.preventDefault();
     dispatch(restorePassword(state.newPassword, state.code));
-  }
-
-  const onIconClick = (e) => {
-    setIcon(iconValue === 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
   }
 
   if (!isForgotPassword) {

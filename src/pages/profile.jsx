@@ -4,16 +4,14 @@ import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import ProfileForm from "../components/profile-form";
 import styles from "./profile.module.css";
-import { logOut, USER_RESET } from '../services/actions/user';
+import { logOut } from '../services/actions/user';
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     dispatch(logOut());
-    dispatch({
-      type: USER_RESET
-    });
   }
 
   return (
@@ -42,12 +40,20 @@ export const ProfilePage = () => {
                   className={`${styles.wrapper_item}`}
                   key={`menu${index}`}
                 >
-                  <NavItem
-                    link={item.link}
-                    onClickFunction={item.onClickFunction}
-                  >
-                    <span>{item.text}</span>
-                  </NavItem>
+                  {!item.onClickFunction ? (
+                    <NavItem
+                      link={item.link}
+                    >
+                      <span>{item.text}</span>
+                    </NavItem>
+                  ) : (
+                    <button
+                      className={`text text_type_main-medium text_color_inactive &{styles.menu_item}`}
+                      onClick={item.onClickFunction}
+                    >
+                      {item.text}
+                    </button>
+                  )}
                 </li>
               )
             }
