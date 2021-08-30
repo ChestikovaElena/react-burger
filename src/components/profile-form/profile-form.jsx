@@ -36,6 +36,8 @@ export const ProfileForm = () => {
     password: ''
   });
 
+  const [payload, setPayload] = useState({});
+
   const [disabled, setDisabled] = useState(true);
 
   useEffect(
@@ -49,12 +51,38 @@ export const ProfileForm = () => {
     [user]
   );
 
+  useEffect(
+    () => {
+      let payload = {};
+      if (state.password !== '') {
+        payload = {
+          ...payload,
+          password: state.password
+        }
+      }
+      if (user.name !== state.name) {
+        payload = {
+          ...payload,
+          name: state.name
+        }
+      }
+      if (user.email !== state.email) {
+        payload = {
+          ...payload,
+          email: state.email
+        }
+      }
+      setPayload(payload);
+    },
+    [state]
+  )
+
   const handleInputChange = (e) => {
     const target = e.target;
     setState({
       ...state,
       [target.name]: target.value
-    });
+    })
   }
 
   const onIconClick = () => {
@@ -64,30 +92,6 @@ export const ProfileForm = () => {
 
   const onBlur = () => {
     setDisabled(true);
-  }
-
-  const handleClickSave = (e) => {
-    e.preventDefault();
-    let payload = {};
-    if (state.password !== '') {
-      payload = {
-        ...payload,
-        password: state.password
-      }
-    }
-    if (user.name !== state.name) {
-      payload = {
-        ...payload,
-        name: state.name
-      }
-    }
-    if (user.email !== state.email) {
-      payload = {
-        ...payload,
-        email: state.email
-      }
-    }
-    dispatch(patchUserData(payload));
   }
 
   return (
@@ -100,7 +104,7 @@ export const ProfileForm = () => {
         ) : (
         <Preloader />
       ) : (
-        <FormWrapper>
+        <FormWrapper actionFunc={patchUserData(payload)}>
           <div className="mb-6">
             <Input
               disabled={disabled}
@@ -140,7 +144,7 @@ export const ProfileForm = () => {
             <></>
           }
           <div className="mb-20">
-            <Button type="primary" size="medium" onClick={handleClickSave}>
+            <Button type="primary" size="medium">
               Сохранить
             </Button>
           </div>

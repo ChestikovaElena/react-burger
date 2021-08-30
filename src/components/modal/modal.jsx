@@ -1,5 +1,6 @@
-import { createPortal } from 'react-dom';
 import { useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay';
@@ -9,9 +10,14 @@ import PropTypes from 'prop-types';
 const modalRoot = document.getElementById('react-modals');
 
 const Modal = ({ setModalActive, title, children }) => {
+  let history = useHistory();
+  let { ingredientId } = useParams();
+
   const handleCloseClick = useCallback(
-    () => {
+    (e) => {
+      e.stopPropagation();
       setModalActive(false);
+      history.goBack();
     }, [setModalActive]
   )
 
