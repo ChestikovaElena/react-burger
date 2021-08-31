@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -12,11 +13,12 @@ import SpanWithLink from '../span-with-link';
 import { registrate } from '../../services/actions/user';
 
 export const RegistrationForm = () => {
-  const dispatch = useDispatch();
   const { registrateFailed, registrateFailedMessage } = useSelector((state) => ({
     registrateFailed: state.user.registrateFailed,
     registrateFailedMessage: state.user.registrateFailedMessage,
   }));
+  const history = useHistory();
+  const location = useLocation();
 
   const [state, setState] = useState({
     name: '',
@@ -32,13 +34,16 @@ export const RegistrationForm = () => {
     });
   }
 
-  const handleClickRegistrate = e => {
-    e.preventDefault();
-    dispatch(registrate(state.email, state.password, state.name));
-  }
-  
+  const { from } = (location.state) || { from: { pathname: "/" } };
+  const cb = () => {
+    history.replace(from);
+  };
+
   return (
-    <FormWrapper title="Вход">
+    <FormWrapper
+      title="Вход"
+      actionFunc={registrate(state.email, state.password, state.name, cb)}
+    >
       <div className="mb-6">
         <Input
           type={'text'}
@@ -74,7 +79,7 @@ export const RegistrationForm = () => {
         <></>
       }
       <div className="mb-20">
-        <Button type="primary" size="medium" onClick={handleClickRegistrate}>
+        <Button type="primary" size="medium">
           Зарегистрироваться
         </Button>
       </div>

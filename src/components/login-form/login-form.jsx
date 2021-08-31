@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,7 +8,6 @@ import SpanWithLink from '../span-with-link';
 import { logIn } from '../../services/actions/user';
 
 export const LoginForm = () => {
-  const dispatch = useDispatch();
   const { logInFailed, logInFailedMessage } = useSelector((state) => ({
     logInFailed: state.user.logInFailed,
     logInFailedMessage: state.user.logInFailedMessage
@@ -29,19 +28,13 @@ export const LoginForm = () => {
     });
   }
 
-  const handleClickLogIn = useCallback((e) => {
-    e.preventDefault();
-    const { from } = (location.state) || { from: { pathname: "/" } };
-    const cb = () => {
-      history.replace(from);
-    };
-    dispatch(logIn(state.email, state.password, cb));
-  },
-    [dispatch, history, location, state]
-  );
+  const { from } = (location.state) || { from: { pathname: "/" } };
+  const cb = () => {
+    history.replace(from);
+  };
 
   return (
-    <FormWrapper title="Вход">
+    <FormWrapper title="Вход" actionFunc={logIn(state.email, state.password, cb)}>
       <div className="mb-6">
         <EmailInput
           onChange={handleInputChange}
@@ -64,7 +57,7 @@ export const LoginForm = () => {
         <></>
       }
       <div className="mb-20">
-        <Button type="primary" size="medium" onClick={handleClickLogIn}>
+        <Button type="primary" size="medium">
           Войти
         </Button>
       </div>

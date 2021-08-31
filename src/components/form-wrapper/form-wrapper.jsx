@@ -3,12 +3,17 @@ import { useDispatch } from 'react-redux';
 
 import styles from './form-wrapper.module.css';
 
-export const FormWrapper = ({ actionFunc, children, title }) => {
+export const FormWrapper = ({ actionFunc, children, title, validateFunc }) => {
   const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(actionFunc);
+    if (actionFunc) {
+      dispatch(actionFunc);
+    }
+    else {
+      validateFunc();
+    }
   }
 
   return (
@@ -26,5 +31,6 @@ export const FormWrapper = ({ actionFunc, children, title }) => {
 FormWrapper.propTypes = {
   actionFunc: PropTypes.func,
   children: PropTypes.node,
-  title: PropTypes.string
+  title: PropTypes.string,
+  validateFunc: PropTypes.func
 }

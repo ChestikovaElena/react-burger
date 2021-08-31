@@ -41,11 +41,6 @@ export const ResetPasswordPage = () => {
     setIcon(iconValue === 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
   }
   
-  const restorePasswordClick = e => {
-    e.preventDefault();
-    dispatch(restorePassword(state.newPassword, state.code));
-  }
-
   if (!isForgotPassword) {
     return (
       <Redirect to={{ pathname: '/forgot-password' }} />
@@ -59,7 +54,10 @@ export const ResetPasswordPage = () => {
   }
 
   return (
-    <FormWrapper title="Восстановление пароля">
+    <FormWrapper
+      title="Восстановление пароля"
+      actionFunc={restorePassword(state.newPassword, state.code)}
+    >
       <div className="mb-6">
         <Input
           type={iconValue === 'ShowIcon' ? 'password' : 'text'}
@@ -89,7 +87,7 @@ export const ResetPasswordPage = () => {
         />
       </div>
       <div className="mb-20">
-        <Button type="primary" size="medium" onClick={restorePasswordClick}>
+        <Button type="primary" size="medium">
           Сохранить
         </Button>
       </div>

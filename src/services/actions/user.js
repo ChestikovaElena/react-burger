@@ -89,7 +89,7 @@ export function restorePassword(password, code) {
   }
 }
 
-export function registrate(email, password, name) {
+export function registrate(email, password, name, cb) {
   return function(dispatch) {
     dispatch({
       type: SIGN_IN_REQUEST
@@ -106,6 +106,7 @@ export function registrate(email, password, name) {
         });
         setCookie("accessToken", authToken, LIFE_OF_COOKIE_IN_MINUTES);
         localStorage.setItem('refreshToken', res.refreshToken);
+        cb();
       })
       .catch(error => {
         dispatch({

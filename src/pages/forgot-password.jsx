@@ -31,8 +31,7 @@ export const ForgotPasswordPage = () => {
     });
   }
 
-  const resetPasswordClick = e => {
-    e.preventDefault();
+  const validate = () => {
     if (validateEmail((state.email))) {
       dispatch(resetPassword(state.email));
     }
@@ -49,7 +48,10 @@ export const ForgotPasswordPage = () => {
     forgotPasswordRequest ?
       <Preloader />
     : 
-      <FormWrapper title="Восстановление пароля">
+      <FormWrapper
+        title="Восстановление пароля"
+        validateFunc={validate}
+      >
         <div className="mb-6">
           <Input
             type={'email'}
@@ -64,7 +66,7 @@ export const ForgotPasswordPage = () => {
           />
         </div>
         <div className="mb-20">
-          <Button type="primary" size="medium" onClick={resetPasswordClick}>
+          <Button type="primary" size="medium">
             Восстановить
           </Button>
         </div>
