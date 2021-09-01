@@ -4,7 +4,7 @@ import styles from './burger-ingredients.module.css';
 import { Card } from './card';
 import { BlockList } from './block-list';
 
-export const Block = ({ data, name, type, handleClick, refBun, refSauce, refMain, countOfIngredients }) =>{
+export const Block = ({ data, name, type, refBun, refSauce, refMain, countOfIngredients }) =>{
   return (
     <li className={`mt-10 ${styles.block}`} data-id={type}
       ref={type==='bun' ? refBun : type==='sauce' ? refSauce : refMain}>
@@ -16,7 +16,7 @@ export const Block = ({ data, name, type, handleClick, refBun, refSauce, refMain
             <li
               key={`${item._id}`}
               className={ `${styles.block_item} mb-8` }
-              data-id={item._id} data-type={type} onClick={handleClick}
+              data-id={item._id} data-type={type}
             >
               <Card
                 image={item.image_large} name={item.name} type={type}
@@ -44,7 +44,6 @@ Block.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
   refBun: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })

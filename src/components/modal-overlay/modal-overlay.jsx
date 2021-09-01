@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import styles from './modal-overlay.module.css';
 import { ESC_KEYCODE } from '../../utils/constants';
 
-const ModalOverlay = ({ handleCloseClick, children }) => {
+const ModalOverlay = ({ handleModalClose, children }) => {
   const escFunction = (e) => {
     if (e.keyCode === ESC_KEYCODE) {
-      handleCloseClick();
+      handleModalClose();
     }
   }
 
@@ -20,14 +20,14 @@ const ModalOverlay = ({ handleCloseClick, children }) => {
   }, []);
   
   return (
-    <div className={styles.overlay} onClick={handleCloseClick}>
+    <div className={styles.overlay} onClick={handleModalClose}>
       {children}
     </div>
   );
 }
 
 ModalOverlay.propTypes = {
-  handleCloseClick: PropTypes.func.isRequired,
+  handleModalClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 }
 

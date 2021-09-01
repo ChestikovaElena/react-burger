@@ -47,6 +47,10 @@
   position: relative;
 }
 
+.item_link {
+  text-decoration: none;
+}
+
 .item_row {
   display: flex;
   justify-content: center;

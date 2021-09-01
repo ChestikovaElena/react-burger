@@ -8,35 +8,29 @@ import { getIngredients } from '../services/actions/data-ingredients';
 import styles from './ingredient.module.css';
 
 export const IngredientPage = () => {
-  const { data } = useSelector((state) => ({
-    data: state.data.data
-  }));
-  const { ingredientId } = useParams();
-  const dispatch = useDispatch();
-  const [ingredientDataState, setIngredientData] = useState(null);
+  // const { data } = useSelector((state) => ({
+  //   data: state.data.data
+  // }));
+  // const { ingredientId } = useParams();
+  // const dispatch = useDispatch();
+  // const [ingredientDataState, setIngredientData] = useState(null);
 
-  useEffect(
-    () => {
-      if (!data.length) dispatch(getIngredients());
-      const ingredientDataValue = [...data].filter(item => item._id === ingredientId)&&
-        [...data].filter(item => item._id === ingredientId)[0];
-      setIngredientData(ingredientDataValue);
-    },
-    [ingredientId, dispatch, data]
-  );
+  // useEffect(
+  //   () => {
+  //     if (!data.length) dispatch(getIngredients());
+  //     const ingredientDataValue = [...data].filter(item => item._id === ingredientId)&&
+  //       [...data].filter(item => item._id === ingredientId)[0];
+  //     setIngredientData(ingredientDataValue);
+  //   },
+  //   [ingredientId, dispatch, data]
+  // );
 
   return (
-    <>
-      {!ingredientDataState ? (
-        <Preloader />
-      ) : (
-        <div className={`mt-30 ${styles.wrapper}`}>
-          <h2 className="text text_type_main-large">
-            Детали ингредиента
-          </h2>
-          <IngredientDetails ingredientDataFromPage={ingredientDataState}/>
-        </div>
-      )}
-    </>
+    <div className={`mt-30 ${styles.wrapper}`}>
+      <h2 className="text text_type_main-large">
+        Детали ингредиента
+      </h2>
+      <IngredientDetails />
+    </div>
   )
 }

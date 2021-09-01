@@ -1,12 +1,10 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal';
-import OrderDetails from '../order-details';
 import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
 import { IngredientCard } from './ingredient-card';
@@ -28,13 +26,15 @@ const Container = (props) => {
 }
 
 const BurgerConstructor = () => {
-  const { data, dataSelected, isLoggedIn } = useSelector((state) => ({
+  const { data, dataSelected, isLoggedIn, order } = useSelector((state) => ({
     data: state.data.data,
     dataSelected: state.dataSelected.dataSelected,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    order: state.order.order
   }));
   const dispatch = useDispatch();
-  
+  const history = useHistory();
+
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop({ id, type }) {
@@ -57,9 +57,8 @@ const BurgerConstructor = () => {
     })
   });
 
-  const [isModalActive, setModalActive] = useState(false);
   const [redirect, setRedirect] = useState(false);
-   
+
   const handleButtonClick = (e) => {
     if (!isLoggedIn) {
       setRedirect(true);
@@ -69,7 +68,7 @@ const BurgerConstructor = () => {
         dataSelected.map(item => arrayOfID.push(item._id));
         
         dispatch(getOrderInformation(arrayOfID));
-        setModalActive(true);
+
         dispatch({
           type: CLEAR_SELECTED_INGREDIENTS
         })
@@ -199,19 +198,21 @@ const BurgerConstructor = () => {
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
               <TotalPrice totalPrice={totalPrice}/>
-              {bun.length!==0 && <Button type="primary" size="medium" onClick={handleButtonClick}>
-                Оформить заказ
-              </Button>}
+              {bun.length!==0 &&
+                <Link 
+                  to={{
+                    pathname: `/order`
+                  }}
+                  onClick={handleButtonClick}
+                  className={ `${styles.button} pt-5 pr-10 pb-5 pl-10 text text_type_main-default`}
+                >
+                  Оформить заказ
+                </Link>
+              }
             </div>
           </>
         )}
       </section>
-      
-      {isModalActive && 
-        <Modal setModalActive={setModalActive} title=''>
-          <OrderDetails />
-        </Modal>
-      }
     </>
   );
 }

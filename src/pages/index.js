@@ -6,6 +6,7 @@ import { RegistrationPage } from './registration.jsx';
 import { ForgotPasswordPage } from './forgot-password.jsx';
 import { ResetPasswordPage } from './reset-password.jsx';
 import { IngredientPage } from './ingredient.jsx';
+import { OrderPage } from './order.jsx';
 
 export
 {
@@ -17,4 +18,5 @@ export
   ForgotPasswordPage,
   ResetPasswordPage,
   IngredientPage,
+  OrderPage
 };
