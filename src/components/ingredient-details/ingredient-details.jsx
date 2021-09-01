@@ -18,13 +18,13 @@ const IngredientDetails = () => {
   useEffect(
     () => {
       const soughtIngredient = [...data].filter(item => item._id === ingredientId);
-      let ingredientDataValue, errorValue;
-      
+      let ingredientDataValue = null;
+      let errorValue = false;
+
       if (soughtIngredient.length !== 0) {
         ingredientDataValue = soughtIngredient[0];
       } else {errorValue = true};
 
-      console.log(ingredientDataValue);
       setIngredientData(ingredientDataValue);
       seterror(errorValue);
     },
@@ -33,25 +33,25 @@ const IngredientDetails = () => {
   
   return (
     <>
-      {error === true ? (
+      {error ? (
           <p className='text text_type_main-medium text_color_inactive mt-8'>Ингредиент с таким ID не найден</p>
         ) : (
           ingredientData === null || ingredientData === undefined ? (
             <Preloader />
           ) : (
-        <>
-          <img src={ingredientData.image_large} alt={ingredientData.name} className={`mb-4 ${styles.item_img}`}/>
-          <h3 className='text text_type_main-medium mb-8'>{ingredientData.name}</h3>
-          <ListOfFeatures
-            children =
-              {productFeatures.map(
-                item =>
-                <Feature key={item.id} name={item.name} measure={item.measure} value={ingredientData[item.valueName]}/>
-              )}
-          />
-        </>
+          <>
+            <img src={ingredientData.image_large} alt={ingredientData.name} className={`mb-4 ${styles.item_img}`}/>
+            <h3 className='text text_type_main-medium mb-8'>{ingredientData.name}</h3>
+            <ListOfFeatures
+              children =
+                {productFeatures.map(
+                  item =>
+                  <Feature key={item.id} name={item.name} measure={item.measure} value={ingredientData[item.valueName]}/>
+                )}
+            />
+          </>
+          )
         )
-      )
       }
     </>
   );
