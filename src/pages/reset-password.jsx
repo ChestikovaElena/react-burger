@@ -9,8 +9,7 @@ import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/use
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  const { isForgotPassword, isResetPassword } = useSelector((state) => ({
-    isForgotPassword: state.user.isForgotPassword,
+  const { isResetPassword } = useSelector((state) => ({
     isResetPassword: state.user.isResetPassword
   }))
 
@@ -41,13 +40,14 @@ export const ResetPasswordPage = () => {
     setIcon(iconValue === 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
   }
   
-  if (!isForgotPassword) {
+  if (!localStorage.getItem('forgotPasswordSuccess') && !isResetPassword) {
     return (
       <Redirect to={{ pathname: '/forgot-password' }} />
     )
   }
 
   if (isResetPassword) {
+    localStorage.removeItem('forgotPasswordSuccess');
     return (
       <Redirect to={{ pathname: '/login' }} />
     )

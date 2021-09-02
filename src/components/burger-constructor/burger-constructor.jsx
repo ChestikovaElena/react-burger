@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import TotalPrice from '../total-price';
 import styles from './burger-constructor.module.css';
 import { IngredientCard } from './ingredient-card';

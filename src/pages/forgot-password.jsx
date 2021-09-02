@@ -10,8 +10,7 @@ import Preloader from '../components/preloader';
 import { validateEmail } from '../utils/validate-email';
 
 export const ForgotPasswordPage = () => {
-  const {isForgotPassword, forgotPasswordRequest } = useSelector((state) => ({
-    isForgotPassword: state.user.isForgotPassword,
+  const { forgotPasswordRequest } = useSelector((state) => ({
     gorgotPasswordRequest: state.user.gorgotPasswordRequest
   }));
 
@@ -35,10 +34,12 @@ export const ForgotPasswordPage = () => {
     if (validateEmail((state.email))) {
       dispatch(resetPassword(state.email));
     }
-    else setErrorText('Введите корректный email')
+    else {
+      setErrorText('Введите корректный email')
+    }
   }
 
-  if (isForgotPassword) {
+  if (localStorage.getItem('forgotPasswordSuccess')) {
     return (
       <Redirect to={{ pathname: '/reset-password' }} />
     )

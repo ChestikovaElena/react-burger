@@ -55,6 +55,7 @@ export function resetPassword(email) {
     resetPasswordRequest(email)
       .then(getResponseData)
       .then(res => {
+        localStorage.setItem('forgotPasswordSuccess', true);
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
           isForgotPassword: res.success
