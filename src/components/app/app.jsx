@@ -30,6 +30,25 @@ import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
 
+function App() {
+  const dispatch = useDispatch();
+  const refreshToken = localStorage.getItem('refreshToken');
+  
+  useEffect(
+    () => {
+      refreshToken && dispatch(getUserData());
+      dispatch(getIngredients());
+    },
+    []
+  );
+
+  return (
+    <Router>
+      <ModalSwitch />
+    </Router>
+  );
+}
+
 function ModalSwitch() {
   let location = useLocation();
   const history = useHistory();
@@ -108,25 +127,6 @@ function ModalSwitch() {
       </main>
     </>
   )
-}
-
-function App() {
-  const dispatch = useDispatch();
-  const refreshToken = localStorage.getItem('refreshToken');
-  
-  useEffect(
-    () => {
-      refreshToken && dispatch(getUserData());
-      dispatch(getIngredients());
-    },
-    []
-  );
-
-  return (
-    <Router>
-      <ModalSwitch />
-    </Router>
-  );
 }
 
 export default App;

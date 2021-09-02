@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -33,7 +33,6 @@ const BurgerConstructor = () => {
     order: state.order.order
   }));
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
