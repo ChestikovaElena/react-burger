@@ -56,6 +56,10 @@
   justify-content: center;
 }
 
+.item_image-wrapper {
+  height: 120px;
+}
+
 .item_title {
   height: 48px;
   text-align: center;

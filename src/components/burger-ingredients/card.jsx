@@ -24,7 +24,7 @@ export const Card = ({ id, image, name, price, count, type }) =>{
     >
       <div ref={dragRef}>
         <Counter count={count} size="default" />
-        <div>
+        <div className={`&{styles.item_image-wrapper}`}>
           <img src={image} alt={name}/>
         </div>
         <div className={`${styles.item_row} pt-1 pb-1`}>
