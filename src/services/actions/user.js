@@ -1,6 +1,7 @@
 import { getResponseData } from "../../utils/get-response-data";
 import { setCookie, deleteCookie } from "../../utils/cookie";
 import { LIFE_OF_COOKIE_IN_MINUTES } from "../../utils/constants";
+import { CLEAR_SELECTED_INGREDIENTS } from "./data-selected";
 import {
   resetPasswordRequest,
   restorePasswordRequest,
@@ -159,6 +160,9 @@ export function logOut() {
         dispatch({
           type: LOG_OUT_SUCCESS,
         });
+        dispatch({
+          type: CLEAR_SELECTED_INGREDIENTS,
+        })
       })
       .catch(error => {
         dispatch({
