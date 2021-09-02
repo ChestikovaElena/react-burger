@@ -26,11 +26,10 @@ const Container = (props) => {
 }
 
 const BurgerConstructor = () => {
-  const { data, dataSelected, isLoggedIn, order } = useSelector((state) => ({
+  const { data, dataSelected, isLoggedIn } = useSelector((state) => ({
     data: state.data.data,
     dataSelected: state.dataSelected.dataSelected,
-    isLoggedIn: state.user.isLoggedIn,
-    order: state.order.order
+    isLoggedIn: state.user.isLoggedIn
   }));
   const dispatch = useDispatch();
 
@@ -197,16 +196,27 @@ const BurgerConstructor = () => {
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
               <TotalPrice totalPrice={totalPrice}/>
-              {bun.length!==0 &&
-                <Link 
-                  to={{
-                    pathname: `/order`
-                  }}
-                  onClick={handleButtonClick}
-                  className={ `${styles.button} pt-5 pr-10 pb-5 pl-10 text text_type_main-default`}
-                >
-                  Оформить заказ
-                </Link>
+              { isLoggedIn ? (
+                  bun.length!==0 &&
+                    <Link 
+                      to={{
+                        pathname: `/order`
+                      }}
+                      onClick={handleButtonClick}
+                      className={ `${styles.button} pt-5 pr-10 pb-5 pl-10 text text_type_main-default`}
+                    >
+                      Оформить заказ
+                    </Link>
+                  ) : (
+                    <Link 
+                      to={{
+                        pathname: `/login`
+                      }}
+                      className={ `${styles.button} pt-5 pr-10 pb-5 pl-10 text text_type_main-default`}
+                    >
+                      Войти
+                    </Link>
+                  )
               }
             </div>
           </>
