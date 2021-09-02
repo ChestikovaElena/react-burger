@@ -13,20 +13,28 @@ const IngredientDetails = () => {
 
   const { ingredientId } = useParams();
   const [ingredientData, setIngredientData] = useState(null);
-  const [error, seterror] = useState(false);
+  const [error, setError] = useState(false);
+
+  const getIngredientInfo = async () => {
+    return await [...data].filter(item => item._id === ingredientId);
+  }
 
   useEffect(
-    () => {
-      const soughtIngredient = [...data].filter(item => item._id === ingredientId);
+    async () => {
+      let soughtIngredient = null;
       let ingredientDataValue = null;
       let errorValue = false;
 
-      if (soughtIngredient.length !== 0) {
-        ingredientDataValue = soughtIngredient[0];
-      } else {errorValue = true};
+      if (data.length) {
+        soughtIngredient = await getIngredientInfo();
 
+        if (soughtIngredient && soughtIngredient.length) {
+          ingredientDataValue = soughtIngredient[0];
+        } else {errorValue = true};
+      }
+      
       setIngredientData(ingredientDataValue);
-      seterror(errorValue);
+      setError(errorValue);
     },
     [ingredientId, data]
   );
@@ -36,7 +44,7 @@ const IngredientDetails = () => {
       {error ? (
           <p className='text text_type_main-medium text_color_inactive mt-8'>Ингредиент с таким ID не найден</p>
         ) : (
-          ingredientData === null || ingredientData === undefined ? (
+          ingredientData === null ? (
             <Preloader />
           ) : (
           <>
