@@ -1,10 +1,11 @@
-import ElementWithIcon from '../element-with-icon';
 import PropTypes from 'prop-types';
 
-const MenuItem = (props) => {
+import ElementWithIcon from '../element-with-icon';
+
+const MenuItem = ({ icon, text, type, link }) => {
   return (
-    <li>
-      <ElementWithIcon icon={props.icon} text={props.text} type={props.type}/>
+    <li className='mr-2'>
+      <ElementWithIcon icon={icon} text={text} type={type} link={link}/>
     </li>
   );
 }
@@ -12,7 +13,8 @@ const MenuItem = (props) => {
 MenuItem.propTypes = {
   icon: PropTypes.element.isRequired,
   text: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  link: PropTypes.string,
 }
 
 export default MenuItem

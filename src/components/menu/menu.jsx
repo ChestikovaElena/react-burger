@@ -1,18 +1,21 @@
-import styles from './menu.module.css';
 import PropTypes from 'prop-types';
 
-const Menu = (props) => {
+import styles from './menu.module.css';
+
+const Menu = ({ children, style }) => {
   return (
     <nav className={ styles.menu }>
-      <ul className={ styles.menu_list }>
-        {props.children}
+      <ul className=
+        { style === 'row' ? styles.menu_row : styles.menu_column }>
+        {children}
       </ul>
     </nav>
   );
 }
 
 Menu.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.array.isRequired,
+  style: PropTypes.string.isRequired
 }
 
 export default Menu

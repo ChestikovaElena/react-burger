@@ -24,9 +24,11 @@ export const dataSelectedReducer = (state = initialState, action) => {
       }
     }
     case REORDER_SELECTED_INGREDIENTS: {
+      const newSelectedData = [...state.dataSelected];
+      newSelectedData.splice(action.hoverIndex, 0, newSelectedData.splice(action.dragIndex, 1)[0]);
       return {
         ...state,
-        dataSelected: action.payload
+        dataSelected: newSelectedData
       }
     }
     case CLEAR_SELECTED_INGREDIENTS: {

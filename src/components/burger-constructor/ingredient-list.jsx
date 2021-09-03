@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import styles from './burger-constructor.module.css';
 
 export const IngredientsList = (props) =>{

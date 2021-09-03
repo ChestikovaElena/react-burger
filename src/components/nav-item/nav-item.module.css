@@ -1,0 +1,15 @@
+.item {
+  text-decoration: none;
+}
+
+.item svg path {
+  color: #8585AD;
+}
+
+.item_active {
+  color: white;
+}
+
+.item_active svg path{
+  fill: white;
+}

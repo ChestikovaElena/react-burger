@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import styles from './ingredient-details.module.css';
 
 export const productFeatures = [
@@ -46,6 +47,10 @@ export const ListOfFeatures = ({ children }) => {
       {children}
     </ul>
   );
+}
+
+ListOfFeatures.propTypes = {
+  children: PropTypes.array
 }
 
 Feature.propTypes = {

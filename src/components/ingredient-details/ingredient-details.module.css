@@ -1,11 +1,6 @@
-.wrapper {
-  width: 72%;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.item_img {
+  width: 520px;
+  height: 240px;
 }
 
 .features {

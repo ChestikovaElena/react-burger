@@ -1,0 +1,33 @@
+.wrapper {
+  margin-top: 16.5vh;
+  width: 480px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  text-align: center;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form div {
+  width: 100%;
+}
+
+.form div div {
+  width: 100%;
+}
+
+.form div div div div {
+  display: flex;
+  justify-content: flex-end;
+  width: 24px;
+}

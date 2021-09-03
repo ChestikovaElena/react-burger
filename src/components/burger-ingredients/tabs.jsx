@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
+
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { typeOfIngredients } from './type-of-ingredients';

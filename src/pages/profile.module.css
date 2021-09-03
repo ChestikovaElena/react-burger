@@ -1,0 +1,25 @@
+.section {
+  width: 1250px;
+  display: flex;
+}
+
+.left_column {
+  width: 320px;
+}
+
+.section div {
+  margin-top: 0;
+}
+
+.wrapper_item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+
+.wrapper_item button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}

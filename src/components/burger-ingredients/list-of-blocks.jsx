@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import styles from './burger-ingredients.module.css';
 
 export const ListOfBlocks = ({ children, refContainer, scrollHendler }) => {

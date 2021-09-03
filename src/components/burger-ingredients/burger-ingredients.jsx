@@ -1,20 +1,14 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMemo, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import styles from './burger-ingredients.module.css';
-import Modal from '../modal';
-import IngredientDetails from '../ingredient-details';
 import { Tabs } from './tabs';
 import { Block } from './block';
 import { ListOfBlocks } from './list-of-blocks';
+import Preloader from '../preloader';
 import { typeOfIngredients } from './type-of-ingredients';
-import { getIngredients } from '../../services/actions/data';
-import { 
-  ADD_INGREDIENT_DATA,
-  DELETE_INGREDIENT_DATA,
-} from '../../services/actions/ingredient-details';
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
   const { data, dataRequest, dataFailed, dataSelected } = useSelector((state) => ({
     data: state.data.data,
     dataRequest: state.data.dataRequest,
@@ -22,34 +16,6 @@ const BurgerIngredients = () => {
     dataSelected: state.dataSelected.dataSelected
   }));
   
-  useEffect(
-    () => {
-      if (!data.length) dispatch(getIngredients());
-    },
-    [dispatch]
-  );
-
-  const [isModalActive, setModalActive] = useState(false);
-
-  useEffect(
-    () => {
-      if (!isModalActive) {dispatch({ type: DELETE_INGREDIENT_DATA });};
-    },
-    [isModalActive]
-  );
-
-  const handleCardClick = (e) => {
-    const parentNode = e.currentTarget;
-    const id = parentNode.getAttribute('data-id');
-    const ingredientData = [...data].filter(item => item._id === id)&&
-      [...data].filter(item => item._id === id)[0];
-    dispatch({
-      type: ADD_INGREDIENT_DATA,
-      ingredientData
-    });
-    setModalActive(true);
-  }
-
   const refContainer = useRef(null);
   const refBun = useRef(null);
   const refSauce = useRef(null);
@@ -78,7 +44,7 @@ const BurgerIngredients = () => {
       dataSelected.forEach((ingredient) => {
         if (!counters[ingredient._id]) counters[ingredient._id] = 0;
         counters[ingredient._id]++;
-        if (ingredient.type === 'bun') counters[ingredient._id] = 1;
+        if (ingredient.type === 'bun') counters[ingredient._id] = 2;
       });
     return counters;
     },
@@ -88,7 +54,7 @@ const BurgerIngredients = () => {
   const content = useMemo(
     () => {
       return dataRequest ? (
-        <div className="text text_type_main-large">Подождите. Ингредиенты загружаются...</div>
+        <Preloader />
       ) : (
         dataFailed ? (
           <div className="text text_type_main-large">Произошла ошибка. Перезагрузите браузер.</div>
@@ -107,7 +73,6 @@ const BurgerIngredients = () => {
                     type={item.type}
                     name={item.name}
                     data={data}
-                    handleClick={handleCardClick}
                     refBun={refBun}
                     refSauce={refSauce}
                     refMain={refMain}
@@ -119,7 +84,7 @@ const BurgerIngredients = () => {
         )
       )
     },
-    [dataRequest, data, current, countOfIngredients]
+    [data, dataRequest, dataFailed, current, countOfIngredients]
   );
 
   return (
@@ -127,11 +92,6 @@ const BurgerIngredients = () => {
       <section className={`${styles.column} pt-10 mr-10`}>
         {content}
       </section>
-      {isModalActive &&
-        <Modal setModalActive={setModalActive} title='Детали ингредиента'>
-          <IngredientDetails/>
-        </Modal>
-      }
     </>
   );
 }

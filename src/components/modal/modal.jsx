@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import { useCallback } from 'react';
+
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay';
 import styles from './modal.module.css';
@@ -7,26 +7,25 @@ import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('react-modals');
 
-const Modal = ({ setModalActive, title, children }) => {
-  const handleCloseClick = useCallback(
-    () => {
-      setModalActive(false);
-    }, [setModalActive]
-  )
-
+const Modal = ({ handleModalClose, title, children }) => {
   return createPortal(
     (
-      <ModalOverlay handleCloseClick={handleCloseClick}>
-        <div className={`pt-10 pr-10 pb-15 pl-10 ${styles.modal}`} onClick={e => e.stopPropagation()}>
+      <ModalOverlay handleModalClose={handleModalClose}>
+        <div
+          className={`pt-10 pr-10 pb-15 pl-10 ${styles.modal}`}
+          onClick={e => e.stopPropagation()}
+        >
           <div className={styles.modal_row}>
             <h2 className="text text_type_main-large">
               {title}
             </h2>
-            <div className={styles.icon_wrapper} onClick={handleCloseClick}>
+            <div className={styles.icon_wrapper} onClick={handleModalClose}>
               <CloseIcon type="primery"/>
             </div>
           </div>
-          {children}
+          <div className={styles.wrapper }>
+            {children}
+          </div>
         </div>
       </ModalOverlay>
     ),
@@ -35,7 +34,7 @@ const Modal = ({ setModalActive, title, children }) => {
 }
 
 Modal.propTypes = {
-  setModalActive: PropTypes.func.isRequired,
+  handleModalClose: PropTypes.func.isRequired,
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
 }
