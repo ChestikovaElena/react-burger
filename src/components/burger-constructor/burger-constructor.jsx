@@ -195,7 +195,7 @@ const BurgerConstructor = () => {
               }
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
-              <TotalPrice totalPrice={totalPrice}/>
+              <TotalPrice totalPrice={totalPrice} type='large'/>
               { isLoggedIn ? (
                   bun.length!==0 &&
                     <Link 

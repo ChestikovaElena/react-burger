@@ -3,7 +3,12 @@
   align-items: center;
 }
 
-.icon svg {
+.icon_big svg {
   width : 36px;
   height: 36px;
+}
+
+.icon_def svg {
+  width: 22px;
+  height: 22px;
 }
