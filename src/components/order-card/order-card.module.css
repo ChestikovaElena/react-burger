@@ -12,3 +12,9 @@
 .card_row_big {
   height: 64px;
 }
+
+.card_list {
+  position: relative;
+  display: flex;
+  max-width: 435px;
+}
