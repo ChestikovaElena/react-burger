@@ -7,16 +7,18 @@ import { ForgotPasswordPage } from './forgot-password.jsx';
 import { ResetPasswordPage } from './reset-password.jsx';
 import { IngredientPage } from './ingredient.jsx';
 import { OrderPage } from './order.jsx';
+import { FeedPage } from './feed.jsx';
 
 export
 {
-  HomePage,
-  NotFound404,
-  ProfilePage,
-  LoginPage,
-  RegistrationPage,
+  FeedPage,
   ForgotPasswordPage,
-  ResetPasswordPage,
+  HomePage,
   IngredientPage,
-  OrderPage
+  LoginPage,
+  NotFound404,
+  OrderPage,
+  RegistrationPage,
+  ResetPasswordPage,
+  ProfilePage
 };

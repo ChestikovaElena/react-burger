@@ -229,7 +229,7 @@ export function refreshToken(afterRefresh) {
     dispatch({
       type: REFRESH_TOKEN_REQUEST
     });
-    refreshTokenRequest(afterRefresh)
+    refreshTokenRequest()
       .then(getResponseData)
       .then(res => {
         let authToken;

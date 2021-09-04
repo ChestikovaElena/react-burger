@@ -51,7 +51,7 @@ const IngredientDetails = () => {
             <img
               src={ingredientData.image_large}
               alt={ingredientData.name}
-              className={`mb-4 ${styles.item_img}`}
+              className="mb-4"
               width="520"
               height="240"
             />

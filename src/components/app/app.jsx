@@ -10,15 +10,16 @@ import { useDispatch } from 'react-redux';
 
 import 
   {
-    HomePage,
-    NotFound404,
-    ProfilePage,
-    LoginPage,
-    RegistrationPage,
+    FeedPage,
     ForgotPasswordPage,
-    ResetPasswordPage,
+    HomePage,
     IngredientPage,
-    OrderPage
+    LoginPage,
+    NotFound404,
+    OrderPage,
+    RegistrationPage,
+    ResetPasswordPage,
+    ProfilePage
   } from '../../pages';
 import AppHeader from '../app-header';
 import IngredientDetails from '../ingredient-details';
@@ -67,6 +68,9 @@ function ModalSwitch() {
         <Switch location={background || location}>
           <Route path="/" exact>
             <HomePage />
+          </Route>
+          <Route path="/feed" exact>
+            <FeedPage />
           </Route>
           <NoAuthRoute path="/login" exact>
             <LoginPage />
