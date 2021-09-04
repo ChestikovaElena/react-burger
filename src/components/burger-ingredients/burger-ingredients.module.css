@@ -25,11 +25,8 @@
   background-color: #8585ad;
 }
 
-.blocks_list {
-  margin-top: -40px;
-}
-
 .block_list {
+  margin-top: -40px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
