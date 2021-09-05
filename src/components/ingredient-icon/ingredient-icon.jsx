@@ -1,8 +1,18 @@
 import styles from './ingredient-icon.module.css';
 
-export const IngredientIcon = ({ count, image, index, name }) => {
+export const IngredientIcon = ({ indexes, setIndexes, count, image, index, name, viewIndex }) => {
   const zIndex = 100 - index;
-  const leftShift = index*(64 - 16);
+  const leftShift = viewIndex*(64 - 16);
+
+  const clickHandler = () => {
+    setIndexes(
+      {
+        firstIndex: indexes.firstIndex + 5,
+        lastIndex: indexes.lastIndex + 5
+      }
+    )
+  }
+
   return (
     <li className={`${styles.icon}`} style={{zIndex: zIndex, left: `${leftShift}px`}}>
       <div
@@ -17,7 +27,10 @@ export const IngredientIcon = ({ count, image, index, name }) => {
               `${styles.icon_img}`}
         />
         {count &&
-          <span className={` text text_type_digits-default ${styles.icon_count}`}>
+          <span
+            className={` text text_type_digits-default ${styles.icon_count}`}
+            onClick={clickHandler}
+          >
             {`+${count}`}
           </span>
         }
