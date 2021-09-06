@@ -326,7 +326,7 @@ export const ListOfOrders = () => {
     }
   ];
   return (
-    <Column request={false} requestFailed={false} title="Лента заказов">
+    <Column request={false} requestFailed={false} title="Лента заказов" type="right">
       {array.map(
         (item, index) =>
           <li key={`${index}`} className="mb-4">

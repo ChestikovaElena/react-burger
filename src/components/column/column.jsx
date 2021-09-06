@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './column.module.css';
 
-export const Column = ({ request, requestFailed, title, children }) => {
+export const Column = ({ children, request, requestFailed, title, type }) => {
   const content = useMemo(
     () => {
       return request ? (
@@ -14,15 +14,24 @@ export const Column = ({ request, requestFailed, title, children }) => {
           <div className="text text_type_main-large">Произошла ошибка. Перезагрузите браузер.</div>
         ) : (
           <>
-            <h2 className='text text_type_main-large pb-5'>{title}</h2>
-            <div
-              className={ `pr-2 ${styles.blocks_container}`}
-              data-id='container'
-            >
-              <ul className={`${styles.blocks_list}`}>
+            {type === "right" ? (
+              <>
+                <h2 className='text text_type_main-large pb-5'>{title}</h2>
+                <div
+                  className={ `pr-2 ${styles.blocks_container}`}
+                  data-id='container'
+                >
+                  <ul className={`${styles.blocks_list}`}>
+                    {children}
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>
                 {children}
-              </ul>
-            </div>
+              </>
+            )
+            }
           </>
         )
       )
@@ -32,7 +41,7 @@ export const Column = ({ request, requestFailed, title, children }) => {
 
   return (
     <>
-      <section className={`${styles.column} pt-10 mr-10`}>
+      <section className={type === "right" ? `${styles.column} mt-10 mr-15` : `${styles.column} mt-25`}>
         {content}
       </section>
     </>
@@ -40,5 +49,8 @@ export const Column = ({ request, requestFailed, title, children }) => {
 }
 
 Column.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.element
+  ])
 }
