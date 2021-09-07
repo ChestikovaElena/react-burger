@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import styles from './ingredient-details.module.css';
 
 import { productFeatures, Feature, ListOfFeatures } from './feature';
 import Preloader from '../preloader';

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 
 import 
   {
+    FeedInfoPage,
     FeedPage,
     ForgotPasswordPage,
     HomePage,
@@ -22,6 +23,7 @@ import
     ProfilePage
   } from '../../pages';
 import AppHeader from '../app-header';
+import FeedInfoDetails from '../feed-info-details';
 import IngredientDetails from '../ingredient-details';
 import Modal from '../modal';
 import NoAuthRoute from '../no-auth-route';
@@ -90,6 +92,9 @@ function ModalSwitch() {
           <Route path="/ingredients/:ingredientId" exact>
             <IngredientPage />
           </Route>
+          <Route path="/feed/:orderId" exact>
+            <FeedInfoPage />
+          </Route>
           <ProtectedRoute 
             path='/profile/orders/:orderNumber'
             children={<OrderPage />}
@@ -124,6 +129,16 @@ function ModalSwitch() {
             children={
               <Modal handleModalClose={handleModalClose}>
                 <OrderDetails />
+              </Modal>
+            }
+          />
+        )}
+        {background && (
+          <Route
+            path="/feed/:orderId"
+            children={
+              <Modal handleModalClose={handleModalClose}>
+                <FeedInfoDetails />
               </Modal>
             }
           />

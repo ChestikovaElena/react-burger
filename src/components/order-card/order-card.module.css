@@ -18,3 +18,7 @@
   display: flex;
   max-width: 435px;
 }
+
+.link {
+  text-decoration: none;
+}
