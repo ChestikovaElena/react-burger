@@ -6,7 +6,7 @@ import {
   useHistory,
   useLocation
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import 
   {
@@ -32,18 +32,42 @@ import ProtectedRoute from '../protected-route';
 import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/ws';
+import { processOrders } from '../../utils/process-orders';
 
 function App() {
   const dispatch = useDispatch();
+  const { data, orders } = useSelector((store) => ({
+    data: store.data.data,
+    orders: store.ws.orders
+  }));
+
   const refreshToken = localStorage.getItem('refreshToken');
   
   useEffect(
     () => {
       refreshToken && dispatch(getUserData());
       dispatch(getIngredients());
+      dispatch({
+        type: WS_CONNECTION_START
+      });
+      return () => {
+        dispatch({
+          type: WS_CONNECTION_CLOSED
+        })
+      }
     },
     []
   );
+
+  useEffect(
+    () => {
+      if (orders && orders.length !== 0) {
+        processOrders(data, dispatch, orders)
+      };
+    },
+    [orders]
+  )
 
   return (
     <Router>
@@ -66,7 +90,7 @@ function ModalSwitch() {
   return (
     <>
       <AppHeader />
-      <main className={ styles.main }>
+      <main className={ `${styles.main}` }>
         <Switch location={background || location}>
           <Route path="/" exact>
             <HomePage />
@@ -137,7 +161,7 @@ function ModalSwitch() {
           <Route
             path="/feed/:orderId"
             children={
-              <Modal handleModalClose={handleModalClose}>
+              <Modal handleModalClose={handleModalClose} width="640">
                 <FeedInfoDetails />
               </Modal>
             }

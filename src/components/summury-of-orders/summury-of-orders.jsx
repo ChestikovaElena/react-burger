@@ -1,27 +1,55 @@
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
 import Column from "../column";
 import { ColumnOfOrders } from './column-of-orders';
 import { TotalOrders } from './total-orders';
 import styles from './summury-of-orders.module.css';
 
-export const SummuryOfOrders = () => {
-  const arrayDone = ['034533', '0455322', '034530', '034527', '034525','034533', '0455322', '034530', '034527', '034525',
-  '034533', '0455322', '034530', '034527', '034525','034533', '0455322', '034530', '034527', '034525',];
+const Summury = () => {
+  const { orders, total, totalToday } = useSelector((store) => ({
+    orders: store.ws.orders,
+    total: store.ws.total,
+    totalToday: store.ws.totalToday,
+  }))
   
+  const ordersDone = useMemo(
+    () => {
+      return orders.filter(item => item.status === 'done').filter((item, index) => index <= 9)
+    },
+    [orders]
+  );
+
+  const ordersOther = useMemo(
+    () => {
+      return orders.filter(item => item.status !== 'done').filter((item, index) => index <= 9)
+    },
+    [orders]
+  );
+
+  return (
+    <>
+      <div className={`mb-15 ${styles.summury_status}`}>
+        <ColumnOfOrders type="done" orders={ordersDone} />
+        <ColumnOfOrders orders={ordersOther} />
+      </div>
+      {total && <TotalOrders
+        title="Выполнено за все время:"
+        total={total}
+        style="mb-15"
+      />}
+      {totalToday && <TotalOrders
+        title="Выполнено за сегодня:"
+        total={totalToday}
+      />}
+    </>
+  )
+}
+
+export const SummuryOfOrders = () => {
   return (
     <Column>
-      <div className={`mb-15 ${styles.summury_status}`}>
-        <ColumnOfOrders type="done" orders={arrayDone} />
-        <ColumnOfOrders orders={arrayDone} />
-      </div>
-      <TotalOrders
-        title="Выполнено за все время:"
-        total="28752"
-        style="mb-15"
-      />
-      <TotalOrders
-        title="Выполнено за сегодня:"
-        total="138"
-      />
+      <Summury />
     </Column>
   )
 }

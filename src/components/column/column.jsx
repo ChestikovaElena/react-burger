@@ -41,7 +41,7 @@ export const Column = ({ children, request, requestFailed, title, type }) => {
 
   return (
     <>
-      <section className={type === "right" ? `${styles.column} mt-10 mr-15` : `${styles.column} mt-25`}>
+      <section className={type === "right" ? `${styles.column} pt-10 mr-15` : `${styles.column} pt-25`}>
         {content}
       </section>
     </>

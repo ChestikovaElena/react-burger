@@ -9,7 +9,7 @@ export const ListOfBlocks = ({ children, refContainer, scrollHendler }) => {
       ref={refContainer}
       onScroll={scrollHendler}
       data-id='container'>
-      <ul className={`${styles.blocks_list}`}>
+      <ul className={`${styles.block_list}`}>
         {children}
       </ul>
     </div>

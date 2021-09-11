@@ -1,60 +1,33 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import IngredientItem from '../ingredient-item';
 import Preloader from '../preloader';
+import TotalPrice from '../total-price';
 import styles from './feed-info-details.module.css';
 
 export const FeedInfoDetails = () => {
+  const { orders } = useSelector((state) => ({
+    orders: state.ws.orders
+  }));
+
   const { orderId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [error, setError] = useState(false);
-  let date = new Date();
-  date = date.toUTCString();
 
-  const data = [
-    {
-      id: '2434325464564',
-      number: '03898455',
-      time: date,
-      title: 'Death Star Starship бургер',
-      ingredients: [
-        '60d3b41abdacab0026a733c6',
-        '60d3b41abdacab0026a733cd',
-        '60d3b41abdacab0026a733cd',
-        '60d3b41abdacab0026a733ce',
-        '60d3b41abdacab0026a733c9',
-        '60d3b41abdacab0026a733cb',
-        '60d3b41abdacab0026a733ca'
-      ],
-      cost: 1800
-    },
-    {
-      id: '78566364646',
-      number: '03898455',
-      time: date,
-      title: 'Death Star Starship бургер',
-      ingredients: [
-        '60d3b41abdacab0026a733c9',
-        '60d3b41abdacab0026a733cb',
-        '60d3b41abdacab0026a733ca'
-      ],
-      cost: 1800
-    }
-  ];
-
-  const getOrderInfo = () => {
-    return [...data].filter(item => item.id === orderId);
+  const getOrderInfo = async () => {
+    return await [...orders].filter(item => item._id === orderId);
   }
 
   useEffect(
-    () => {
+    async () => {
       let soughtOrder = null;
       let orderDataValue = null;
       let errorValue = false;
 
-      if (data.length) {
-        soughtOrder = getOrderInfo();
+      if (orders.length) {
+        soughtOrder = await getOrderInfo();
 
         if (soughtOrder && soughtOrder.length) {
           orderDataValue = soughtOrder[0];
@@ -64,46 +37,63 @@ export const FeedInfoDetails = () => {
       setOrderData(orderDataValue);
       setError(errorValue);
     },
-    [orderId]
+    [orderId, orders]
+  );
+
+  const totalPrice = useMemo(
+    ()=> {
+      if (orderData && orderData.ingredients && orderData.ingredients.length) {
+        return orderData.ingredients.reduce(
+            (sum, item) => (sum + item.price * item.count), 0
+          );
+      }
+    },
+    [orderData]
   );
 
   return (
-    <div>
+    <>
       {error ? (
           <p className='text text_type_main-medium text_color_inactive mt-8'>Заказ с таким ID не найден</p>
         ) : (
           orderData === null ? (
             <Preloader />
           ) : (
-          <>
-            <h3 className="mb-10 text text_type_digits-medium">
-              {orderData.id}
-            </h3>
-            <h4 className="mb-3 text text_type_main-medium">
-              {orderData.title}
-            </h4>
-            <p className={`mb-15 text text_type_main-default ${styles.status}`}>
-              Выполнен
-            </p>
-            <h4 className="mb-6 text text_type_main-medium">Состав:</h4>
-            <div className={`mb-10 ${styles.ingredients_list}`}>
-              <ul>
-                {orderData.ingredients
-                  .map(
-                    (item, index) =>
-                      <IngredientItem
-                        key={`${index}`}
-                        item={item}
-                        index={index}
-                      />
-                  )
-                }
-              </ul>
-            </div>
-          </>
+            <div className={ styles.content}>
+              <h3 className={`mb-10 text text_type_digits-default ${styles.title}`}>
+                {`#${orderData.number}`}
+              </h3>
+              <h4 className={`mb-3 text text_type_main-medium ${styles.name}`}>
+                {orderData.name}
+              </h4>
+              <p className={`mb-15 text text_type_main-default ${styles.status}`}>
+                {orderData === 'done' ? "Выполнен" : "В работе"}
+              </p>
+              <h4 className="mb-6 text text_type_main-medium">Состав:</h4>
+              <div className={`mb-10`}>
+                <ul className={`pr-4 ${styles.ingredients_list}`}>
+                  {orderData.ingredients
+                    .map(
+                      (item, index) =>
+                        <IngredientItem
+                          key={`${index}`}
+                          item={item}
+                          index={index}
+                        />
+                    )
+                  }
+                </ul>
+              </div>
+              <div className={styles.row}>
+                <span className="text text_type_main-default text_color_inactive">
+                  {orderData.createdAt}
+                </span>
+                {totalPrice && <TotalPrice totalPrice={`${totalPrice}`} type="def"/>}
+              </div>
+          </div>
           )
         )
       }
-    </div>
+    </>
   )
 }

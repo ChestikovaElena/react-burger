@@ -127,7 +127,6 @@ const BurgerConstructor = () => {
         {dataSelected.length===0 ? (
           <TitleMessage
             text='Переместите сюда ингредиенты для бургера'
-            marginTop='15'
           />
         ) : (
           <>

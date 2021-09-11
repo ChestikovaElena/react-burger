@@ -1,9 +1,10 @@
 .column {
   width: 600px;
+  margin-top: 128px;
 }
 
 .blocks_container {
-  height: 61vh;
+  height: 67vh;
   overflow-y: scroll;
 }
 
@@ -16,9 +17,9 @@
   background-color: #8585ad;
 }
 
-.block_list {
-  margin-top: -40px;
-  display: flex;
+.blocks_list {
+  /* margin-top: -40px; */
+  /* display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
 }

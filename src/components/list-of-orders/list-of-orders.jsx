@@ -1,59 +1,41 @@
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
 import Column from '../column';
 import OrderCard from '../order-card';
+import Preloader from '../preloader';
 
-export const ListOfOrders = () => {
-  let date = new Date();
-  date = date.toUTCString();
+const Orders = () => {
+  const { orders } = useSelector((store) => ({
+    orders: store.ws.orders
+  }));
 
-  const array = [
-    {
-      id: '2434325464564',
-      number: '03898455',
-      time: date,
-      title: 'Death Star Starship бургер',
-      ingredients: [
-        '60d3b41abdacab0026a733c6',
-        '60d3b41abdacab0026a733cd',
-        '60d3b41abdacab0026a733cd',
-        '60d3b41abdacab0026a733ce',
-        '60d3b41abdacab0026a733c9',
-        '60d3b41abdacab0026a733cb',
-        '60d3b41abdacab0026a733ca',
-        '60d3b41abdacab0026a733d1',
-        '60d3b41abdacab0026a733d3'
-      ],
-      cost: 1800
+  const updateOrders = useMemo(
+    () => {
+      return orders.filter(item => item.isUpdateOrder === true)
     },
-    {
-      id: '78566364646',
-      number: '03898455',
-      time: date,
-      title: 'Death Star Starship бургер',
-      ingredients: [
-        '60d3b41abdacab0026a733c6',
-        '60d3b41abdacab0026a733cd',
-        '60d3b41abdacab0026a733cd',
-        '60d3b41abdacab0026a733ce',
-        '60d3b41abdacab0026a733c9',
-        '60d3b41abdacab0026a733cb',
-        '60d3b41abdacab0026a733ca',
-        '60d3b41abdacab0026a733d1',
-        '60d3b41abdacab0026a733d3',
-        '60d3b41abdacab0026a733ca',
-        '60d3b41abdacab0026a733d1',
-        '60d3b41abdacab0026a733d3'
-      ],
-      cost: 1800
-    }
-  ];
+    [orders]
+  );
+
   return (
-    <Column request={false} requestFailed={false} title="Лента заказов" type="right">
-      {array.map(
-        (item, index) =>
-          <li key={`${index}`} className="mb-4">
+    updateOrders.length ? (
+      updateOrders.map(
+        (item, index) => 
+          <li key={`${item._id}${index}`} className="mb-4">
             <OrderCard orderInfo={item}/>
           </li>
-      )}
+      )
+    ) : (
+      <Preloader />
+    )
+  )
+}
+
+export const ListOfOrders = () => {
+
+  return (
+    <Column request={false} requestFailed={false} title="Лента заказов" type="right">
+      <Orders />
     </Column>
   );
 }

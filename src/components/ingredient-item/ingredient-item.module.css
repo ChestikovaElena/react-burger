@@ -1,5 +1,18 @@
 .item {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
+  height: 64px;
+}
+
+.item_title {
+  width: 410px;
+  flex-shrink: 1;
+  text-align: left;
+}
+
+.total {
+  width: 130px;
+  display: flex;
+  justify-content: flex-end;
 }

@@ -15,7 +15,7 @@ export const ProfilePage = () => {
   }
 
   return (
-    <section className={`mt-30 ${styles.section}`}>
+    <section className={`pt-30 ${styles.section}`}>
       <div className={ `mr-15 ${styles.left_column}` }>
         <aside>
           <Menu

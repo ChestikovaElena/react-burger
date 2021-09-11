@@ -6,6 +6,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
 import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/user';
+import styles from './login.module.css';
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
@@ -54,49 +55,53 @@ export const ResetPasswordPage = () => {
   }
 
   return (
-    <FormWrapper
-      title="Восстановление пароля"
-      actionFunc={restorePassword(state.newPassword, state.code)}
-    >
-      <div className="mb-6">
-        <Input
-          type={iconValue === 'ShowIcon' ? 'password' : 'text'}
-          placeholder={'Введите новый пароль'}
-          onChange={handleInputChange}
-          icon={iconValue}
-          value={state.newPassword}
-          name={'newPassword'}
-          error={false}
-          onIconClick={onIconClick}
-          errorText={''}
-          size={'default'}
-        />
+    <div className={ styles.wrapper }>
+      <div className={ styles.content }>
+        <FormWrapper
+          title="Восстановление пароля"
+          actionFunc={restorePassword(state.newPassword, state.code)}
+        >
+          <div className="mb-6">
+            <Input
+              type={iconValue === 'ShowIcon' ? 'password' : 'text'}
+              placeholder={'Введите новый пароль'}
+              onChange={handleInputChange}
+              icon={iconValue}
+              value={state.newPassword}
+              name={'newPassword'}
+              error={false}
+              onIconClick={onIconClick}
+              errorText={''}
+              size={'default'}
+            />
+          </div>
+          <div className="mb-6">
+            <Input
+              type={'text'}
+              placeholder={'Введите код из письма'}
+              onChange={handleInputChange}
+              icon={null}
+              value={state.code}
+              name={'code'}
+              error={false}
+              onIconClick={onIconClick}
+              errorText={''}
+              size={'default'}
+            />
+          </div>
+          <div className="mb-20">
+            <Button type="primary" size="medium">
+              Сохранить
+            </Button>
+          </div>
+          <SpanWithLink
+            buttonText="Войти"
+            link="/login"
+            spanText="Вспомнили пароль?"
+            mb="0"
+          />
+        </FormWrapper>
       </div>
-      <div className="mb-6">
-        <Input
-          type={'text'}
-          placeholder={'Введите код из письма'}
-          onChange={handleInputChange}
-          icon={null}
-          value={state.code}
-          name={'code'}
-          error={false}
-          onIconClick={onIconClick}
-          errorText={''}
-          size={'default'}
-        />
-      </div>
-      <div className="mb-20">
-        <Button type="primary" size="medium">
-          Сохранить
-        </Button>
-      </div>
-      <SpanWithLink
-        buttonText="Войти"
-        link="/login"
-        spanText="Вспомнили пароль?"
-        mb="0"
-      />
-    </FormWrapper>
+    </div>
   )
 }

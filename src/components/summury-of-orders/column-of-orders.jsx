@@ -6,10 +6,10 @@ export const ColumnOfOrders = ({ orders, type }) => {
       <h3 className="mb-6 text text_type_main-medium">
         {type === 'done' ? `Готовы:` : `В работе:`}
       </h3>
-      <div className={styles.orders}>
-        <ul className={styles.orders_list}>
-          {orders.filter((item, index) => index <= 9)
-            .map(
+      {orders.length ? (
+        <div className={styles.orders}>
+          <ul className={styles.orders_list}>
+            {orders.map(
               (item, index) => 
                 <li key={index} className="mb-2">
                   <span
@@ -18,12 +18,16 @@ export const ColumnOfOrders = ({ orders, type }) => {
                         ? `text text_type_digits-default ${styles.item_done}`
                         : `text text_type_digits-default`}
                   >
-                    {item}
+                    {item.number}
                   </span>
                 </li>
-          )}
-        </ul>
-      </div>
+            )}
+          </ul>
+        </div>
+        ) : (
+          <div className='text text_type_main-default'>Заказов нет</div>
+        )
+      }
     </div>
   )
 }

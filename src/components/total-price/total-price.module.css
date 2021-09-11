@@ -1,11 +1,17 @@
 .total {
   display: flex;
   align-items: center;
+  text-align: right;
 }
 
 .icon_big svg {
   width : 36px;
   height: 36px;
+}
+
+.icon_def {
+  display: flex;
+  align-items: center;
 }
 
 .icon_def svg {
