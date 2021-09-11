@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch ,useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import IngredientItem from '../ingredient-item';
 import Preloader from '../preloader';
 import TotalPrice from '../total-price';
+import { getOrderInfoRequest } from '../../services/actions/ws';
 import styles from './feed-info-details.module.css';
 
-export const FeedInfoDetails = () => {
-  const { orders } = useSelector((state) => ({
-    orders: state.ws.orders
+export const FeedInfoDetails = ({ page }) => {
+  const dispatch = useDispatch();
+  const { orders, wsConnected } = useSelector((state) => ({
+    orders: !page ? state.ws.orders : state.wsUser.orders,
+    wsConnected: !page ? state.ws.wsConnected : state.wsUser.wsConnected,
   }));
 
   const { orderId } = useParams();
@@ -33,11 +36,18 @@ export const FeedInfoDetails = () => {
           orderDataValue = soughtOrder[0];
         } else {errorValue = true};
       }
-      
+      if (!wsConnected) {
+        soughtOrder = await dispatch(getOrderInfoRequest(orderId));
+
+        if (soughtOrder && soughtOrder.length) {
+          orderDataValue = soughtOrder[0];
+        } else {errorValue = true};
+      }
+
       setOrderData(orderDataValue);
       setError(errorValue);
     },
-    [orderId, orders]
+    [orderId, orders, wsConnected]
   );
 
   const totalPrice = useMemo(

@@ -3,6 +3,10 @@
   margin-top: 128px;
 }
 
+.column_mt_none {
+  margin-top: 0;
+}
+
 .blocks_container {
   height: 67vh;
   overflow-y: scroll;

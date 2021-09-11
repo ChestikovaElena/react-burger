@@ -4,7 +4,10 @@ import {
   WS_USER_GET_MESSAGE,
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED,
-  WS_USER_UPDATE_ORDER
+  WS_USER_UPDATE_ORDER,
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED
 } from '../actions/ws.js';
 
 const initialState = {
@@ -13,7 +16,9 @@ const initialState = {
   wsConnectionFailed: false,
   orders: [],
   total: null,
-  totalToday: null
+  totalToday: null,
+  orderRequest: false,
+  orderFailed: false,
 }
 
 export const wsUserReducer = (state = initialState, action) => {
@@ -56,7 +61,27 @@ export const wsUserReducer = (state = initialState, action) => {
               ...state.orders.filter(item => item._id !== action.updateOrder._id),
               action.updateOrder
             ]
-      };
+      }
+      case GET_ORDER_REQUEST: {
+        return {
+          ...state,
+          orderRequest: true
+        }
+      }
+      case GET_ORDER_SUCCESS: {
+        return {
+          ...state,
+          orders: [action.order],
+          orderRequest: false,
+          orderFailed: false
+        }
+      }
+      case GET_ORDER_FAILED: {
+        return {
+          ...state,
+          orderFailed: true
+        }
+      }
     default:
       return state
   }

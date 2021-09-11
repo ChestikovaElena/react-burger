@@ -25,14 +25,19 @@ import
 import AppHeader from '../app-header';
 import FeedInfoDetails from '../feed-info-details';
 import IngredientDetails from '../ingredient-details';
+import ListOfOrders from '../list-of-orders';
 import Modal from '../modal';
 import NoAuthRoute from '../no-auth-route';
 import OrderDetails from '../order-details';
 import ProtectedRoute from '../protected-route';
+import ProfileForm from "../profile-form";
 import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/ws';
+import { 
+  WS_CONNECTION_START,
+  WS_CONNECTION_CLOSED
+} from '../../services/actions/ws';
 import { processOrders } from '../../utils/process-orders';
 
 function App() {
@@ -111,7 +116,11 @@ function ModalSwitch() {
             <ResetPasswordPage />
           </NoAuthRoute>
           <ProtectedRoute path="/profile" exact>
-            <ProfilePage />
+            <ProfilePage
+              textInfo="В этом разделе вы можете изменить свои персональные данные"
+            >
+              <ProfileForm />
+            </ProfilePage>
           </ProtectedRoute>
           <Route path="/ingredients/:ingredientId" exact>
             <IngredientPage />
@@ -119,6 +128,13 @@ function ModalSwitch() {
           <Route path="/feed/:orderId" exact>
             <FeedInfoPage />
           </Route>
+          <ProtectedRoute path="/profile/orders" exact>
+            <ProfilePage
+              textInfo="В этом разделе вы можете просмотреть свою историю заказов"
+            >
+              <ListOfOrders page="profile"/>
+            </ProfilePage>
+          </ProtectedRoute>
           <ProtectedRoute 
             path='/profile/orders/:orderNumber'
             children={<OrderPage />}
@@ -149,10 +165,10 @@ function ModalSwitch() {
         )}
         {background && (
           <ProtectedRoute
-            path='/profile/orders/:orderNumber'
+            path='/profile/orders/:orderId'
             children={
-              <Modal handleModalClose={handleModalClose}>
-                <OrderDetails />
+              <Modal handleModalClose={handleModalClose} width="640" page="profile">
+                <FeedInfoDetails />
               </Modal>
             }
           />

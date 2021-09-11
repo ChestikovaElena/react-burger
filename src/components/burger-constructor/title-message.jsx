@@ -16,6 +16,9 @@ export const TitleMessage = ({ text, marginTop }) => {
 }
 
 TitleMessage.propTypes = {
-  text: PropTypes.string.isRequired,
-  marginTop: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  marginTop: PropTypes.string,
 }

@@ -5,9 +5,9 @@ import Column from '../column';
 import OrderCard from '../order-card';
 import Preloader from '../preloader';
 
-const Orders = () => {
+const Orders = ({ page }) => {
   const { orders } = useSelector((store) => ({
-    orders: store.ws.orders
+    orders: page ? store.wsUser.orders: store.ws.orders
   }));
 
   const updateOrders = useMemo(
@@ -26,16 +26,27 @@ const Orders = () => {
           </li>
       )
     ) : (
-      <Preloader />
+      orders.length ? (
+        <Preloader />
+      ) : (
+        <p className="mt-20 text text_type_main-medium">
+          У пользователя нет заказов
+        </p>
+      )
     )
   )
 }
 
-export const ListOfOrders = () => {
+export const ListOfOrders = ({ page }) => {
 
   return (
-    <Column request={false} requestFailed={false} title="Лента заказов" type="right">
-      <Orders />
+    <Column
+      request={false}
+      requestFailed={false}
+      title= {!page ? "Лента заказов" : null}
+      type={!page ? "right" : "none"}
+    >
+      <Orders page={page}/>
     </Column>
   );
 }
