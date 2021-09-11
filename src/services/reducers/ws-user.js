@@ -1,10 +1,10 @@
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_GET_MESSAGE,
-  WS_CONNECTION_FAILED,
-  WS_CONNECTION_CLOSED,
-  WS_UPDATE_ORDER
+  WS_USER_CONNECTION_START,
+  WS_USER_CONNECTION_SUCCESS,
+  WS_USER_GET_MESSAGE,
+  WS_USER_CONNECTION_FAILED,
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_UPDATE_ORDER
 } from '../actions/ws.js';
 
 const initialState = {
@@ -16,39 +16,39 @@ const initialState = {
   totalToday: null
 }
 
-export const wsReducer = (state = initialState, action) => {
+export const wsUserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case WS_CONNECTION_START:
+    case WS_USER_CONNECTION_START:
       return {
         ...state,
         wsConnectionRequest: true
       };
-    case WS_CONNECTION_SUCCESS:
+    case WS_USER_CONNECTION_SUCCESS:
       return {
         ...state,
         wsConnectionRequest: false,
         wsConnected: true
       };
-    case WS_CONNECTION_FAILED:
+    case WS_USER_CONNECTION_FAILED:
       return {
         ...state,
         wsConnected: false,
         wsConnectionRequest: false,
         wsConnectionFailed: true
       };
-    case WS_CONNECTION_CLOSED:
+    case WS_USER_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false
       };
-    case WS_GET_MESSAGE:
+    case WS_USER_GET_MESSAGE:
       return {
         ...state,
         orders: action.payload.orders,
         total: action.payload.total,
         totalToday: action.payload.totalToday
       };
-    case WS_UPDATE_ORDER:
+    case WS_USER_UPDATE_ORDER:
       return {
         ...state,
           orders:

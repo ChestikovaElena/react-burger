@@ -4,11 +4,13 @@ import { dataSelectedReducer } from './data-selected';
 import { orderReducer } from './order';
 import { userReducer } from './user';
 import { wsReducer } from './ws';
+import { wsUserReducer } from './ws-user';
 
 export const rootReducer = combineReducers({
   data: dataReducer,
   dataSelected: dataSelectedReducer,
   order: orderReducer,
   user: userReducer,
-  ws: wsReducer
+  ws: wsReducer,
+  wsUser: wsUserReducer
 });

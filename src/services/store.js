@@ -8,11 +8,16 @@ import {
   WS_GET_MESSAGE,
   WS_CONNECTION_FAILED,
   WS_CONNECTION_CLOSED,
-  WS_CONNECTION_CLOSE,
-  WS_USER_NAME_UPDATE
+
+  WS_USER_CONNECTION_START,
+  WS_USER_CONNECTION_SUCCESS,
+  WS_USER_GET_MESSAGE,
+  WS_USER_CONNECTION_FAILED,
+  WS_USER_CONNECTION_CLOSED
 } from './actions/ws.js';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
+const wsUserUrl = 'wss://norma.nomoreparties.space/orders';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
@@ -22,11 +27,25 @@ const wsActions = {
   onError: WS_CONNECTION_FAILED
 };
 
+const wsUserActions = {
+  wsInit: WS_USER_CONNECTION_START,
+  onOpen: WS_USER_CONNECTION_SUCCESS,
+  onMessage: WS_USER_GET_MESSAGE,
+  onClose: WS_USER_CONNECTION_CLOSED,
+  onError: WS_USER_CONNECTION_FAILED
+};
+
 const composeEnhancers = 
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enchancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions)));
+const enchancer = composeEnhancers(
+  applyMiddleware(
+    thunk,
+    socketMiddleware(wsUrl, wsActions, false),
+    socketMiddleware(wsUserUrl, wsUserActions, true),
+  )
+);
 
 export const store = createStore(rootReducer, enchancer);
