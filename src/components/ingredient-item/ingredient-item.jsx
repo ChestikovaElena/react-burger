@@ -14,7 +14,7 @@ export const IngredientItem = ({ index, item }) => {
       />
       <h5 className={`text text_type_main-default ml-4 mr-4 ${styles.item_title}`}>{item.name}</h5>
       <div className={ styles.total }>
-        <TotalPrice totalPrice={`${item.count} x ${item.price}`} type="def"/>
+        <TotalPrice count={item.count} totalPrice={item.price} type="def"/>
       </div>
     </li>
   )

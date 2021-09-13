@@ -71,7 +71,7 @@ export const wsUserReducer = (state = initialState, action) => {
       case GET_ORDER_SUCCESS: {
         return {
           ...state,
-          orders: [action.order],
+          orders: action.orders,
           orderRequest: false,
           orderFailed: false
         }

@@ -1,5 +1,5 @@
 import { getDate } from './get-date';
-import { WS_UPDATE_ORDER } from '../services/actions/ws';
+import { WS_UPDATE_ORDER, WS_USER_UPDATE_ORDER } from '../services/actions/ws';
 
 const saveIngredient = (ingredient, id, count) => {
   const newItem = {
@@ -35,9 +35,9 @@ export const processIngredients = (data, ingredients) => {
   return newIngredients;
 }
 
-export const processOrders = (data, dispatch, orders) => {
+export const processOrders = (data, dispatch, orders, isUserOrders) => {
   orders = orders.filter((item, index) => !item.isUpdateOrder);
-  
+  console.log(orders);
   for (const order of orders) {
     const { ingredients } = order;
     const newIngredients = processIngredients(data, ingredients);
@@ -48,9 +48,14 @@ export const processOrders = (data, dispatch, orders) => {
       ingredients: newIngredients,
       isUpdateOrder: true
     };
-    if (updateOrder && newIngredients.length) {
+    if (updateOrder && newIngredients.length && !isUserOrders) {
       dispatch({
         type: WS_UPDATE_ORDER,
+        updateOrder
+      })
+    } else if ( updateOrder && newIngredients.length && isUserOrders ) {
+      dispatch({
+        type: WS_USER_UPDATE_ORDER,
         updateOrder
       })
     }

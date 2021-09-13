@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './total-price.module.css';
 
-export const TotalPrice = ({totalPrice, type}) => {
+export const TotalPrice = ({ count, totalPrice, type }) => {
   let paddingRight, spanStyle;
   if (type === 'large') {
     paddingRight = "pr-10";
@@ -13,7 +13,9 @@ export const TotalPrice = ({totalPrice, type}) => {
   }
   return (
     <div className={ `${styles.total} ${paddingRight}`}>
-      <span className={`text ${spanStyle} pr-2`}>{totalPrice}</span>
+      <span className={`text ${spanStyle} pr-2`}>
+        {count ? `${count} x ${totalPrice}` : `${totalPrice}`}
+      </span>
       <div className= {type === 'large' ? `${styles.icon_big}` : `${styles.icon_def}` }>
         <CurrencyIcon type="primary" />
       </div>
@@ -22,6 +24,6 @@ export const TotalPrice = ({totalPrice, type}) => {
 }
 
 TotalPrice.propTypes = {
-  totalPrice: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number,
   type: PropTypes.string.isRequired
 }

@@ -6,8 +6,9 @@ import OrderCard from '../order-card';
 import Preloader from '../preloader';
 
 const Orders = ({ page }) => {
-  const { orders } = useSelector((store) => ({
-    orders: page ? store.wsUser.orders: store.ws.orders
+  const { orders, wsConnected } = useSelector((store) => ({
+    orders: page ? store.wsUser.orders: store.ws.orders,
+    wsConnected: store.wsUser.wsConnected
   }));
 
   const updateOrders = useMemo(
@@ -16,7 +17,7 @@ const Orders = ({ page }) => {
     },
     [orders]
   );
-
+  
   return (
     updateOrders.length ? (
       updateOrders.map(

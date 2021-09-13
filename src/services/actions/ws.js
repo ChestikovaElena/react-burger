@@ -18,7 +18,7 @@ export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 
-const API_SOURCE_DATA = 'norma.nomoreparties.space/feed/';
+const API_SOURCE_DATA = 'norma.nomoreparties.space/api/orders/';
 
 export function getOrderInfoRequest(id) {
   return function(dispatch) {
@@ -28,11 +28,9 @@ export function getOrderInfoRequest(id) {
     return fetch(`${API_SOURCE_DATA}id`)
       .then(getResponseData)
       .then(res => {
-        // const { success, ...restParsedData } = res;
-        console.log(res);
         dispatch({
           type: GET_ORDER_SUCCESS,
-          order: res.order
+          orders: res.orders
         });
       })
       .catch(error => {

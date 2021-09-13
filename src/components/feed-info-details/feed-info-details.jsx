@@ -12,7 +12,7 @@ export const FeedInfoDetails = ({ page }) => {
   const dispatch = useDispatch();
   const { orders, wsConnected } = useSelector((state) => ({
     orders: !page ? state.ws.orders : state.wsUser.orders,
-    wsConnected: !page ? state.ws.wsConnected : state.wsUser.wsConnected,
+    wsConnected: state.wsUser.wsConnected,
   }));
 
   const { orderId } = useParams();
@@ -36,12 +36,13 @@ export const FeedInfoDetails = ({ page }) => {
           orderDataValue = soughtOrder[0];
         } else {errorValue = true};
       }
-      if (!wsConnected) {
-        soughtOrder = await dispatch(getOrderInfoRequest(orderId));
 
-        if (soughtOrder && soughtOrder.length) {
-          orderDataValue = soughtOrder[0];
-        } else {errorValue = true};
+      if (!wsConnected && !orders.length) {
+        dispatch(getOrderInfoRequest(orderId));
+
+        // if (soughtOrder && soughtOrder.length) {
+        //   orderDataValue = soughtOrder[0];
+        // } else {errorValue = true};
       }
 
       setOrderData(orderDataValue);
@@ -98,7 +99,7 @@ export const FeedInfoDetails = ({ page }) => {
                 <span className="text text_type_main-default text_color_inactive">
                   {orderData.createdAt}
                 </span>
-                {totalPrice && <TotalPrice totalPrice={`${totalPrice}`} type="def"/>}
+                {totalPrice && <TotalPrice totalPrice={totalPrice} type="def"/>}
               </div>
           </div>
           )

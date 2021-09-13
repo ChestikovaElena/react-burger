@@ -33,7 +33,7 @@ export const socketMiddleware = (wsUrl, wsActions, isUserWebSocket) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
-
+          
           dispatch({ type: onMessage, payload: restParsedData });
         };
 

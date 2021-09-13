@@ -36,15 +36,18 @@ import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
 import { 
   WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED
+  WS_CONNECTION_CLOSED,
+  WS_USER_CONNECTION_START,
+  WS_USER_CONNECTION_CLOSED
 } from '../../services/actions/ws';
 import { processOrders } from '../../utils/process-orders';
 
 function App() {
   const dispatch = useDispatch();
-  const { data, orders } = useSelector((store) => ({
+  const { data, orders, ordersUser } = useSelector((store) => ({
     data: store.data.data,
-    orders: store.ws.orders
+    orders: store.ws.orders,
+    ordersUser: store.wsUser.orders
   }));
 
   const refreshToken = localStorage.getItem('refreshToken');
@@ -56,10 +59,17 @@ function App() {
       dispatch({
         type: WS_CONNECTION_START
       });
+      dispatch({
+        type: WS_USER_CONNECTION_START
+      });
+
       return () => {
         dispatch({
           type: WS_CONNECTION_CLOSED
-        })
+        });
+        dispatch({
+          type: WS_USER_CONNECTION_CLOSED
+        });
       }
     },
     []
@@ -68,10 +78,20 @@ function App() {
   useEffect(
     () => {
       if (orders && orders.length !== 0) {
-        processOrders(data, dispatch, orders)
+        processOrders(data, dispatch, orders, false)
       };
     },
     [orders]
+  )
+
+  useEffect(
+    () => {
+      if (ordersUser && ordersUser.length !== 0) {
+        console.log('++++', ordersUser);
+        processOrders(data, dispatch, ordersUser, true);
+      };
+    },
+    [ordersUser]
   )
 
   return (

@@ -6,16 +6,16 @@ import Menu from "../components/menu";
 import styles from "./profile.module.css";
 import { logOut } from '../services/actions/user';
 import {
-  WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_CLOSED
+  WS_USER_CONNECTION_START
 } from '../services/actions/ws';
 import { processOrders } from '../utils/process-orders';
 
 export const ProfilePage = ({ children, textInfo }) => {
   const dispatch = useDispatch();
-  const { data, orders } = useSelector((store) => ({
+  const { data, orders, wsConnected} = useSelector((store) => ({
     data: store.data.data,
-    orders: store.wsUser.orders
+    orders: store.wsUser.orders,
+    wsConnected: store.wsUser.wsConnected,
   }));
 
   const handleClick = (e) => {
@@ -23,28 +23,25 @@ export const ProfilePage = ({ children, textInfo }) => {
     dispatch(logOut());
   }
 
-  useEffect(
-    () => {
-      dispatch({
-        type: WS_USER_CONNECTION_START
-      });
-      return () => {
-        dispatch({
-          type: WS_USER_CONNECTION_CLOSED
-        })
-      }
-    },
-    []
-  );
+  // useEffect(
+  //   () => {
+  //     if (!wsConnected) {
+  //       dispatch({
+  //         type: WS_USER_CONNECTION_START
+  //       })
+  //     }
+  //   },
+  //   []
+  // );
 
-  useEffect(
-    () => {
-      if (orders && orders.length !== 0) {
-        processOrders(data, dispatch, orders)
-      };
-    },
-    [orders]
-  )
+  // useEffect(
+  //   () => {
+  //     if (orders && orders.length !== 0) {
+  //       processOrders(data, dispatch, orders, "user")
+  //     };
+  //   },
+  //   [orders]
+  // )
 
   return (
     <section className={`pt-30 ${styles.section}`}>
