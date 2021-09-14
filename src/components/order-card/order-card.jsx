@@ -8,11 +8,10 @@ import TotalPrice from "../total-price";
 import { getDate } from '../../utils/get-date';
 import styles from './order-card.module.css';
 
-export const OrderCard = ({ orderInfo }) => {
+export const OrderCard = ({ orderInfo, page }) => {
   const { createdAt, _id, ingredients, name, number } = orderInfo;
   
   const location = useLocation();
-  // let viewIndex = 0;
   
   const totalPrice = useMemo(
     ()=> {
@@ -25,13 +24,11 @@ export const OrderCard = ({ orderInfo }) => {
     [ingredients]
   );
 
-  // const date = getDate(createdAt);
-
   const content = useMemo(
     () => {
       return (
         ingredients && <IngredientList>
-          {ingredients
+          {ingredients.filter((item, index) => index <= 7)
             .map(
             (item, index) =>
               <IngredientIcon
@@ -40,7 +37,6 @@ export const OrderCard = ({ orderInfo }) => {
                 index={index}
                 count={item.count === 1 ? null : item.count}
                 type="shift"
-                // viewIndex={viewIndex++}
               />
             )
           }
@@ -48,12 +44,13 @@ export const OrderCard = ({ orderInfo }) => {
       )
     },
     [ingredients]
-  )
+  );
+  const path = page !== 'profile' ? 'feed' : 'profile/orders';
   return (
     <Link
       key={_id}
       to={{
-        pathname: `/feed/${_id}`,
+        pathname: `/${path}/${number}`,
         state: { background: location }
       }}
       className={styles.link}

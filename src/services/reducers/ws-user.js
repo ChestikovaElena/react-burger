@@ -5,9 +5,9 @@ import {
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_UPDATE_ORDER,
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED
+  GET_ORDERS_REQUEST,
+  GET_ORDERS_SUCCESS,
+  GET_ORDERS_FAILED
 } from '../actions/ws.js';
 
 const initialState = {
@@ -62,13 +62,13 @@ export const wsUserReducer = (state = initialState, action) => {
               action.updateOrder
             ]
       }
-      case GET_ORDER_REQUEST: {
+      case GET_ORDERS_REQUEST: {
         return {
           ...state,
           orderRequest: true
         }
       }
-      case GET_ORDER_SUCCESS: {
+      case GET_ORDERS_SUCCESS: {
         return {
           ...state,
           orders: action.orders,
@@ -76,7 +76,7 @@ export const wsUserReducer = (state = initialState, action) => {
           orderFailed: false
         }
       }
-      case GET_ORDER_FAILED: {
+      case GET_ORDERS_FAILED: {
         return {
           ...state,
           orderFailed: true

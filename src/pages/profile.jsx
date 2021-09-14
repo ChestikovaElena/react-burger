@@ -5,43 +5,48 @@ import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import styles from "./profile.module.css";
 import { logOut } from '../services/actions/user';
-import {
-  WS_USER_CONNECTION_START
-} from '../services/actions/ws';
 import { processOrders } from '../utils/process-orders';
+import { 
+  WS_USER_CONNECTION_START,
+  WS_USER_CONNECTION_CLOSED
+} from '../services/actions/ws';
 
 export const ProfilePage = ({ children, textInfo }) => {
   const dispatch = useDispatch();
-  const { data, orders, wsConnected} = useSelector((store) => ({
+  const { data, orders } = useSelector((store) => ({
     data: store.data.data,
-    orders: store.wsUser.orders,
-    wsConnected: store.wsUser.wsConnected,
+    orders: store.wsUser.orders
   }));
+
+  useEffect(
+    () => {
+      dispatch({
+        type: WS_USER_CONNECTION_START
+      });
+
+      return () => {
+        dispatch({
+          type: WS_USER_CONNECTION_CLOSED
+        });
+      }
+    },
+    []
+  );
+
+  useEffect(
+    () => {
+      const ordersNoUpdating = orders.filter(item => !item.isUpdateOrder);
+      if (orders && orders.length !== 0 && ordersNoUpdating.length !== 0) {
+        processOrders(data, dispatch, ordersNoUpdating, 'wsUser')
+      };
+    },
+    [orders]
+  );
 
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(logOut());
   }
-
-  // useEffect(
-  //   () => {
-  //     if (!wsConnected) {
-  //       dispatch({
-  //         type: WS_USER_CONNECTION_START
-  //       })
-  //     }
-  //   },
-  //   []
-  // );
-
-  // useEffect(
-  //   () => {
-  //     if (orders && orders.length !== 0) {
-  //       processOrders(data, dispatch, orders, "user")
-  //     };
-  //   },
-  //   [orders]
-  // )
 
   return (
     <section className={`pt-30 ${styles.section}`}>

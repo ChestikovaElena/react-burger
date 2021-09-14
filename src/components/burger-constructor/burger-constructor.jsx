@@ -63,7 +63,14 @@ const BurgerConstructor = () => {
     } else {
       if (dataSelected.filter(item => item.type === 'bun').length!==0) {
         let arrayOfID = [];
-        dataSelected.map(item => arrayOfID.push(item._id));
+        dataSelected.map(item => {
+          if (item.type === 'bun') {
+            arrayOfID.push(item._id);
+            arrayOfID.push(item._id)
+          } else {
+            arrayOfID.push(item._id)
+          }
+        });
         
         dispatch(getOrderInformation(arrayOfID));
 

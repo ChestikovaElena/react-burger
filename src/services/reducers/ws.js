@@ -42,20 +42,32 @@ export const wsReducer = (state = initialState, action) => {
         wsConnected: false
       };
     case WS_GET_MESSAGE:
+      let newOrders;
+      if (state.orders && state.orders.length) {
+        const indexAfterNewOrders = action.payload.orders.findIndex(order => order._id === state.orders[0]._id);
+        if (indexAfterNewOrders === 0 || !indexAfterNewOrders) {
+          newOrders = action.payload.orders;
+        } else {
+          newOrders = state.orders.unshift(action.payload.orders.slice(0, indexAfterNewOrders));
+        }
+      } else {
+        newOrders = action.payload.orders;
+      }
+
       return {
         ...state,
-        orders: action.payload.orders,
+        orders: newOrders,
         total: action.payload.total,
         totalToday: action.payload.totalToday
       };
     case WS_UPDATE_ORDER:
       return {
         ...state,
-          orders:
-            [
-              ...state.orders.filter(item => item._id !== action.updateOrder._id),
-              action.updateOrder
-            ]
+        orders:
+          [
+            ...state.orders.filter(item => item._id !== action.updateOrder._id),
+            action.updateOrder
+          ]
       };
     default:
       return state
