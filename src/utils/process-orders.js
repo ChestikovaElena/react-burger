@@ -1,7 +1,9 @@
 import { getDate } from './get-date';
 import { WS_UPDATE_ORDER, WS_USER_UPDATE_ORDER } from '../services/actions/ws';
+import { UPDATE_ORDER_INFO } from '../services/actions/order-info';
 
 const saveIngredient = (ingredient, id, count) => {
+  
   const newItem = {
     "id": id,
     "count": count,
@@ -15,7 +17,7 @@ const saveIngredient = (ingredient, id, count) => {
 
 const getIngredient = (data, id, count, cb) => {
   const soughtArray =  [...data].filter(item => item._id === id);
-
+  
   return cb(soughtArray[0], id, count);
 };
 
@@ -28,6 +30,7 @@ export const processIngredients = (data, ingredients) => {
   const newIngredients = [];
   
   for (const ingr of Object.keys(ingredietnsWithCount)) {
+    
     const newItem = getIngredient(data, ingr, ingredietnsWithCount[ingr], saveIngredient);
     newIngredients.push(newItem);
   }
@@ -35,9 +38,10 @@ export const processIngredients = (data, ingredients) => {
   return newIngredients;
 }
 
-export const processOrders = (data, dispatch, orders, isUserOrders) => {
+export const processOrders = (data, dispatch, orders, updatingState) => {
+  
   orders = orders.filter((item, index) => !item.isUpdateOrder);
-  console.log(orders);
+  
   for (const order of orders) {
     const { ingredients } = order;
     const newIngredients = processIngredients(data, ingredients);
@@ -48,14 +52,19 @@ export const processOrders = (data, dispatch, orders, isUserOrders) => {
       ingredients: newIngredients,
       isUpdateOrder: true
     };
-    if (updateOrder && newIngredients.length && !isUserOrders) {
+    if (updateOrder && newIngredients.length && updatingState === 'ws') {
       dispatch({
         type: WS_UPDATE_ORDER,
         updateOrder
       })
-    } else if ( updateOrder && newIngredients.length && isUserOrders ) {
+    } else if ( updateOrder && newIngredients.length && updatingState === 'wsUser' ) {
       dispatch({
         type: WS_USER_UPDATE_ORDER,
+        updateOrder
+      })
+    } else if ( updateOrder && newIngredients.length && updatingState === 'orderInfo' ) {
+      dispatch({
+        type: UPDATE_ORDER_INFO,
         updateOrder
       })
     }

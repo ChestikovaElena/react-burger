@@ -17,7 +17,6 @@ import
     IngredientPage,
     LoginPage,
     NotFound404,
-    OrderPage,
     RegistrationPage,
     ResetPasswordPage,
     ProfilePage
@@ -56,43 +55,9 @@ function App() {
     () => {
       refreshToken && dispatch(getUserData());
       dispatch(getIngredients());
-      dispatch({
-        type: WS_CONNECTION_START
-      });
-      dispatch({
-        type: WS_USER_CONNECTION_START
-      });
-
-      return () => {
-        dispatch({
-          type: WS_CONNECTION_CLOSED
-        });
-        dispatch({
-          type: WS_USER_CONNECTION_CLOSED
-        });
-      }
     },
     []
   );
-
-  useEffect(
-    () => {
-      if (orders && orders.length !== 0) {
-        processOrders(data, dispatch, orders, false)
-      };
-    },
-    [orders]
-  )
-
-  useEffect(
-    () => {
-      if (ordersUser && ordersUser.length !== 0) {
-        console.log('++++', ordersUser);
-        processOrders(data, dispatch, ordersUser, true);
-      };
-    },
-    [ordersUser]
-  )
 
   return (
     <Router>
@@ -145,7 +110,7 @@ function ModalSwitch() {
           <Route path="/ingredients/:ingredientId" exact>
             <IngredientPage />
           </Route>
-          <Route path="/feed/:orderId" exact>
+          <Route path="/feed/:orderNumber" exact>
             <FeedInfoPage />
           </Route>
           <ProtectedRoute path="/profile/orders" exact>
@@ -155,9 +120,9 @@ function ModalSwitch() {
               <ListOfOrders page="profile"/>
             </ProfilePage>
           </ProtectedRoute>
-          <ProtectedRoute 
+          <Route 
             path='/profile/orders/:orderNumber'
-            children={<OrderPage />}
+            children={<FeedInfoPage />}
             exact
           />
           <ProtectedRoute
@@ -185,7 +150,7 @@ function ModalSwitch() {
         )}
         {background && (
           <ProtectedRoute
-            path='/profile/orders/:orderId'
+            path='/profile/orders/:orderNumber'
             children={
               <Modal handleModalClose={handleModalClose} width="640" page="profile">
                 <FeedInfoDetails />
@@ -195,7 +160,7 @@ function ModalSwitch() {
         )}
         {background && (
           <Route
-            path="/feed/:orderId"
+            path="/feed/:orderNumber"
             children={
               <Modal handleModalClose={handleModalClose} width="640">
                 <FeedInfoDetails />

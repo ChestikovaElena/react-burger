@@ -15,14 +15,18 @@ const Summury = () => {
   
   const ordersDone = useMemo(
     () => {
-      return orders.filter(item => item.status === 'done').filter((item, index) => index <= 9)
+      if (orders.length) {
+        return orders.filter(item => item.status === 'done').filter((item, index) => index <= 9)
+      }
     },
     [orders]
   );
 
   const ordersOther = useMemo(
     () => {
-      return orders.filter(item => item.status !== 'done').filter((item, index) => index <= 9)
+      if (orders.length) {
+        return orders.filter(item => item.status !== 'done').filter((item, index) => index <= 9)
+      }
     },
     [orders]
   );
@@ -30,8 +34,8 @@ const Summury = () => {
   return (
     <>
       <div className={`mb-15 ${styles.summury_status}`}>
-        <ColumnOfOrders type="done" orders={ordersDone} />
-        <ColumnOfOrders orders={ordersOther} />
+        {ordersDone && <ColumnOfOrders type="done" orders={ordersDone} />}
+        {ordersOther && <ColumnOfOrders orders={ordersOther} />}
       </div>
       {total && <TotalOrders
         title="Выполнено за все время:"

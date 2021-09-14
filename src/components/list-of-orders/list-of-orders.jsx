@@ -6,24 +6,25 @@ import OrderCard from '../order-card';
 import Preloader from '../preloader';
 
 const Orders = ({ page }) => {
-  const { orders, wsConnected } = useSelector((store) => ({
-    orders: page ? store.wsUser.orders: store.ws.orders,
-    wsConnected: store.wsUser.wsConnected
+  const { orders } = useSelector((store) => ({
+    orders: page ? store.wsUser.orders: store.ws.orders
   }));
 
   const updateOrders = useMemo(
     () => {
-      return orders.filter(item => item.isUpdateOrder === true)
+      if (orders && orders.length) {
+        return orders.filter(item => item.isUpdateOrder === true)
+      }
     },
     [orders]
   );
   
   return (
-    updateOrders.length ? (
+    updateOrders && updateOrders.length ? (
       updateOrders.map(
         (item, index) => 
           <li key={`${item._id}${index}`} className="mb-4">
-            <OrderCard orderInfo={item}/>
+            <OrderCard orderInfo={item} page={page}/>
           </li>
       )
     ) : (

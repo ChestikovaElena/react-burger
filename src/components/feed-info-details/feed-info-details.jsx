@@ -5,51 +5,76 @@ import { useParams } from 'react-router-dom';
 import IngredientItem from '../ingredient-item';
 import Preloader from '../preloader';
 import TotalPrice from '../total-price';
-import { getOrderInfoRequest } from '../../services/actions/ws';
+import { getOrderInfoRequest } from '../../services/actions/order-info';
+import { processOrders } from '../../utils/process-orders';
 import styles from './feed-info-details.module.css';
 
 export const FeedInfoDetails = ({ page }) => {
   const dispatch = useDispatch();
-  const { orders, wsConnected } = useSelector((state) => ({
-    orders: !page ? state.ws.orders : state.wsUser.orders,
-    wsConnected: state.wsUser.wsConnected,
+  const { data, ordersAll, ordersUser, order } = useSelector((state) => ({
+    data: state.data.data,
+    ordersAll: state.ws.orders,
+    ordersUser: state.wsUser.orders,
+    order: state.orderInfo.orderInfo
   }));
 
-  const { orderId } = useParams();
+  const orders = (ordersAll && ordersAll.length)
+    ? ordersAll
+    : (ordersUser && ordersUser.length)
+      ? ordersUser
+      : null;
+  console.log('orders', orders);
+  const { orderNumber } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [error, setError] = useState(false);
 
   const getOrderInfo = async () => {
-    return await [...orders].filter(item => item._id === orderId);
+    return await [...orders].filter(item => item.number == orderNumber);
   }
 
   useEffect(
     async () => {
-      let soughtOrder = null;
+      let soughtOrder;
       let orderDataValue = null;
       let errorValue = false;
-
-      if (orders.length) {
+      if (orders) {
+        // есть orders - открыто модальоне окно и данные есть
         soughtOrder = await getOrderInfo();
-
         if (soughtOrder && soughtOrder.length) {
-          orderDataValue = soughtOrder[0];
-        } else {errorValue = true};
+          if (soughtOrder[0].isUpdateOrder) {
+            orderDataValue = soughtOrder[0];
+          } else {
+            console.log('данные нужно обработать');
+          }
+        } else {
+          errorValue = true;
+        }
+        console.log('orderDataValue', orderDataValue);
+      } else { // нет orders - открыта отдельная страница, данные нужно получить с сервера
+        dispatch(getOrderInfoRequest(orderNumber));
       }
-
-      if (!wsConnected && !orders.length) {
-        dispatch(getOrderInfoRequest(orderId));
-
-        // if (soughtOrder && soughtOrder.length) {
-        //   orderDataValue = soughtOrder[0];
-        // } else {errorValue = true};
-      }
-
       setOrderData(orderDataValue);
       setError(errorValue);
     },
-    [orderId, orders, wsConnected]
+    []
   );
+
+  useEffect(
+    async () => {
+      let orderDataValue = null;
+      let errorValue = false;
+      if (order && order.length && data && data.length) {
+        await processOrders(data, dispatch, order, 'orderInfo');
+        if (order[0].isUpdateOrder) {
+          orderDataValue = order[0]
+        } else {
+          console.log('данные нужно обработать');
+        }
+      }
+      setOrderData(orderDataValue);
+    },
+    [data, order]
+  )
 
   const totalPrice = useMemo(
     ()=> {
@@ -67,7 +92,7 @@ export const FeedInfoDetails = ({ page }) => {
       {error ? (
           <p className='text text_type_main-medium text_color_inactive mt-8'>Заказ с таким ID не найден</p>
         ) : (
-          orderData === null ? (
+          !orderData ? (
             <Preloader />
           ) : (
             <div className={ styles.content}>
@@ -83,7 +108,7 @@ export const FeedInfoDetails = ({ page }) => {
               <h4 className="mb-6 text text_type_main-medium">Состав:</h4>
               <div className={`mb-10`}>
                 <ul className={`pr-4 ${styles.ingredients_list}`}>
-                  {orderData.ingredients
+                  {orderData.ingredients.length && orderData.ingredients
                     .map(
                       (item, index) =>
                         <IngredientItem

@@ -45,6 +45,7 @@ const BurgerConstructor = () => {
         [...dataSelected.filter(item => item.type !== 'bun'),
           {...data.filter(item => item._id === id)[0], customID: customID}
         ];
+        console.log(newDataSelected);
       dispatch({
         type: ADD_SELECTED_INGREDIENT,
         newDataSelected
@@ -63,7 +64,14 @@ const BurgerConstructor = () => {
     } else {
       if (dataSelected.filter(item => item.type === 'bun').length!==0) {
         let arrayOfID = [];
-        dataSelected.map(item => arrayOfID.push(item._id));
+        dataSelected.map(item => {
+          if (item.type === 'bun') {
+            arrayOfID.push(item._id);
+            arrayOfID.push(item._id)
+          } else {
+            arrayOfID.push(item._id)
+          }
+        });
         
         dispatch(getOrderInformation(arrayOfID));
 
