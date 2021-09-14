@@ -4,10 +4,7 @@ import {
   WS_USER_GET_MESSAGE,
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED,
-  WS_USER_UPDATE_ORDER,
-  GET_ORDERS_REQUEST,
-  GET_ORDERS_SUCCESS,
-  GET_ORDERS_FAILED
+  WS_USER_UPDATE_ORDER
 } from '../actions/ws.js';
 
 const initialState = {
@@ -47,6 +44,18 @@ export const wsUserReducer = (state = initialState, action) => {
         wsConnected: false
       };
     case WS_USER_GET_MESSAGE:
+      let newOrders;
+      if (state.orders && state.orders.length) {
+        const indexAfterNewOrders = action.payload.orders.findIndex(order => order._id === state.orders[0]._id);
+        if (indexAfterNewOrders === 0 || !indexAfterNewOrders) {
+          newOrders = action.payload.orders;
+        } else {
+          newOrders = state.orders.unshift(action.payload.orders.slice(0, indexAfterNewOrders));
+        }
+      } else {
+        newOrders = action.payload.orders;
+      }
+      
       return {
         ...state,
         orders: action.payload.orders,
@@ -61,26 +70,6 @@ export const wsUserReducer = (state = initialState, action) => {
               ...state.orders.filter(item => item._id !== action.updateOrder._id),
               action.updateOrder
             ]
-      }
-      case GET_ORDERS_REQUEST: {
-        return {
-          ...state,
-          orderRequest: true
-        }
-      }
-      case GET_ORDERS_SUCCESS: {
-        return {
-          ...state,
-          orders: action.orders,
-          orderRequest: false,
-          orderFailed: false
-        }
-      }
-      case GET_ORDERS_FAILED: {
-        return {
-          ...state,
-          orderFailed: true
-        }
       }
     default:
       return state
