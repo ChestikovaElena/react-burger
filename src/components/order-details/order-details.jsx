@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Preloader from '../preloader';
+import { ORDER_RESET } from '../../services/actions/order';
 
 const OrderDetails = () => {
   const { order, orderRequest, orderFailed } = useSelector(state => ({
@@ -11,6 +12,15 @@ const OrderDetails = () => {
     orderRequest: state.order.orderRequest,
     orderFailed: state.order.orderFailed,
   }));
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+    return () => {
+      dispatch({ type: ORDER_RESET })
+    }
+  },[]
+  )
 
   const content = useMemo(
     () => {
