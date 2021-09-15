@@ -33,7 +33,6 @@ export const orderInfoReducer = (state = initialState, action) => {
         orderFailed: true
       };
     case UPDATE_ORDER_INFO:
-      console.log(action.updateOrder);
       return {
         ...state,
         orderInfo: [action.updateOrder]
