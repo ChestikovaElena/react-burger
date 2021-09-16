@@ -45,7 +45,7 @@ export const wsReducer = (state = initialState, action) => {
       let newOrders;
       if (state.orders && state.orders.length) {
         const indexAfterNewOrders = action.payload.orders.findIndex(order => order._id === state.orders[0]._id);
-        if (indexAfterNewOrders === 0 || !indexAfterNewOrders) {
+        if (indexAfterNewOrders === 0 || indexAfterNewOrders === -1 || !indexAfterNewOrders) {
           newOrders = action.payload.orders;
         } else {
           newOrders = state.orders.unshift(action.payload.orders.slice(0, indexAfterNewOrders));
