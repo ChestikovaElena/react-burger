@@ -108,7 +108,7 @@ export const patchUserDataRequest = (payload) => {
   })
 }
 
-export const refreshTokenRequest = (afterRefresh) => {
+export const refreshTokenRequest = () => {
   return fetch(`${API_SOURCE}auth/token`, {
     method: 'POST',
     headers: {

@@ -5,11 +5,11 @@ import styles from './burger-ingredients.module.css';
 export const ListOfBlocks = ({ children, refContainer, scrollHendler }) => {
   return (
     <div
-      className={ `mt-10 pr-2 ${styles.blocks_container}`}
-      ref={ refContainer}
+      className={ `pr-2 ${styles.blocks_container}`}
+      ref={refContainer}
       onScroll={scrollHendler}
       data-id='container'>
-      <ul className={`${styles.blocks_list}`}>
+      <ul className={`${styles.block_list}`}>
         {children}
       </ul>
     </div>
@@ -22,5 +22,5 @@ ListOfBlocks.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })
   ]),
-  scrollHendler: PropTypes.func.isRequired,
+  scrollHendler: PropTypes.func,
 }

@@ -1,6 +1,7 @@
 .column {
   width: 600px;
   border: 2px solid transparent;
+  margin-top: 128px;
 }
 
 .column_isHover {

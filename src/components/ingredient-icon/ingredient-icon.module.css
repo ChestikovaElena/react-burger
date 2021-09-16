@@ -1,0 +1,52 @@
+.icon {
+  position: absolute;
+  transform: translateY(-50%);
+}
+
+.icon_wrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #801AB2, #4C4CFF);
+}
+
+.icon_wrapper::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
+  background-color: #131316;
+  border-radius: 50%;
+}
+
+.icon_img {
+  max-height: 56px;
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.icon_img_hidden {
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  background-color: #1C1C21;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.icon_count {
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+}

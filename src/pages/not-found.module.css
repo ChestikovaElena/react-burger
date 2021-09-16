@@ -1,5 +1,6 @@
 .wrapper {
   width: 100vw;
+  margin-top: 128px;
 }
 
 .container {
@@ -26,7 +27,7 @@
 }
 
 .spin_1 {
-  top: 46%;
+  top: 48%;
   left: 48%;
   -webkit-animation: spin 20s linear infinite;
   -moz-animation: spin 20s linear infinite;
@@ -42,7 +43,7 @@
 }
 
 .spin_3 {
-  top: 51%;
+  top: 53%;
   left: 52%;
   -webkit-animation: spin 15s linear infinite;
   -moz-animation: spin 15s linear infinite;
@@ -50,7 +51,7 @@
 }
 
 .spin_4 {
-  top: 51%;
+  top: 53%;
   left: 45%;
   -webkit-animation: spin 60s linear infinite;
   -moz-animation: spin 60s linear infinite;
