@@ -33,13 +33,6 @@ import ProfileForm from "../profile-form";
 import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
-import { 
-  WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED,
-  WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_CLOSED
-} from '../../services/actions/ws';
-import { processOrders } from '../../utils/process-orders';
 
 function App() {
   const dispatch = useDispatch();

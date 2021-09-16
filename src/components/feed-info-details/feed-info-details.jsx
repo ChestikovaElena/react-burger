@@ -23,7 +23,7 @@ export const FeedInfoDetails = ({ page }) => {
     : (ordersUser && ordersUser.length)
       ? ordersUser
       : null;
-  console.log('orders', orders);
+  
   const { orderNumber } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [error, setError] = useState(false);
@@ -49,7 +49,7 @@ export const FeedInfoDetails = ({ page }) => {
         } else {
           errorValue = true;
         }
-        console.log('orderDataValue', orderDataValue);
+        
       } else { // нет orders - открыта отдельная страница, данные нужно получить с сервера
         dispatch(getOrderInfoRequest(orderNumber));
       }

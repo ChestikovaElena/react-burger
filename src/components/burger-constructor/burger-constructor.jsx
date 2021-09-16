@@ -45,7 +45,7 @@ const BurgerConstructor = () => {
         [...dataSelected.filter(item => item.type !== 'bun'),
           {...data.filter(item => item._id === id)[0], customID: customID}
         ];
-        console.log(newDataSelected);
+        
       dispatch({
         type: ADD_SELECTED_INGREDIENT,
         newDataSelected
