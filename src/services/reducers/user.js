@@ -134,6 +134,7 @@ export const userReducer = (state = initialState, action) => {
     case REFRESH_TOKEN_FAILED: {
       return {
         ...state,
+        refreshTokenRequest: false,
         refreshTokenFailed: true
       }
     }
@@ -180,6 +181,7 @@ export const userReducer = (state = initialState, action) => {
     case FORGOT_PASSWORD_FAILED: {
       return {
         ...state,
+        forgotPasswordRequest: false,
         forgotPasswordFailed: true
       }
     }
@@ -200,6 +202,7 @@ export const userReducer = (state = initialState, action) => {
     case RESTORE_PASSWORD_FAILED: {
       return {
         ...state,
+        resetPasswordRequest: false,
         resetPasswordFailed: true
       }
     }
@@ -219,13 +222,16 @@ export const userReducer = (state = initialState, action) => {
         user: {name: '', email: ''},
         userDataRequest: false,
         userDataFailed: false,
+        userDataFailedMessage: '',
         isLoggedIn: false,
         logInRequest: false,
         logInFailed: false,
+        logInFailedMessage: '',
         logOutRequest: false,
         logOutFailed: false,
         registrateRequest: false,
         registrateFailed: false,
+        registrateFailedMessage: '',
         refreshTokenRequest: false,
         refreshTokenFailed: false,
         isForgotPassword: false,
