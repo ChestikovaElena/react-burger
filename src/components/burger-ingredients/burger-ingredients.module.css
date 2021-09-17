@@ -26,7 +26,7 @@
   background-color: #8585ad;
 }
 
-.block_list {
+.list, .block_list {
   margin-top: -40px;
   display: flex;
   justify-content: space-between;
