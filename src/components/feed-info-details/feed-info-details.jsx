@@ -23,7 +23,7 @@ export const FeedInfoDetails = ({ page }) => {
     : (ordersUser && ordersUser.length)
       ? ordersUser
       : null;
-  console.log('orders', orders);
+  
   const { orderNumber } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [error, setError] = useState(false);
@@ -40,7 +40,7 @@ export const FeedInfoDetails = ({ page }) => {
       if (orders) {
         // есть orders - открыто модальоне окно и данные есть
         soughtOrder = await getOrderInfo();
-        if (soughtOrder) {
+        if (soughtOrder && soughtOrder.length) {
           if (soughtOrder[0].isUpdateOrder) {
             orderDataValue = soughtOrder[0];
           } else {
@@ -49,9 +49,8 @@ export const FeedInfoDetails = ({ page }) => {
         } else {
           errorValue = true;
         }
-        console.log('orderDataValue', orderDataValue);
-      } else { // нет orders - открыта отдельная страница, данные нужно получать
-        console.log('2 line');
+        
+      } else { // нет orders - открыта отдельная страница, данные нужно получить с сервера
         dispatch(getOrderInfoRequest(orderNumber));
       }
       setOrderData(orderDataValue);
@@ -109,7 +108,7 @@ export const FeedInfoDetails = ({ page }) => {
               <h4 className="mb-6 text text_type_main-medium">Состав:</h4>
               <div className={`mb-10`}>
                 <ul className={`pr-4 ${styles.ingredients_list}`}>
-                  {orderData.ingredients
+                  {orderData.ingredients.length && orderData.ingredients
                     .map(
                       (item, index) =>
                         <IngredientItem

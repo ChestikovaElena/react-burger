@@ -6,7 +6,7 @@ import {
   useHistory,
   useLocation
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import 
   {
@@ -17,7 +17,6 @@ import
     IngredientPage,
     LoginPage,
     NotFound404,
-    OrderPage,
     RegistrationPage,
     ResetPasswordPage,
     ProfilePage
@@ -34,22 +33,9 @@ import ProfileForm from "../profile-form";
 import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
-import { 
-  WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED,
-  WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_CLOSED
-} from '../../services/actions/ws';
-import { processOrders } from '../../utils/process-orders';
 
 function App() {
   const dispatch = useDispatch();
-  const { data, orders, ordersUser } = useSelector((store) => ({
-    data: store.data.data,
-    orders: store.ws.orders,
-    ordersUser: store.wsUser.orders
-  }));
-
   const refreshToken = localStorage.getItem('refreshToken');
   
   useEffect(
@@ -123,7 +109,7 @@ function ModalSwitch() {
           </ProtectedRoute>
           <Route 
             path='/profile/orders/:orderNumber'
-            children={<OrderPage />}
+            children={<FeedInfoPage />}
             exact
           />
           <ProtectedRoute

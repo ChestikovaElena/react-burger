@@ -6,7 +6,6 @@ import { RegistrationPage } from './registration.jsx';
 import { ForgotPasswordPage } from './forgot-password.jsx';
 import { ResetPasswordPage } from './reset-password.jsx';
 import { IngredientPage } from './ingredient.jsx';
-import { OrderPage } from './order.jsx';
 import { FeedPage } from './feed.jsx';
 import { FeedInfoPage } from './feed-info.jsx';
 
@@ -19,7 +18,6 @@ export
     IngredientPage,
     LoginPage,
     NotFound404,
-    OrderPage,
     RegistrationPage,
     ResetPasswordPage,
     ProfilePage

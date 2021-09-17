@@ -13,9 +13,7 @@ const initialState = {
   wsConnectionFailed: false,
   orders: [],
   total: null,
-  totalToday: null,
-  orderRequest: false,
-  orderFailed: false,
+  totalToday: null
 }
 
 export const wsUserReducer = (state = initialState, action) => {
