@@ -17,8 +17,13 @@
   text-align: center;
 }
 
+.name {
+  text-align: left;
+}
+
 .status {
   color: #00CCCC;
+  text-align: left;
 }
 
 .ingredients_list {

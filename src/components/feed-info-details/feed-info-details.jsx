@@ -105,7 +105,7 @@ export const FeedInfoDetails = ({ page }) => {
               <p className={`mb-15 text text_type_main-default ${styles.status}`}>
                 {orderData === 'done' ? "Выполнен" : "В работе"}
               </p>
-              <h4 className="mb-6 text text_type_main-medium">Состав:</h4>
+              <h4 className={`mb-6 text text_type_main-medium ${styles.name}`}>Состав:</h4>
               <div className={`mb-10`}>
                 <ul className={`pr-4 ${styles.ingredients_list}`}>
                   {orderData.ingredients.length && orderData.ingredients
