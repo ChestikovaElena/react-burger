@@ -35,10 +35,13 @@ const wsUserActions = {
   onError: WS_USER_CONNECTION_FAILED
 };
 
-const composeEnhancers = 
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enchancer = composeEnhancers(
   applyMiddleware(
