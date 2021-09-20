@@ -20,7 +20,7 @@ const Orders = ({ page }) => {
   );
   
   return (
-    updateOrders && updateOrders.length ? (
+    (updateOrders && updateOrders.length) ? (
       updateOrders.map(
         (item, index) => 
           <li key={`${item._id}${index}`} className="mb-4">

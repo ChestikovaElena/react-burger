@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-
 import Preloader from '../preloader';
 import styles from './ingredient-icon.module.css';
 

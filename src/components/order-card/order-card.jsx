@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import IngredientIcon from '../ingredient-icon';
 import { IngredientList } from './ingredient-list';
 import TotalPrice from "../total-price";
-import { getDate } from '../../utils/get-date';
 import styles from './order-card.module.css';
 
 export const OrderCard = ({ orderInfo, page }) => {
@@ -16,7 +14,8 @@ export const OrderCard = ({ orderInfo, page }) => {
   const totalPrice = useMemo(
     ()=> {
       if (ingredients && ingredients.length) {
-        return ingredients.reduce(
+        const newIngredients = ingredients.filter(item => !!item);
+        return newIngredients.reduce(
             (sum, item) => (sum + item.price * item.count), 0
           );
       }
@@ -31,7 +30,7 @@ export const OrderCard = ({ orderInfo, page }) => {
           {ingredients.filter((item, index) => index <= 7)
             .map(
             (item, index) =>
-              <IngredientIcon
+              item && <IngredientIcon
                 key={`${item.id}`}
                 item={item}
                 index={index}
@@ -45,6 +44,7 @@ export const OrderCard = ({ orderInfo, page }) => {
     },
     [ingredients]
   );
+
   const path = page !== 'profile' ? 'feed' : 'profile/orders';
   return (
     <Link

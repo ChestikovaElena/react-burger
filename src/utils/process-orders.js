@@ -17,8 +17,9 @@ const saveIngredient = (ingredient, id, count) => {
 
 const getIngredient = (data, id, count, cb) => {
   const soughtArray =  [...data].filter(item => item._id === id);
-  
-  return cb(soughtArray[0], id, count);
+  if (soughtArray && soughtArray.length) {
+    return cb(soughtArray[0], id, count);
+  }
 };
 
 export const processIngredients = (data, ingredients) => {

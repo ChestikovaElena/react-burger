@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import styles from './order-card.module.css';
 
 export const IngredientList = ({ children }) => {

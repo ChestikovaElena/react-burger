@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch ,useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import IngredientItem from '../ingredient-item';
 import Preloader from '../preloader';
@@ -17,8 +17,9 @@ export const FeedInfoDetails = ({ page }) => {
     ordersUser: state.wsUser.orders,
     order: state.orderInfo.orderInfo
   }));
+  const path = useLocation();
 
-  const orders = (ordersAll && ordersAll.length)
+  const orders = (!path.pathname.includes('profile'))
     ? ordersAll
     : (ordersUser && ordersUser.length)
       ? ordersUser
@@ -29,7 +30,7 @@ export const FeedInfoDetails = ({ page }) => {
   const [error, setError] = useState(false);
 
   const getOrderInfo = async () => {
-    return await [...orders].filter(item => item.number == orderNumber);
+    return await [...orders].filter(item => String(item.number) === orderNumber);
   }
 
   useEffect(
@@ -37,7 +38,7 @@ export const FeedInfoDetails = ({ page }) => {
       let soughtOrder;
       let orderDataValue = null;
       let errorValue = false;
-      if (orders) {
+      if (orders && orders.length) {
         // есть orders - открыто модальоне окно и данные есть
         soughtOrder = await getOrderInfo();
         if (soughtOrder && soughtOrder.length) {
@@ -79,7 +80,8 @@ export const FeedInfoDetails = ({ page }) => {
   const totalPrice = useMemo(
     ()=> {
       if (orderData && orderData.ingredients && orderData.ingredients.length) {
-        return orderData.ingredients.reduce(
+        const newIngredients = orderData.ingredients.filter(item => !!item);
+        return newIngredients.reduce(
             (sum, item) => (sum + item.price * item.count), 0
           );
       }
@@ -102,13 +104,14 @@ export const FeedInfoDetails = ({ page }) => {
               <h4 className={`mb-3 text text_type_main-medium ${styles.name}`}>
                 {orderData.name}
               </h4>
-              <p className={`mb-15 text text_type_main-default ${styles.status}`}>
-                {orderData === 'done' ? "Выполнен" : "В работе"}
+              <p className={`mb-15 text text_type_main-default 
+                ${orderData.status !== 'done' ? styles.status_green : styles.status}`}>
+                {orderData.status === 'done' ? "Готов" : "В работе"}
               </p>
               <h4 className={`mb-6 text text_type_main-medium ${styles.name}`}>Состав:</h4>
               <div className={`mb-10`}>
                 <ul className={`pr-4 ${styles.ingredients_list}`}>
-                  {orderData.ingredients.length && orderData.ingredients
+                  {orderData.ingredients.length && orderData.ingredients.filter(item => !!item)
                     .map(
                       (item, index) =>
                         <IngredientItem
