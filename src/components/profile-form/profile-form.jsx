@@ -10,6 +10,7 @@ import {
 import FormWrapper from '../form-wrapper';
 import Preloader from '../preloader';
 import { getUserData, patchUserData } from '../../services/actions/user';
+import styles from './profile-form.module.css';
 
 export const ProfileForm = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const ProfileForm = () => {
     userDataFailedMessage: state.user.userDataFailedMessage,
     refreshTokenFailed: state.user.refreshTokenFailed
   }));
-
+  
   const inputRef = useRef(null);
 
   useEffect(
@@ -94,6 +95,15 @@ export const ProfileForm = () => {
     setDisabled(true);
   }
 
+  const onCancelHandler = () => {
+    setState({
+      ...state,
+      name: user.name,
+      email: user.email, state,
+      password: ''
+    });
+  }
+
   return (
     <>
       {userDataRequest ? 
@@ -143,9 +153,12 @@ export const ProfileForm = () => {
             :
             <></>
           }
-          <div className="mb-20">
+          <div className={`mb-20 ${styles.row}`}>
             <Button type="primary" size="medium">
               Сохранить
+            </Button>
+            <Button type="primary" size="medium" onClick={onCancelHandler}>
+              Отменить
             </Button>
           </div>
         </FormWrapper>
