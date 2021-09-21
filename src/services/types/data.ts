@@ -49,3 +49,9 @@ export type TUser = {
   readonly name: string,
   readonly email: string,
 }
+
+export type TPayloadUser = {
+  readonly password?: string,
+  readonly name?: string,
+  readonly email?: string,
+}

@@ -15,6 +15,7 @@ type TApplicationActions =
   | TWsUserActions
   | TOrderInfo
   | TOrderActions;
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<ReturnType = void> = ActionCreator<

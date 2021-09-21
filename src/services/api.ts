@@ -1,8 +1,9 @@
 import { getCookie } from '../utils/cookie';
+import { TPayloadUser } from './types/data';
 
 const API_SOURCE = "https://norma.nomoreparties.space/api/";
 
-export const resetPasswordRequest = (email) => {
+export const resetPasswordRequest = (email: string) => {
   return fetch(`${API_SOURCE}password-reset`, {
     method: 'POST',
     mode: 'cors',
@@ -17,7 +18,7 @@ export const resetPasswordRequest = (email) => {
   })
 }
 
-export const restorePasswordRequest = (password, code) => {
+export const restorePasswordRequest = (password: string, code: string) => {
   return fetch(`${API_SOURCE}password-reset/reset`, {
     method: 'POST',
     mode: 'cors',
@@ -32,7 +33,7 @@ export const restorePasswordRequest = (password, code) => {
   })
 }
 
-export const registrateRequest = (email, password, name) => {
+export const registrateRequest = (email: string, password: string, name: string) => {
   return fetch(`${API_SOURCE}auth/register`, {
     method: 'POST',
     mode: 'cors',
@@ -47,7 +48,7 @@ export const registrateRequest = (email, password, name) => {
   })
 }
 
-export const logInRequest = (email, password) => {
+export const logInRequest = (email: string, password: string) => {
   return fetch(`${API_SOURCE}auth/login`, {
     method: 'POST',
     mode: 'cors',
@@ -92,7 +93,7 @@ export const getUserDataRequest = () => {
   })
 }
 
-export const patchUserDataRequest = (payload) => {
+export const patchUserDataRequest = (payload: TPayloadUser) => {
   return fetch(`${API_SOURCE}auth/user`, {
     method: 'PATCH',
     mode: 'cors',

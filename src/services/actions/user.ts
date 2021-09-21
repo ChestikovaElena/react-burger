@@ -13,7 +13,7 @@ import {
   refreshTokenRequest
 } from "../api";
 import { AppDispatch } from "../types";
-import { TUser } from "../types/data";
+import { TPayloadUser, TUser } from "../types/data";
 
 export const LOG_IN_REQUEST: 'LOG_IN_REQUEST' = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS: 'LOG_IN_SUCCESS' = 'LOG_IN_SUCCESS';
@@ -194,7 +194,7 @@ export function resetPassword(email: string) {
     resetPasswordRequest(email)
       .then(getResponseData)
       .then(res => {
-        localStorage.setItem('forgotPasswordSuccess', true);
+        localStorage.setItem('forgotPasswordSuccess', 'true');
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
           isForgotPassword: res.success
@@ -208,8 +208,8 @@ export function resetPassword(email: string) {
   }
 }
 
-export function restorePassword(password, code) {
-  return function(dispatch) {
+export function restorePassword(password: string, code: string) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: RESTORE_PASSWORD_REQUEST
     });
@@ -229,8 +229,8 @@ export function restorePassword(password, code) {
   }
 }
 
-export function registrate(email, password, name, cb) {
-  return function(dispatch) {
+export function registrate(email: string, password: string, name: string, cb: Function) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: SIGN_IN_REQUEST
     });
@@ -257,8 +257,8 @@ export function registrate(email, password, name, cb) {
   }
 }
 
-export function logIn(email, password, cb) {
-  return function(dispatch) {
+export function logIn(email: string, password: string, cb: Function) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: LOG_IN_REQUEST
     });
@@ -286,7 +286,7 @@ export function logIn(email, password, cb) {
 }
 
 export function logOut() {
-  return function(dispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: LOG_OUT_REQUEST
     });
@@ -311,7 +311,7 @@ export function logOut() {
 }
 
 export function getUserData() {
-  return function(dispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: GET_USER_DATA_REQUEST
     });
@@ -336,8 +336,8 @@ export function getUserData() {
   }
 }
 
-export function patchUserData(payload) {
-  return function(dispatch) {
+export function patchUserData(payload: TPayloadUser) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: PATCH_USER_DATA_REQUEST
     });
@@ -362,8 +362,8 @@ export function patchUserData(payload) {
   }
 }
 
-export function refreshToken(afterRefresh) {
-  return function(dispatch) {
+export function refreshToken(afterRefresh: Function) {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: REFRESH_TOKEN_REQUEST
     });
