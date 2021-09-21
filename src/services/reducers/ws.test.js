@@ -5,7 +5,7 @@ import {
   WS_CONNECTION_FAILED,
   WS_CONNECTION_CLOSED,
   WS_UPDATE_ORDER
-} from '../actions/ws.js';
+} from '../actions/ws.ts';
 import { wsReducer } from './ws';
 
 const initialState = {

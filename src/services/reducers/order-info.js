@@ -3,7 +3,7 @@ import {
   GET_ORDER_INFO_SUCCESS,
   GET_ORDER_INFO_FAILED,
   UPDATE_ORDER_INFO
-}  from '../actions/order-info.js';
+}  from '../actions/order-info.ts';
 
 const initialState = {
   orderRequest: false,

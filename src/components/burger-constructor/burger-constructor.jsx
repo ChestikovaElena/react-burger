@@ -10,12 +10,12 @@ import styles from './burger-constructor.module.css';
 import { IngredientCard } from './ingredient-card';
 import { IngredientsList } from './ingredient-list';
 import { TitleMessage } from './title-message';
-import { getOrderInformation } from '../../services/actions/order';
+import { getOrderInformation } from '../../services/actions/order.ts';
 import {
   ADD_SELECTED_INGREDIENT,
   REORDER_SELECTED_INGREDIENTS,
   CLEAR_SELECTED_INGREDIENTS
-} from '../../services/actions/data-selected';
+} from '../../services/actions/data-selected.ts';
 
 const Container = (props) => {
   return (

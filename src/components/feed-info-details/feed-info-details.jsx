@@ -5,11 +5,11 @@ import { useParams, useLocation } from 'react-router-dom';
 import IngredientItem from '../ingredient-item';
 import Preloader from '../preloader';
 import TotalPrice from '../total-price';
-import { getOrderInfoRequest } from '../../services/actions/order-info';
+import { getOrderInfoRequest } from '../../services/actions/order-info.ts';
 import { processOrders } from '../../utils/process-orders';
 import styles from './feed-info-details.module.css';
 
-export const FeedInfoDetails = ({ page }) => {
+export const FeedInfoDetails = () => {
   const dispatch = useDispatch();
   const { data, ordersAll, ordersUser, order } = useSelector((state) => ({
     data: state.data.data,

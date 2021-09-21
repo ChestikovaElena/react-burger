@@ -5,7 +5,7 @@ import {
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_UPDATE_ORDER
-} from '../actions/ws.js';
+} from '../actions/ws.ts';
 import { wsUserReducer } from './ws-user';
 
 const initialState = {

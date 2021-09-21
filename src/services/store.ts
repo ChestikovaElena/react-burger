@@ -14,7 +14,7 @@ import {
   WS_USER_GET_MESSAGE,
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED
-} from './actions/ws.js';
+} from './actions/ws';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 const wsUserUrl = 'wss://norma.nomoreparties.space/orders';

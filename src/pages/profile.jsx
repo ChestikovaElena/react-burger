@@ -9,7 +9,7 @@ import { processOrders } from '../utils/process-orders';
 import { 
   WS_USER_CONNECTION_START,
   WS_USER_CONNECTION_CLOSED
-} from '../services/actions/ws';
+} from '../services/actions/ws.ts';
 
 export const ProfilePage = ({ children, textInfo }) => {
   const dispatch = useDispatch();

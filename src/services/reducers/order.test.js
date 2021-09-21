@@ -3,7 +3,7 @@ import {
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
   ORDER_RESET
-} from '../actions/order';
+} from '../actions/order.ts';
 import { orderReducer } from './order';
 
 const initialState = {

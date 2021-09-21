@@ -3,7 +3,7 @@ import {
   DELETE_SELECTED_INGREDIENT,
   REORDER_SELECTED_INGREDIENTS,
   CLEAR_SELECTED_INGREDIENTS
-} from '../actions/data-selected';
+} from '../actions/data-selected.ts';
 import { dataSelectedReducer } from './data-selected';
 
 const initialState = {

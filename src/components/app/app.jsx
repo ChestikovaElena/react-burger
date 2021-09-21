@@ -32,7 +32,7 @@ import ProtectedRoute from '../protected-route';
 import ProfileForm from "../profile-form";
 import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
-import { getIngredients } from '../../services/actions/data-ingredients';
+import { getIngredientsThunk } from '../../services/actions/data-ingredients';
 
 function App() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ function App() {
   useEffect(
     () => {
       refreshToken && dispatch(getUserData());
-      dispatch(getIngredients());
+      dispatch(getIngredientsThunk());
     },
     []
   );

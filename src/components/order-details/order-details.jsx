@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Preloader from '../preloader';
-import { ORDER_RESET } from '../../services/actions/order';
+import { ORDER_RESET } from '../../services/actions/order.ts';
 
 const OrderDetails = () => {
   const { order, orderRequest, orderFailed } = useSelector(state => ({

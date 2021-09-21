@@ -5,7 +5,7 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DELETE_SELECTED_INGREDIENT } from '../../services/actions/data-selected';
+import { DELETE_SELECTED_INGREDIENT } from '../../services/actions/data-selected.ts';
 
 export const IngredientCard = ({ type, isLocked, isDraged, name, price, image, id, customID, moveCard, index }) => {
   const ref = useRef(null);

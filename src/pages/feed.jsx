@@ -7,7 +7,7 @@ import { processOrders } from '../utils/process-orders';
 import { 
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSED
-} from '../services/actions/ws';
+} from '../services/actions/ws.ts';
 
 export const FeedPage = () => {
   const dispatch = useDispatch();

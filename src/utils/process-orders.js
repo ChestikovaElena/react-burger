@@ -1,6 +1,6 @@
 import { getDate } from './get-date';
 import { WS_UPDATE_ORDER, WS_USER_UPDATE_ORDER } from '../services/actions/ws';
-import { UPDATE_ORDER_INFO } from '../services/actions/order-info';
+import { UPDATE_ORDER_INFO } from '../services/actions/order-info.ts';
 
 const saveIngredient = (ingredient, id, count) => {
   
