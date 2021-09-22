@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
-import { logIn } from '../../services/actions/user';
+import { logIn } from '../../services/actions/user.ts';
 
 export const LoginForm = () => {
   const { logInFailed, logInFailedMessage } = useSelector((state) => ({

@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/get-response-data";
+import { getResponseData } from "../../utils/get-response-data.js";
 import { setCookie, deleteCookie } from "../../utils/cookie";
 import { LIFE_OF_COOKIE_IN_MINUTES } from "../../utils/constants";
 import { CLEAR_SELECTED_INGREDIENTS } from "../actions/data-selected";

@@ -25,6 +25,7 @@ export type TOrder = {
   readonly createdAt: string,
   readonly updatedAt: string,
   readonly number: number,
+  readonly isUpdateOrder?: boolean,
 }
 
 export type TIngredientInUpdateOrder = {
@@ -36,7 +37,7 @@ export type TIngredientInUpdateOrder = {
 }
 
 export type TOrderUpdated = Omit<TOrder, 'ingredients'> & {
-  readonly ingredients: ReadonlyArray<TIngredientInUpdateOrder>,
+  readonly ingredients: ReadonlyArray<TIngredientInUpdateOrder> | ReadonlyArray<string>,
   readonly isUpdateOrder: boolean,
 }
 
@@ -54,4 +55,27 @@ export type TPayloadUser = {
   readonly password?: string,
   readonly name?: string,
   readonly email?: string,
+}
+
+export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
+  [key in TDataKey]: TDataType
+} & {
+  success: boolean;
+};
+
+interface CustomBody<T extends any> extends Body {
+  json(): Promise<T>;
+}
+
+export interface CustomResponse<T> extends CustomBody<T> {
+  readonly bodyUsed: boolean;
+  readonly headers: Headers;
+  readonly ok: boolean;
+  readonly redirected: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  readonly trailer: Promise<Headers>;
+  readonly type: ResponseType;
+  readonly url: string;
+  clone(): Response;
 }

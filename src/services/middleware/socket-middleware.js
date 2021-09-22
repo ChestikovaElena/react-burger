@@ -1,4 +1,4 @@
-import { getCookie } from '../../utils/cookie';
+import { getCookie } from '../../utils/cookie.ts';
 
 export const socketMiddleware = (wsUrl, wsActions, isUserWebSocket) => {
   return store => {

@@ -31,7 +31,7 @@ import OrderDetails from '../order-details';
 import ProtectedRoute from '../protected-route';
 import ProfileForm from "../profile-form";
 import styles from './app.module.css';
-import { getUserData } from '../../services/actions/user';
+import { getUserData } from '../../services/actions/user.ts';
 import { getIngredientsThunk } from '../../services/actions/data-ingredients';
 
 function App() {

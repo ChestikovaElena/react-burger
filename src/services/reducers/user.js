@@ -25,7 +25,7 @@ import {
   RESTORE_PASSWORD_FAILED,
   RESTORE_PASSWORD_RESET,
   USER_RESET
-} from "../actions/user";
+} from "../actions/user.ts";
 
 const initialState = {
   user: {name: '', email: ''},

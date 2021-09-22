@@ -6,7 +6,7 @@ import IngredientItem from '../ingredient-item';
 import Preloader from '../preloader';
 import TotalPrice from '../total-price';
 import { getOrderInfoRequest } from '../../services/actions/order-info.ts';
-import { processOrders } from '../../utils/process-orders';
+import { processOrders } from '../../utils/process-orders.ts';
 import styles from './feed-info-details.module.css';
 
 export const FeedInfoDetails = () => {

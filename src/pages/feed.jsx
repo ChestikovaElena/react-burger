@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ListOfOrders from "../components/list-of-orders";
 import SummuryOfOrders from "../components/summury-of-orders";
-import { processOrders } from '../utils/process-orders';
+import { processOrders } from '../utils/process-orders.ts';
 import { 
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSED

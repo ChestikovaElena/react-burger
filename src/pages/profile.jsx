@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import styles from "./profile.module.css";
-import { logOut } from '../services/actions/user';
-import { processOrders } from '../utils/process-orders';
+import { logOut } from '../services/actions/user.ts';
+import { processOrders } from '../utils/process-orders.ts';
 import { 
   WS_USER_CONNECTION_START,
   WS_USER_CONNECTION_CLOSED

@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/user';
+import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/user.ts';
 import styles from './login.module.css';
 
 export const ResetPasswordPage = () => {

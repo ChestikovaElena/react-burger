@@ -9,7 +9,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import Preloader from '../preloader';
-import { getUserData, patchUserData } from '../../services/actions/user';
+import { getUserData, patchUserData } from '../../services/actions/user.ts';
 import styles from './profile-form.module.css';
 
 export const ProfileForm = () => {

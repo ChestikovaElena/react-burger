@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './modal-overlay.module.css';
-import { ESC_KEYCODE } from '../../utils/constants';
+import { ESC_KEYCODE } from '../../utils/constants.ts';
 
 const ModalOverlay = ({ handleModalClose, children }) => {
   const escFunction = (e) => {

@@ -10,7 +10,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../form-wrapper';
 import SpanWithLink from '../span-with-link';
-import { registrate } from '../../services/actions/user';
+import { registrate } from '../../services/actions/user.ts';
 
 export const RegistrationForm = () => {
   const { registrateFailed, registrateFailedMessage } = useSelector((state) => ({

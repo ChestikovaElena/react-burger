@@ -1,4 +1,4 @@
-function getTextFormat(number, textForms) {
+function getTextFormat(number: number, textForms: string[]) {
   number = Math.abs(number) % 100; 
   const n1 = number % 10;
   if (number > 10 && number < 20) { return textForms[2]; }
@@ -7,8 +7,8 @@ function getTextFormat(number, textForms) {
   return textForms[2];
 }
 
-export const getDate = (createdAt) => {
-  const options = {
+export const getDate = (createdAt: string) => {
+  const options: Intl.DateTimeFormatOptions = {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Europe/Moscow'

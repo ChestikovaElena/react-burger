@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/get-response-data";
+import { getResponseData } from "../../utils/get-response-data.js";
 import { getCookie } from '../../utils/cookie';
 import { TOrderInfo } from "../types/data";
 import { AppDispatch } from "../types";

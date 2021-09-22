@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/get-response-data";
+import { getResponseData } from "../../utils/get-response-data.js";
 import { TIngredient } from "../types/data";
 import { AppDispatch, AppThunk } from '../types';
 
