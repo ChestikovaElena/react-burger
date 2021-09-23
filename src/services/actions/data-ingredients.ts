@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/get-response-data.js";
+import { getResponseData } from "../../utils/get-response-data";
 import { TIngredient } from "../types/data";
 import { AppDispatch, AppThunk } from '../types';
 
@@ -18,13 +18,18 @@ export interface IGetIngredientsFailed {
 
 export interface IGetIngredientsSuccess {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly data: ReadonlyArray<TIngredient>;
+  readonly data: Array<TIngredient>;
+}
+
+export interface IDefault {
+  readonly type: typeof undefined;
 }
 
 export type TIngredientsAction = 
   | IGetIngredientsRequest
   | IGetIngredientsFailed
-  | IGetIngredientsSuccess;
+  | IGetIngredientsSuccess
+  | IDefault;
 
 export const getIngredientsRequest = (): IGetIngredientsRequest => ({
   type: GET_INGREDIENTS_REQUEST
@@ -35,22 +40,20 @@ export const getIngredientsFailed = (): IGetIngredientsFailed => ({
 });
 
 export const getIngredientsSuccess = (
-  data: ReadonlyArray<TIngredient>
+  data: Array<TIngredient>
 ): IGetIngredientsSuccess => ({
   type: GET_INGREDIENTS_SUCCESS,
   data
 });
 
 export const getIngredientsThunk: AppThunk = () => (dispatch: AppDispatch) => {
-  // return function(dispatch: AppDispatch | AppThunk) {
-    dispatch(getIngredientsRequest());
-    return fetch(API_SOURCE_DATA)
-      .then(getResponseData)
-      .then(res => {
-        dispatch(getIngredientsSuccess(res.data));
-      })
-      .catch(error => {
-        dispatch(getIngredientsFailed());
-      });
-  // }
+  dispatch(getIngredientsRequest());
+  return fetch(API_SOURCE_DATA)
+    .then(getResponseData)
+    .then(res => {
+      dispatch(getIngredientsSuccess(res.data));
+    })
+    .catch(error => {
+      dispatch(getIngredientsFailed());
+    });
 }

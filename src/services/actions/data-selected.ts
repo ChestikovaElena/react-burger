@@ -8,7 +8,7 @@ export const CLEAR_SELECTED_INGREDIENTS: 'CLEAR_SELECTED_INGREDIENTS' = 'CLEAR_S
 
 export interface IAddSelectedIngredient {
   readonly type: typeof ADD_SELECTED_INGREDIENT;
-  readonly newSataSelected: ReadonlyArray<TIngredientSelected>;
+  readonly newDataSelected: Array<TIngredientSelected>;
 }
 
 export interface IDeleteSelectedIngredient {
@@ -18,16 +18,21 @@ export interface IDeleteSelectedIngredient {
 
 export interface IReorderSelectedIngredient {
   readonly type: typeof REORDER_SELECTED_INGREDIENTS;
-  readonly newSelectedData: ReadonlyArray<TIngredientSelected>;
+  readonly hoverIndex: number;
+  readonly dragIndex: number;
 }
 
 export interface IClearSelectedIngredient {
   readonly type: typeof CLEAR_SELECTED_INGREDIENTS;
-  readonly dataSelected: [];
+}
+
+export interface IDefault {
+  readonly type: typeof undefined;
 }
 
 export type TDataSelectedActions = 
   | IAddSelectedIngredient
   | IDeleteSelectedIngredient
   | IReorderSelectedIngredient
-  | IClearSelectedIngredient;
+  | IClearSelectedIngredient
+  | IDefault;

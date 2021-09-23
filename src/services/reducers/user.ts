@@ -25,7 +25,33 @@ import {
   RESTORE_PASSWORD_FAILED,
   RESTORE_PASSWORD_RESET,
   USER_RESET
-} from "../actions/user.ts";
+} from "../actions/user";
+import { TUserActions } from "../actions/user";
+import { TUser } from '../types/data';
+
+export type TUserState = {
+  user: TUser,
+  userDataRequest: boolean,
+  userDataFailed: boolean,
+  userDataFailedMessage: string,
+  isLoggedIn: boolean,
+  logInRequest: boolean,
+  logInFailed: boolean,
+  logInFailedMessage: string,
+  logOutRequest: boolean,
+  logOutFailed: boolean,
+  registrateRequest: boolean,
+  registrateFailed: boolean,
+  registrateFailedMessage: string,
+  refreshTokenRequest: boolean,
+  refreshTokenFailed: boolean,
+  isForgotPassword: boolean,
+  forgotPasswordRequest: boolean,
+  forgotPasswordFailed: boolean,
+  isResetPassword: boolean,
+  resetPasswordRequest: boolean,
+  resetPasswordFailed: boolean,
+}
 
 const initialState = {
   user: {name: '', email: ''},
@@ -51,7 +77,7 @@ const initialState = {
   resetPasswordFailed: false,
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions) => {
   switch (action.type) {
     case LOG_IN_REQUEST: {
       return {

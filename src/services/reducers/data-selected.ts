@@ -3,13 +3,19 @@ import {
   DELETE_SELECTED_INGREDIENT,
   REORDER_SELECTED_INGREDIENTS,
   CLEAR_SELECTED_INGREDIENTS
-} from '../actions/data-selected.ts';
+} from '../actions/data-selected';
+import { TIngredientSelected } from '../types/data';
+import { TDataSelectedActions } from '../actions/data-selected';
 
-const initialState = {
+export type TDataSelectedState = {
+  dataSelected: Array<TIngredientSelected>
+}
+
+const initialState: TDataSelectedState = {
   dataSelected: [],
 };
 
-export const dataSelectedReducer = (state = initialState, action) => {
+export const dataSelectedReducer = (state = initialState, action: TDataSelectedActions) => {
   switch (action.type) {
     case ADD_SELECTED_INGREDIENT: {
       return {

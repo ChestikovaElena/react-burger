@@ -5,9 +5,20 @@ import {
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_UPDATE_ORDER
-} from '../actions/ws.ts';
+} from '../actions/ws';
+import { TOrder, TOrderUpdated } from '../types/data';
+import { TWsUserActions } from '../actions/ws';
 
-const initialState = {
+export type TWsUserState = {
+  wsConnected: boolean,
+  wsConnectionRequest: boolean,
+  wsConnectionFailed: boolean,
+  orders: TOrder[] | TOrderUpdated[],
+  total: number | null,
+  totalToday: number | null
+}
+
+const initialState: TWsUserState = {
   wsConnected: false,
   wsConnectionRequest: false,
   wsConnectionFailed: false,
@@ -16,7 +27,7 @@ const initialState = {
   totalToday: null
 }
 
-export const wsUserReducer = (state = initialState, action) => {
+export const wsUserReducer = (state = initialState, action: TWsUserActions) => {
   switch (action.type) {
     case WS_USER_CONNECTION_START:
       return {
@@ -42,13 +53,18 @@ export const wsUserReducer = (state = initialState, action) => {
         wsConnected: false
       };
     case WS_USER_GET_MESSAGE:
-      let newOrders;
+      let newOrders: TOrder[] | TOrderUpdated[];
+      const payloadOrders: TOrder[] = action.payload.orders;
       if (state.orders && state.orders.length) {
-        const indexAfterNewOrders = action.payload.orders.findIndex(order => order._id === state.orders[0]._id);
+        const indexAfterNewOrders: number = payloadOrders.findIndex(order => order._id === state.orders[0]._id);
         if (indexAfterNewOrders === 0 || !indexAfterNewOrders) {
           newOrders = action.payload.orders;
         } else {
-          newOrders = state.orders.unshift(action.payload.orders.slice(0, indexAfterNewOrders));
+          newOrders = state.orders;
+          const indexStart: number = 0;
+          const orderFromBack: TOrder[] = payloadOrders.slice(indexStart, indexAfterNewOrders);
+          newOrders.unshift(orderFromBack);
+          // newOrders = state.orders.unshift(action.payload.orders.slice(0, indexAfterNewOrders));
         }
       } else {
         newOrders = action.payload.orders;
@@ -61,11 +77,14 @@ export const wsUserReducer = (state = initialState, action) => {
         totalToday: action.payload.totalToday
       };
     case WS_USER_UPDATE_ORDER:
+      const cb = (item: TOrder | TOrderUpdated) => {item._id !== action.updateOrder._id};
+      const orderState: TOrder[] | TOrderUpdated[] = state.orders;
+      const orderWithUpdate: TOrderUpdated[] = orderState.filter(cb);
       return {
         ...state,
           orders:
             [
-              ...state.orders.filter(item => item._id !== action.updateOrder._id),
+              ...state.orders.filter(cb),
               action.updateOrder
             ]
       }

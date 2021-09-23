@@ -25,10 +25,12 @@ import {
   RESTORE_PASSWORD_FAILED,
   RESTORE_PASSWORD_RESET,
   USER_RESET
-} from "../actions/user.ts";
-import { userReducer } from './user';
+} from "../actions/user";
+import { userReducer, TUserState } from './user';
+import { TUserActions } from "../actions/user";
+import { TUser } from '../types/data';
 
-const initialState = {
+const initialState: TUserState = {
   user: {name: '', email: ''},
   userDataRequest: false,
   userDataFailed: false,
@@ -55,7 +57,7 @@ const initialState = {
 describe("userReducer", () => {
   it("should return the initial state", () => {
     expect(
-      userReducer(undefined, {})
+      userReducer(undefined, {type: undefined})
     ).toEqual(initialState);
   });
 

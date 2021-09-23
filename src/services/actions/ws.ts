@@ -1,4 +1,4 @@
-import { TOrder } from '../types/data';
+import { TOrder, TOrderUpdated } from '../types/data';
 
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS';
@@ -71,9 +71,20 @@ export type TWsActions =
     readonly payload: { total: number, totalToday: number, orders: TOrder[] };
   }
 
+  export interface IWsUserUpdateOrder {
+    readonly type: typeof WS_USER_UPDATE_ORDER;
+    readonly updateOrder: TOrderUpdated;
+  }
+
+  export interface IDefault {
+    readonly type: typeof undefined;
+  }
+
   export type TWsUserActions =
     | IWsUserConnectionStart
     | IWsUserConnectionSuccess
     | IWsUserConnectionFailed
     | IWsUserConnectionClosed
-    | IWsUserGetMessage;
+    | IWsUserGetMessage
+    | IWsUserUpdateOrder
+    | IDefault;

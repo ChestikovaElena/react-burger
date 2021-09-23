@@ -19,7 +19,7 @@ import {
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 const wsUserUrl = 'wss://norma.nomoreparties.space/orders';
 
-const wsActions = {
+export const wsActions = {
   wsInit: WS_CONNECTION_START,
   onOpen: WS_CONNECTION_SUCCESS,
   onMessage: WS_GET_MESSAGE,
@@ -27,7 +27,7 @@ const wsActions = {
   onError: WS_CONNECTION_FAILED
 };
 
-const wsUserActions = {
+export const wsUserActions = {
   wsInit: WS_USER_CONNECTION_START,
   onOpen: WS_USER_CONNECTION_SUCCESS,
   onMessage: WS_USER_GET_MESSAGE,

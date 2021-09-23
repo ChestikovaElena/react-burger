@@ -1,12 +1,20 @@
-import { getCookie } from '../../utils/cookie.ts';
+import { AnyAction, Middleware } from 'redux';
 
-export const socketMiddleware = (wsUrl, wsActions, isUserWebSocket) => {
-  return store => {
-    let socket = null;
+import { getCookie } from '../../utils/cookie';
+import { RootStore } from '../types';
+import { wsActions, wsUserActions } from '../store';
+import { AppDispatch, AppThunk } from '../types';
 
-    return next => action => {
+type TActions = typeof wsActions | typeof wsUserActions;
+//: Middleware<{}, RootStore> =
+export const socketMiddleware =
+  (wsUrl: string, wsActions: TActions, isUserWebSocket: boolean): any => {
+  return (store: { dispatch: AppDispatch | AppThunk }) => {
+    let socket: WebSocket | null = null;
+
+    return (next: any) => (action: AnyAction) => {
       const { dispatch } = store;
-      const { type, payload } = action;
+      const { type } = action;
       const { wsInit, onOpen, onMessage, onClose, onError } = wsActions;
       const token = getCookie('accessToken');
 

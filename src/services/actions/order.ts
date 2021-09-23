@@ -1,6 +1,6 @@
-import { getResponseData } from "../../utils/get-response-data.js";
+import { getResponseData } from "../../utils/get-response-data";
 import { getCookie } from '../../utils/cookie';
-import { TOrderInfo } from "../types/data";
+import { TOrderFull } from "../types/data";
 import { AppDispatch } from "../types";
 
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = 'GET_ORDER_REQUEST';
@@ -14,7 +14,7 @@ export interface IGetOrderRequest {
 
 export interface IGetOrderSuccess {
   readonly type: typeof GET_ORDER_SUCCESS;
-  readonly order: TOrderInfo;
+  readonly order: TOrderFull;
 }
 
 export interface IGetOrderFailed {
@@ -25,11 +25,16 @@ export interface IOrderReset {
   readonly type: typeof ORDER_RESET;
 }
 
+export interface IDefault {
+  readonly type: typeof undefined;
+}
+
 export type TOrderActions = 
   | IGetOrderRequest
   | IGetOrderSuccess
   | IGetOrderFailed
-  | IOrderReset;
+  | IOrderReset
+  | IDefault;
 
 const API_SOURCE_ORDER = 'https://norma.nomoreparties.space/api/orders';
 

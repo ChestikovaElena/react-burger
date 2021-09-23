@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import { dataReducer } from './data-ingredients';
-import { dataSelectedReducer } from './data-selected';
-import { orderReducer } from './order';
-import { orderInfoReducer } from './order-info';
+import { dataSelectedReducer } from './data-selected.ts';
+import { orderReducer } from './order.ts';
+import { orderInfoReducer } from './order-info.ts';
 import { userReducer } from './user';
 import { wsReducer } from './ws';
 import { wsUserReducer } from './ws-user';

@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/get-response-data.js";
+import { getResponseData } from "../../utils/get-response-data";
 import { setCookie, deleteCookie } from "../../utils/cookie";
 import { LIFE_OF_COOKIE_IN_MINUTES } from "../../utils/constants";
 import { CLEAR_SELECTED_INGREDIENTS } from "../actions/data-selected";
@@ -12,7 +12,7 @@ import {
   patchUserDataRequest,
   refreshTokenRequest
 } from "../api";
-import { AppDispatch } from "../types";
+import { AppDispatch, AppThunk } from "../types";
 import { TPayloadUser, TUser } from "../types/data";
 
 export const LOG_IN_REQUEST: 'LOG_IN_REQUEST' = 'LOG_IN_REQUEST';
@@ -56,6 +56,7 @@ export interface ILoginAction {
 
 export interface ILoginFailedAction {
   readonly type: typeof LOG_IN_FAILED;
+  readonly message: string;
 }
 
 export interface ILoginSuccessAction {
@@ -80,6 +81,7 @@ export interface ISigninAction {
 
 export interface ISignFailedAction {
   readonly type: typeof SIGN_IN_FAILED;
+  readonly message: string;
 }
 
 export interface ISignSuccessAction {
@@ -104,6 +106,7 @@ export interface IGetUserAction {
 
 export interface IGetUserFailedAction {
   readonly type: typeof GET_USER_DATA_FAILED;
+  readonly message: string;
 }
 
 export interface IGetUserSuccessAction {
@@ -117,6 +120,7 @@ export interface IPatchUserAction {
 
 export interface IPatchUserFailedAction {
   readonly type: typeof PATCH_USER_DATA_FAILED;
+  readonly message: string;
 }
 
 export interface IPatchUserSuccessAction {
@@ -158,6 +162,10 @@ export interface IUserReset {
   readonly type: typeof USER_RESET;
 }
 
+export interface IDefault {
+  readonly type: typeof undefined;
+}
+
 export type TUserActions =
   | ILoginAction
   | ILoginFailedAction
@@ -184,7 +192,8 @@ export type TUserActions =
   | IRestorePasswordFailedAction
   | IRestorePasswordSuccessAction
   | IRestorePasswordResetFailedAction
-  | IUserReset;
+  | IUserReset
+  | IDefault;
 
 export function resetPassword(email: string) {
   return function(dispatch: AppDispatch) {
@@ -310,8 +319,8 @@ export function logOut() {
   }
 }
 
-export function getUserData() {
-  return function(dispatch: AppDispatch) {
+export const getUserData: AppThunk = function () {
+  return function(dispatch: AppDispatch | AppThunk) {
     dispatch({
       type: GET_USER_DATA_REQUEST
     });
@@ -336,8 +345,8 @@ export function getUserData() {
   }
 }
 
-export function patchUserData(payload: TPayloadUser) {
-  return function(dispatch: AppDispatch) {
+export const patchUserData: AppThunk = function (payload: TPayloadUser) {
+  return function(dispatch: AppDispatch | AppThunk) {
     dispatch({
       type: PATCH_USER_DATA_REQUEST
     });
@@ -362,7 +371,7 @@ export function patchUserData(payload: TPayloadUser) {
   }
 }
 
-export function refreshToken(afterRefresh: Function) {
+export const refreshToken: AppThunk = function (afterRefresh: Function) {
   return function(dispatch: AppDispatch) {
     dispatch({
       type: REFRESH_TOKEN_REQUEST
@@ -379,7 +388,7 @@ export function refreshToken(afterRefresh: Function) {
         });
         localStorage.setItem('refreshToken', res.refreshToken);
         setCookie('accessToken', authToken, LIFE_OF_COOKIE_IN_MINUTES);
-        dispatch(afterRefresh);
+        dispatch(afterRefresh());
       })
       .catch(error => {
         dispatch({

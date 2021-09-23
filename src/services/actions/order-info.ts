@@ -1,4 +1,4 @@
-import { getResponseData } from "../../utils/get-response-data.js";
+import { getResponseData } from "../../utils/get-response-data";
 import { AppDispatch } from "../types";
 import { TOrder, TOrderUpdated } from "../types/data";
 
@@ -13,7 +13,7 @@ export interface IGetOrderInfoRequest {
 
 export interface IGetOrderInfoSuccess {
   readonly type: typeof GET_ORDER_INFO_SUCCESS;
-  readonly orders: readonly TOrder[];
+  readonly orders: TOrder[];
 }
 
 export interface IGetOrderInfoFailed {
@@ -22,14 +22,19 @@ export interface IGetOrderInfoFailed {
 
 export interface IUpdateOrderInfo {
   readonly type: typeof UPDATE_ORDER_INFO;
-  readonly orderInfo: TOrderUpdated[];
+  readonly updateOrder: TOrderUpdated;
+}
+
+export interface IDefault {
+  readonly type: typeof undefined;
 }
 
 export type TOrderInfo = 
   | IGetOrderInfoRequest
   | IGetOrderInfoSuccess
   | IGetOrderInfoFailed
-  | IUpdateOrderInfo;
+  | IUpdateOrderInfo
+  | IDefault;
 
 const API_SOURCE_DATA = 'https://norma.nomoreparties.space/api/orders/';
 

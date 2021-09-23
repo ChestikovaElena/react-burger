@@ -3,16 +3,25 @@ import {
   GET_ORDER_INFO_SUCCESS,
   GET_ORDER_INFO_FAILED,
   UPDATE_ORDER_INFO
-}  from '../actions/order-info.ts';
+}  from '../actions/order-info';
+import { TOrderInfo } from '../actions/order-info';
+import { TOrder, TOrderUpdated } from '../types/data';
 
-const initialState = {
+export type TOrderInfoState = {
+  orderRequest: boolean,
+  orderRequestSuccess: boolean,
+  orderRequestFailed: boolean,
+  orderInfo: Array<TOrder> | Array<TOrderUpdated>
+}
+
+const initialState: TOrderInfoState = {
   orderRequest: false,
   orderRequestSuccess: false,
   orderRequestFailed: false,
   orderInfo: []
 }
 
-export const orderInfoReducer = (state = initialState, action) => {
+export const orderInfoReducer = (state = initialState, action: TOrderInfo) => {
   switch (action.type) {
     case GET_ORDER_INFO_REQUEST:
       return {

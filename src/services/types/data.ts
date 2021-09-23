@@ -1,49 +1,64 @@
 export type TIngredient = {
-  readonly _id: string,
-  readonly name: string,
-  readonly type: string,
-  readonly proteins: number,
-  readonly fat: number,
-  readonly carbohydrate: number,
-  readonly сalories: number,
-  readonly price: number,
-  readonly image: string,
-  readonly image_mobile: string,
-  readonly image_large: string,
-  readonly _v: number,
+  _id: string,
+  name: string,
+  type: string,
+  proteins: number,
+  fat: number,
+  carbohydrates: number,
+  calories: number,
+  price: number,
+  image: string,
+  image_mobile: string,
+  image_large: string,
+  __v: number
 }
 
 export type TIngredientSelected = TIngredient & {
-  readonly customID: string;
+  customID: string;
 }
 
 export type TOrder = {
-  readonly _id: string,
-  readonly ingredients: string[],
-  readonly status: 'created' | 'pending' | 'done',
-  readonly name: string,
-  readonly createdAt: string,
-  readonly updatedAt: string,
-  readonly number: number,
-  readonly isUpdateOrder?: boolean,
+  _id: string,
+  ingredients: string[],
+  status: 'created' | 'pending' | 'done',
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+  number: number,
+  isUpdateOrder?: boolean,
 }
 
 export type TIngredientInUpdateOrder = {
-  readonly id: string,
-  readonly count: number,
-  readonly name: string,
-  readonly price: number,
-  readonly image: string,
+  id: string,
+  count: number,
+  name: string,
+  price: number,
+  image: string,
 }
 
 export type TOrderUpdated = Omit<TOrder, 'ingredients'> & {
-  readonly ingredients: ReadonlyArray<TIngredientInUpdateOrder> | ReadonlyArray<string>,
-  readonly isUpdateOrder: boolean,
+  ingredients: Array<TIngredientInUpdateOrder> | Array<string>,
+  isUpdateOrder: boolean,
 }
 
 export type TOrderInfo = {
   orderNumber: number | null,
   selectedIngredients: Array<string>,
+}
+
+export type TOrderFull = {
+  ingredients: TIngredient[],
+  _id: string,
+  owner: TUser & {
+    createdAt: string,
+    updatedAt: string,
+  },
+  status: 'created' | 'pending' | 'done',
+  name: string,
+  createdAt: string,
+    updatedAt: string,
+  number: number,
+  price: number
 }
 
 export type TUser = {
@@ -57,13 +72,18 @@ export type TPayloadUser = {
   readonly email?: string,
 }
 
-export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
-  [key in TDataKey]: TDataType
-} & {
+// export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
+//   [key in TDataKey]: TDataType
+// } & {
+//   success: boolean;
+// };
+export type TResponseBody = {
   success: boolean;
+  data?: TIngredient[],
+  order?: TOrder[]
 };
 
-interface CustomBody<T extends any> extends Body {
+export interface CustomBody<T extends any> extends Body {
   json(): Promise<T>;
 }
 
