@@ -54,14 +54,6 @@ function App() {
 }
 
 function ModalSwitch() {
-  // interface LocationState {
-  //   from: {
-  //     pathname: string;
-  //   },
-  //   location: {
-  //     state: {background: string}
-  //   }
-  // }
   let location = useLocation<any>();
   const history = useHistory();
   let background =

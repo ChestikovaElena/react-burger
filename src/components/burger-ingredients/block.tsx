@@ -49,22 +49,3 @@ export const Block: FC<TBlock> = ({ data, name, type, refBun, refSauce, refMain,
     </li>
   );
 }
-
-// Block.propTypes = {
-//   data: PropTypes.arrayOf(PropTypes.shape({ingredient: ingredientPropTypes})).isRequired,
-//   name: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   refBun: PropTypes.oneOfType([
-//     PropTypes.func,
-//     PropTypes.shape({ current: PropTypes.any })
-//   ]),
-//   refSauce: PropTypes.oneOfType([
-//     PropTypes.func,
-//     PropTypes.shape({ current: PropTypes.any })
-//   ]),
-//   refMain: PropTypes.oneOfType([
-//     PropTypes.func,
-//     PropTypes.shape({ current: PropTypes.any })
-//   ]),
-//   countOfIngredients: PropTypes.objectOf(PropTypes.number),
-// }

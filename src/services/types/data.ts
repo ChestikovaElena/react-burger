@@ -71,11 +71,6 @@ export type TPayloadUser = {
   readonly email?: string,
 }
 
-// export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
-//   [key in TDataKey]: TDataType
-// } & {
-//   success: boolean;
-// };
 export type TResponseBody = {
   success: boolean;
   data?: TIngredient[],
