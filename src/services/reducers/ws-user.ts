@@ -6,14 +6,14 @@ import {
   WS_USER_CONNECTION_CLOSED,
   WS_USER_UPDATE_ORDER
 } from '../actions/ws';
-import { TOrder, TOrderUpdated } from '../types/data';
+import { TOrder } from '../types/data';
 import { TWsUserActions } from '../actions/ws';
 
 export type TWsUserState = {
   wsConnected: boolean,
   wsConnectionRequest: boolean,
   wsConnectionFailed: boolean,
-  orders: TOrder[] | TOrderUpdated[],
+  orders: TOrder[],
   total: number | null,
   totalToday: number | null
 }
@@ -55,7 +55,8 @@ export const wsUserReducer = (state = initialState, action: TWsUserActions) => {
     case WS_USER_GET_MESSAGE:
       let newOrders: TOrder[] = state.orders;
       if (state.orders && state.orders.length) {
-        const indexAfterNewOrders: number = action.payload.orders.findIndex(order => order._id === state.orders[0]._id);
+        const indexAfterNewOrders: number =
+          (action.payload.orders as TOrder[]).findIndex(order => order._id === state.orders[0]._id);
         if (indexAfterNewOrders === 0 || !indexAfterNewOrders) {
           newOrders = action.payload.orders;
         } else {
@@ -76,7 +77,9 @@ export const wsUserReducer = (state = initialState, action: TWsUserActions) => {
         ...state,
           orders:
             [
-              ...(state.orders as TOrderUpdated[]).filter((item: TOrderUpdated) => {if (item._id !== action.updateOrder._id) return item}),
+              ...(state.orders as TOrder[]).filter(
+                (item: TOrder) => item._id !== action.updateOrder._id
+              ),
               action.updateOrder
             ]
       }

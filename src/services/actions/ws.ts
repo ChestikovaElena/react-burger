@@ -16,7 +16,7 @@ export const WS_USER_UPDATE_ORDER: 'WS_USER_UPDATE_ORDER' = 'WS_USER_UPDATE_ORDE
 
 export interface IWsConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
-  readonly wsConnected: boolean;
+  readonly wsConnectionRequest: boolean;
 }
 
 export interface IWsConnectionSuccess {
@@ -55,7 +55,7 @@ export type TWsActions =
 
   export interface IWsUserConnectionStart {
     readonly type: typeof WS_USER_CONNECTION_START;
-    readonly wsConnected: boolean;
+    readonly wsConnectionRequest: boolean;
   }
   
   export interface IWsUserConnectionSuccess {

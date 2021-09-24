@@ -1,4 +1,4 @@
-import { FC, ReactElement, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 
 import Preloader from '../preloader';
 import styles from './column.module.css';

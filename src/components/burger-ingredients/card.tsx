@@ -16,8 +16,7 @@ type TCardProps = {
 
 export const Card: FC<TCardProps> = ({ id, image, name, price, count, type }) =>{
   const location = useLocation();
-  type TObject = object;
-  
+    
   const [{ opacity }, dragRef] = useDrag({
     type: 'ingredient',
     item: { id, type },

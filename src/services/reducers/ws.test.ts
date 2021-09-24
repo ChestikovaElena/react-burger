@@ -5,40 +5,29 @@ import {
   WS_CONNECTION_FAILED,
   WS_CONNECTION_CLOSED,
   WS_UPDATE_ORDER
-} from '../actions/ws.ts';
+} from '../actions/ws';
 import { wsReducer } from './ws';
-
-const initialState = {
-  wsConnected: false,
-  wsConnectionRequest: false,
-  wsConnectionFailed: false,
-  orders: [],
-  total: null,
-  totalToday: null
-};
-
-const comparisonState = {
-  orders: [
-    { id: "1", name: "Заказ"},
-    { id: "2", name: "Заказ"},
-    { id: "3", name: "Заказ"},
-  ],
-  total: 100,
-  totalToday: 3
-};
+import {
+  initialState,
+  mockedData,
+  mockedUpdateData,
+  dataFromServer
+} from './ws-user.test';
 
 describe("wsReducer", () => {
   it("should return the initial state", () => {
     expect(
-      wsReducer(undefined, {})
+      wsReducer(undefined, {type: undefined})
     ).toEqual(initialState);
   });
 
   it("should set wsConnectionRequest (WS_CONNECTION_START)", () => {
     expect(
-      wsReducer(initialState, {
-        type: WS_CONNECTION_START,
-      })
+      wsReducer(initialState,
+        {
+          type: WS_CONNECTION_START,
+          wsConnectionRequest: true
+        })
     ).toEqual(
       {
         ...initialState,
@@ -56,6 +45,7 @@ describe("wsReducer", () => {
         },
         {
           type: WS_CONNECTION_SUCCESS,
+          wsConnected: true
         })
     ).toEqual(
       {
@@ -75,6 +65,7 @@ describe("wsReducer", () => {
         },
         {
           type: WS_CONNECTION_FAILED,
+          wsConnected: false,
         })
     ).toEqual(
       {
@@ -95,6 +86,7 @@ describe("wsReducer", () => {
         },
         {
           type: WS_CONNECTION_CLOSED,
+          wsConnected: false,
         })
     ).toEqual(
       {
@@ -109,12 +101,14 @@ describe("wsReducer", () => {
       wsReducer(initialState,
         {
           type: WS_GET_MESSAGE,
-          payload: comparisonState
+          payload: {orders: [dataFromServer], total: 1, totalToday: 1}
         })
     ).toEqual(
       {
         ...initialState,
-        ...comparisonState
+        orders: [dataFromServer],
+        total: 1,
+        totalToday: 1
       }
     );
   });
@@ -124,19 +118,20 @@ describe("wsReducer", () => {
       wsReducer(
         {
           ...initialState,
-          orders: [
-            { id: "1", name: "Заказ"},
-            { id: "2", name: "Заказ"},
-          ]
+          orders: mockedData,
+          total: 2,
+          totalToday: 1
         },
         {
           type: WS_GET_MESSAGE,
-          payload: comparisonState
+          payload: {orders: mockedData, total: 3, totalToday: 2}
         })
     ).toEqual(
       {
         ...initialState,
-        ...comparisonState
+        orders: mockedData,
+        total: 3,
+        totalToday: 2
       }
     );
   });
@@ -146,21 +141,18 @@ describe("wsReducer", () => {
       wsReducer(
         {
           ...initialState,
-          orders: [
-            { _id: "1", name: "Заказ", isUpdatingOrder: true},
-            { _id: "2", name: "Заказ"},
-          ]
+          orders: mockedUpdateData,
         },
         {
           type: WS_UPDATE_ORDER,
-          updateOrder: { _id: "2", name: "Заказ", isUpdatingOrder: true}
+          updateOrder: dataFromServer
         })
     ).toEqual(
       {
         ...initialState,
         orders: [
-          { _id: "1", name: "Заказ", isUpdatingOrder: true},
-          { _id: "2", name: "Заказ", isUpdatingOrder: true}
+          ...mockedUpdateData,
+          dataFromServer
         ]
       }
     );

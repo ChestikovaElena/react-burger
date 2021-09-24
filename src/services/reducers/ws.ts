@@ -45,13 +45,14 @@ export const wsReducer = (state = initialState, action: TWsActions) => {
         wsConnected: false
       };
     case WS_GET_MESSAGE:
-      let newOrders: TOrder[] = state.orders;console.log(newOrders);
+      let newOrders: TOrder[] = state.orders;
       if (state.orders && state.orders.length) {
-        const indexAfterNewOrders: number = action.payload.orders.findIndex(order => order._id === state.orders[0]._id);
+        const indexAfterNewOrders: number =
+          (action.payload.orders as TOrder[]).findIndex(order => order._id === state.orders[0]._id);
         if (indexAfterNewOrders === 0 || !indexAfterNewOrders) {
           newOrders = action.payload.orders;
         } else {
-          newOrders.unshift(...action.payload.orders.slice(0, indexAfterNewOrders));console.log(newOrders);
+          newOrders.unshift(...action.payload.orders.slice(0, indexAfterNewOrders));
         }
       } else {
         newOrders = action.payload.orders;
@@ -69,7 +70,8 @@ export const wsReducer = (state = initialState, action: TWsActions) => {
         orders:
           [
             ...(state.orders as TOrderUpdated[]).filter(
-              (item: TOrderUpdated) => item._id !== action.updateOrder._id),
+              (item: TOrderUpdated) => item._id !== action.updateOrder._id
+            ),
             action.updateOrder
           ]
       };
