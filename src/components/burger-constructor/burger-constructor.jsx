@@ -63,7 +63,14 @@ const BurgerConstructor = () => {
     } else {
       if (dataSelected.filter(item => item.type === 'bun').length!==0) {
         let arrayOfID = [];
-        dataSelected.map(item => arrayOfID.push(item._id));
+        dataSelected.map(item => {
+          if (item.type === 'bun') {
+            arrayOfID.push(item._id);
+            arrayOfID.push(item._id)
+          } else {
+            arrayOfID.push(item._id)
+          }
+        });
         
         dispatch(getOrderInformation(arrayOfID));
 
@@ -127,7 +134,6 @@ const BurgerConstructor = () => {
         {dataSelected.length===0 ? (
           <TitleMessage
             text='Переместите сюда ингредиенты для бургера'
-            marginTop='15'
           />
         ) : (
           <>
@@ -195,7 +201,7 @@ const BurgerConstructor = () => {
               }
             </Container>
             <div className={ `${styles.row_order} mt-10 mr-4` }>
-              <TotalPrice totalPrice={totalPrice}/>
+              <TotalPrice totalPrice={totalPrice} type='large'/>
               { isLoggedIn ? (
                   bun.length!==0 &&
                     <Link 

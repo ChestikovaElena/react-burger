@@ -1,7 +1,12 @@
 import RegistrationForm from "../components/registration-form";
+import styles from './login.module.css';
 
 export const RegistrationPage = () => {
   return (
-    <RegistrationForm />
+    <div className={ styles.wrapper }>
+      <div className={ styles.content }>
+        <RegistrationForm />
+      </div>
+    </div>
   )
 }

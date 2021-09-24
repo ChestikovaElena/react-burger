@@ -1,6 +1,7 @@
 .section {
   width: 1250px;
   display: flex;
+  margin-top: 128px;
 }
 
 .left_column {

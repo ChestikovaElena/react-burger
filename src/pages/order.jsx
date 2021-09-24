@@ -1,7 +1,9 @@
+import FeedInfoDetails from "../components/feed-info-details";
+
 export const OrderPage = () => {
   return (
     <div>
-      <h1>OrderPage</h1>
+      <FeedInfoDetails />
     </div>
   );
 }

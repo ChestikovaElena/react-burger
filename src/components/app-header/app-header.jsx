@@ -34,7 +34,7 @@ const AppHeader = () =>{
                   {
                     icon: <ListIcon type="secondary"/>,
                     text: "Лента заказов",
-                    link: "/list-orders"
+                    link: "/feed"
                   }
                 ]
                 .map((item, index) =>

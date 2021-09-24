@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('react-modals');
 
-const Modal = ({ handleModalClose, title, children }) => {
+const Modal = ({ handleModalClose, title, children, width }) => {
   return createPortal(
     (
       <ModalOverlay handleModalClose={handleModalClose}>
@@ -23,7 +23,7 @@ const Modal = ({ handleModalClose, title, children }) => {
               <CloseIcon type="primery"/>
             </div>
           </div>
-          <div className={styles.wrapper }>
+          <div className={`${styles.wrapper } ${width && styles.wrapper_wide}`}>
             {children}
           </div>
         </div>

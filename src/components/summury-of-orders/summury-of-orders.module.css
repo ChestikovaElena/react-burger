@@ -1,0 +1,18 @@
+.summury_status {
+  display: flex;
+}
+
+.column_wrapper {
+  width: 272px;
+}
+
+.orders_list {
+  max-height: 160px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.item_done {
+  color: #00CCCC;
+}

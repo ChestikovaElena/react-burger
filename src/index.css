@@ -3,7 +3,10 @@ body,
 main {
   height: 100%;
 }
-
+:root {
+  --button-background-default: #141414;
+    --button-background-onHover: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(var(--button-background-default));
+}
 html {
   box-sizing: border-box;
   font-size: 16px;

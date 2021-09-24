@@ -10,22 +10,26 @@ import { useDispatch } from 'react-redux';
 
 import 
   {
-    HomePage,
-    NotFound404,
-    ProfilePage,
-    LoginPage,
-    RegistrationPage,
+    FeedInfoPage,
+    FeedPage,
     ForgotPasswordPage,
-    ResetPasswordPage,
+    HomePage,
     IngredientPage,
-    OrderPage
+    LoginPage,
+    NotFound404,
+    RegistrationPage,
+    ResetPasswordPage,
+    ProfilePage
   } from '../../pages';
 import AppHeader from '../app-header';
+import FeedInfoDetails from '../feed-info-details';
 import IngredientDetails from '../ingredient-details';
+import ListOfOrders from '../list-of-orders';
 import Modal from '../modal';
 import NoAuthRoute from '../no-auth-route';
 import OrderDetails from '../order-details';
 import ProtectedRoute from '../protected-route';
+import ProfileForm from "../profile-form";
 import styles from './app.module.css';
 import { getUserData } from '../../services/actions/user';
 import { getIngredients } from '../../services/actions/data-ingredients';
@@ -63,10 +67,13 @@ function ModalSwitch() {
   return (
     <>
       <AppHeader />
-      <main className={ styles.main }>
+      <main className={ `${styles.main}` }>
         <Switch location={background || location}>
           <Route path="/" exact>
             <HomePage />
+          </Route>
+          <Route path="/feed" exact>
+            <FeedPage />
           </Route>
           <NoAuthRoute path="/login" exact>
             <LoginPage />
@@ -81,14 +88,28 @@ function ModalSwitch() {
             <ResetPasswordPage />
           </NoAuthRoute>
           <ProtectedRoute path="/profile" exact>
-            <ProfilePage />
+            <ProfilePage
+              textInfo="В этом разделе вы можете изменить свои персональные данные"
+            >
+              <ProfileForm />
+            </ProfilePage>
           </ProtectedRoute>
           <Route path="/ingredients/:ingredientId" exact>
             <IngredientPage />
           </Route>
-          <ProtectedRoute 
+          <Route path="/feed/:orderNumber" exact>
+            <FeedInfoPage />
+          </Route>
+          <ProtectedRoute path="/profile/orders" exact>
+            <ProfilePage
+              textInfo="В этом разделе вы можете просмотреть свою историю заказов"
+            >
+              <ListOfOrders page="profile"/>
+            </ProfilePage>
+          </ProtectedRoute>
+          <Route 
             path='/profile/orders/:orderNumber'
-            children={<OrderPage />}
+            children={<FeedInfoPage />}
             exact
           />
           <ProtectedRoute
@@ -118,8 +139,18 @@ function ModalSwitch() {
           <ProtectedRoute
             path='/profile/orders/:orderNumber'
             children={
-              <Modal handleModalClose={handleModalClose}>
-                <OrderDetails />
+              <Modal handleModalClose={handleModalClose} width="640" page="profile">
+                <FeedInfoDetails />
+              </Modal>
+            }
+          />
+        )}
+        {background && (
+          <Route
+            path="/feed/:orderNumber"
+            children={
+              <Modal handleModalClose={handleModalClose} width="640">
+                <FeedInfoDetails />
               </Modal>
             }
           />

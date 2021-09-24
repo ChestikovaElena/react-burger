@@ -1,5 +1,6 @@
 .column {
   width: 600px;
+  margin-top: 128px;
 }
 
 .header {
@@ -25,11 +26,8 @@
   background-color: #8585ad;
 }
 
-.blocks_list {
+.list, .block_list {
   margin-top: -40px;
-}
-
-.block_list {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -54,10 +52,6 @@
 .item_row {
   display: flex;
   justify-content: center;
-}
-
-.item_image-wrapper {
-  height: 120px;
 }
 
 .item_title {

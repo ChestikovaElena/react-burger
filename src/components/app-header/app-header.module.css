@@ -1,5 +1,10 @@
 .wrapper {
   background-color: #1C1C21;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  width: calc(100% - 2*40px);
 }
 
 .container {

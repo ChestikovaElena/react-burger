@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import styles from './ingredient-details.module.css';
 
 import { productFeatures, Feature, ListOfFeatures } from './feature';
 import Preloader from '../preloader';
@@ -48,7 +47,13 @@ const IngredientDetails = () => {
             <Preloader />
           ) : (
           <>
-            <img src={ingredientData.image_large} alt={ingredientData.name} className={`mb-4 ${styles.item_img}`}/>
+            <img
+              src={ingredientData.image_large}
+              alt={ingredientData.name}
+              className="mb-4"
+              width="520"
+              height="240"
+            />
             <h3 className='text text_type_main-medium mb-8'>{ingredientData.name}</h3>
             <ListOfFeatures
               children =

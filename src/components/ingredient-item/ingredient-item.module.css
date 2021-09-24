@@ -1,0 +1,17 @@
+.item {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.item_title {
+  width: 405px;
+  flex-shrink: 1;
+  text-align: left;
+}
+
+.total {
+  width: 135px;
+  display: flex;
+  justify-content: flex-end;
+}
