@@ -39,12 +39,19 @@ export interface IWsGetMessage {
   readonly payload: { total: number, totalToday: number, orders: TOrder[] };
 }
 
+export interface IWsUpdateOrder {
+  readonly type: typeof WS_UPDATE_ORDER;
+  readonly updateOrder: TOrder;
+}
+
 export type TWsActions =
   | IWsConnectionStart
   | IWsConnectionSuccess
   | IWsConnectionFailed
   | IWsConnectionClosed
-  | IWsGetMessage;
+  | IWsGetMessage
+  | IWsUpdateOrder
+  | IDefault;
 
   export interface IWsUserConnectionStart {
     readonly type: typeof WS_USER_CONNECTION_START;
@@ -73,7 +80,7 @@ export type TWsActions =
 
   export interface IWsUserUpdateOrder {
     readonly type: typeof WS_USER_UPDATE_ORDER;
-    readonly updateOrder: TOrderUpdated;
+    readonly updateOrder: TOrder;
   }
 
   export interface IDefault {

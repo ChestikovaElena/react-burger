@@ -8,7 +8,8 @@ import { logOut } from '../services/actions/user.ts';
 import { processOrders } from '../utils/process-orders.ts';
 import { 
   WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_CLOSED
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_UPDATE_ORDER
 } from '../services/actions/ws.ts';
 
 export const ProfilePage = ({ children, textInfo }) => {
@@ -33,13 +34,21 @@ export const ProfilePage = ({ children, textInfo }) => {
     []
   );
 
-  useEffect(
-    () => {
+  useEffect(() =>{
+    async function getOrder() {
       const ordersNoUpdating = orders.filter(item => !item.isUpdateOrder);
       if (orders && orders.length !== 0 && ordersNoUpdating.length !== 0) {
-        processOrders(data, dispatch, ordersNoUpdating, 'wsUser')
+        const updateOrder = await processOrders(data, ordersNoUpdating, 'wsUser');
+        if ( updateOrder && updateOrder.ingredients ) {
+            dispatch({
+              type: WS_USER_UPDATE_ORDER,
+              updateOrder
+            })
+        }
       };
-    },
+    };
+    getOrder();
+  },
     [orders]
   );
 

@@ -19,7 +19,7 @@ export type TIngredientSelected = TIngredient & {
 
 export type TOrder = {
   _id: string,
-  ingredients: string[],
+  ingredients: string[] | Array<TIngredientInUpdateOrder | null>,
   status: 'created' | 'pending' | 'done',
   name: string,
   createdAt: string,
@@ -38,7 +38,6 @@ export type TIngredientInUpdateOrder = {
 
 export type TOrderUpdated = Omit<TOrder, 'ingredients'> & {
   ingredients: Array<TIngredientInUpdateOrder> | Array<string>,
-  isUpdateOrder: boolean,
 }
 
 export type TOrderInfo = {

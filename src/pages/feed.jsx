@@ -6,7 +6,8 @@ import SummuryOfOrders from "../components/summury-of-orders";
 import { processOrders } from '../utils/process-orders.ts';
 import { 
   WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED
+  WS_CONNECTION_CLOSED,
+  WS_UPDATE_ORDER
 } from '../services/actions/ws.ts';
 
 export const FeedPage = () => {
@@ -31,15 +32,29 @@ export const FeedPage = () => {
     []
   );
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    async function getOrder() {
       let ordersNoUpdating;
       if (orders && orders.length) {
         ordersNoUpdating = orders.filter(item => !item.isUpdateOrder);
       }
       if (ordersNoUpdating && ordersNoUpdating.length !== 0) {
-        processOrders(data, dispatch, ordersNoUpdating, 'ws')
+        const updateOrder = await processOrders(data, ordersNoUpdating, 'ws')
+        //const updateOrder = await processOrders(data, order, 'orderInfo');
+          if (updateOrder && updateOrder.ingredients) {
+            dispatch({
+              type: WS_UPDATE_ORDER,
+              updateOrder
+            })
+          };
+          // } else if ( updateOrder && newIngredients.length && updatingState === 'wsUser' ) {
+          //   dispatch({
+          //     type: WS_USER_UPDATE_ORDER,
+          //     updateOrder
+          //   })
       };
+    };
+    getOrder();
     },
     [orders]
   );

@@ -5,8 +5,9 @@ import {
   WS_USER_CONNECTION_FAILED,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_UPDATE_ORDER
-} from '../actions/ws.ts';
+} from '../actions/ws';
 import { wsUserReducer } from './ws-user';
+import { TOrder } from '../types/data';
 
 const initialState = {
   wsConnected: false,
@@ -16,6 +17,50 @@ const initialState = {
   total: null,
   totalToday: null
 }
+
+const mockedData = [
+  {
+    ingredients: [
+      "60d3463f7034a000269f45e7",
+      "60d3463f7034a000269f45e9",
+      "60d3463f7034a000269f45e9"
+    ],
+    _id: "123",
+    name: "Галактический бургер",
+    status: 'done',
+    number: 0,
+    createdAt: "2021-06-23T14:43:22.587Z",
+    updatedAt: "2021-06-23T14:43:22.603Z"
+  }
+];
+
+const mockedUpdateData = 
+  {
+    ingredients: [
+      {
+        id: "60d3463f7034a000269f45e7",
+        count: 1,
+        name: "Булка",
+        price: 20,
+        image: "https://code.s3.yandex.net/react/code/bun"
+      },
+      {
+        id: "60d3463f7034a000269f45e9",
+        count: 2,
+        name: "Мясо",
+        price: 220,
+        image: "https://code.s3.yandex.net/react/code/meat"
+      }
+    ],
+    _id: "123",
+    name: "Галактический бургер",
+    status: 'done',
+    number: 0,
+    createdAt: "2021-06-23T14:43:22.587Z",
+    updatedAt: "2021-06-23T14:43:22.603Z",
+    isUpdateOrder: true
+  }
+;
 
 const comparisonState = {
   orders: [
@@ -30,7 +75,7 @@ const comparisonState = {
 describe("wsUserReducer", () => {
   it("should return the initial state", () => {
     expect(
-      wsUserReducer(undefined, {})
+      wsUserReducer(undefined, {type: undefined})
     ).toEqual(initialState);
   });
 

@@ -9,7 +9,7 @@
 
 .blocks_container {
   height: 67vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .blocks_container::-webkit-scrollbar {
@@ -22,8 +22,5 @@
 }
 
 .blocks_list {
-  /* margin-top: -40px; */
-  /* display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap; */
+  
 }

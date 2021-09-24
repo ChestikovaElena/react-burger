@@ -1,8 +1,6 @@
 import { getDate } from './get-date';
 import { WS_UPDATE_ORDER, WS_USER_UPDATE_ORDER } from '../services/actions/ws';
-import { UPDATE_ORDER_INFO } from '../services/actions/order-info';
-import { TIngredient, TOrder, TOrderUpdated } from '../services/types/data';
-import { AppDispatch } from '../services/types';
+import { TIngredient, TOrder } from '../services/types/data';
 
 const saveIngredient = (ingredient: TIngredient, id: string, count: number) => {
   
@@ -17,14 +15,14 @@ const saveIngredient = (ingredient: TIngredient, id: string, count: number) => {
   return newItem
 }
 
-const getIngredient = (data: ReadonlyArray<TIngredient>, id: string, count: number, cb: Function) => {
+const getIngredient = (data: Array<TIngredient>, id: string, count: number, cb: Function) => {
   const soughtArray =  [...data].filter(item => item._id === id);
   if (soughtArray && soughtArray.length) {
     return cb(soughtArray[0], id, count);
   }
 };
 
-export const processIngredients = (data: ReadonlyArray<TIngredient>, ingredients: ReadonlyArray<string>) => {
+export const processIngredients = (data: Array<TIngredient>, ingredients: Array<string>) => {
   type TIngr = {[ingredientID in string]: number};
   let tIngr: TIngr = {};
   
@@ -46,35 +44,40 @@ export const processIngredients = (data: ReadonlyArray<TIngredient>, ingredients
 }
 
 export const processOrders =
-  (data: ReadonlyArray<TIngredient>, dispatch: AppDispatch, orders: ReadonlyArray<TOrder>, updatingState: string) => {
+  (data: Array<TIngredient>, orders: Array<TOrder>, updatingState: string) => {
   
-  orders = orders.filter((item, index) => !item.isUpdateOrder);
+  orders = orders.filter((item) => !item.isUpdateOrder);
   
   for (const order of orders) {
     const { ingredients } = order;
-    const newIngredients = processIngredients(data, ingredients);
-    const date = getDate(order.createdAt);
+    if (ingredients && ingredients.length) {
+      const newIngredients = processIngredients(data, ingredients as Array<string>);
+      const date = getDate(order.createdAt);
     const updateOrder = {
       ...order,
       createdAt: date,
       ingredients: newIngredients,
       isUpdateOrder: true
     };
-    if (updateOrder && newIngredients.length && updatingState === 'ws') {
-      dispatch({
-        type: WS_UPDATE_ORDER,
-        updateOrder
-      })
-    } else if ( updateOrder && newIngredients.length && updatingState === 'wsUser' ) {
-      dispatch({
-        type: WS_USER_UPDATE_ORDER,
-        updateOrder
-      })
-    } else if ( updateOrder && newIngredients.length && updatingState === 'orderInfo' ) {
-      dispatch({
-        type: UPDATE_ORDER_INFO,
-        updateOrder
-      })
-    }
+
+    return updateOrder;
+    // if (updateOrder && newIngredients.length && updatingState === 'ws') {
+    //   dispatch({
+    //     type: WS_UPDATE_ORDER,
+    //     updateOrder
+    //   })
+    // } else if ( updateOrder && newIngredients.length && updatingState === 'wsUser' ) {
+    //   dispatch({
+    //     type: WS_USER_UPDATE_ORDER,
+    //     updateOrder
+    //   })
+    // } else if ( updateOrder && newIngredients.length && updatingState === 'orderInfo' ) {
+    //   dispatch({
+    //     type: UPDATE_ORDER_INFO,
+    //     updateOrder
+    //   })
+    // }
+    };
+    
   }
 }
