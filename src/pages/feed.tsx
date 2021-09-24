@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 
 import ListOfOrders from "../components/list-of-orders";
 import SummuryOfOrders from "../components/summury-of-orders";
-import { processOrders } from '../utils/process-orders.ts';
+import { processOrders } from '../utils/process-orders';
 import { 
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSED,
   WS_UPDATE_ORDER
-} from '../services/actions/ws.ts';
+} from '../services/actions/ws';
 
 export const FeedPage = () => {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ export const FeedPage = () => {
 
   return (
     <>
-      <ListOfOrders />
+      <ListOfOrders page='feed'/>
       <SummuryOfOrders />
     </>
   );

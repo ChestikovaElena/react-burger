@@ -1,5 +1,4 @@
 import { getDate } from './get-date';
-import { WS_UPDATE_ORDER, WS_USER_UPDATE_ORDER } from '../services/actions/ws';
 import { TIngredient, TOrder } from '../services/types/data';
 
 const saveIngredient = (ingredient: TIngredient, id: string, count: number) => {

@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from '../services/hooks';
 import { Redirect } from 'react-router-dom';
 
 import LoginForm from '../components/login-form';

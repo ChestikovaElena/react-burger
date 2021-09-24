@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styles from './form-wrapper.module.css';
 
 type TFormWrapper = {
-  actionFunc: Function,
+  actionFunc: Function | undefined,
   children: ReactNode,
   title?: string,
   validateFunc: Function | undefined,

@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { Redirect } from 'react-router-dom';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { resetPassword } from '../services/actions/user.ts';
+import { resetPassword } from '../services/actions/user';
 import Preloader from '../components/preloader';
-import { validateEmail } from '../utils/validate-email.ts';
+import { validateEmail } from '../utils/validate-email';
 import styles from './login.module.css';
 
 export const ForgotPasswordPage = () => {
   const { forgotPasswordRequest } = useSelector((state) => ({
-    gorgotPasswordRequest: state.user.gorgotPasswordRequest
+    forgotPasswordRequest: state.user.forgotPasswordRequest
   }));
 
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export const ForgotPasswordPage = () => {
 
   const [errorText, setErrorText] = useState('');
 
-  const handleInputChange = (e) => {
+  const handleInputChange: React.ChangeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     setState({
       ...state,
@@ -55,13 +55,13 @@ export const ForgotPasswordPage = () => {
           <FormWrapper
             title="Восстановление пароля"
             validateFunc={validate}
+            actionFunc={undefined}
           >
             <div className="mb-6">
               <Input
                 type={'email'}
                 placeholder={'Укажите e-mail'}
                 onChange={handleInputChange}
-                icon={null}
                 value={state.email}
                 name={'email'}
                 error={errorText === '' ? false : true}

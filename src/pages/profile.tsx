@@ -1,18 +1,23 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from '../services/hooks';
 
 import NavItem from "../components/nav-item";
 import Menu from "../components/menu";
 import styles from "./profile.module.css";
-import { logOut } from '../services/actions/user.ts';
-import { processOrders } from '../utils/process-orders.ts';
+import { logOut } from '../services/actions/user';
+import { processOrders } from '../utils/process-orders';
 import { 
   WS_USER_CONNECTION_START,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_UPDATE_ORDER
-} from '../services/actions/ws.ts';
+} from '../services/actions/ws';
 
-export const ProfilePage = ({ children, textInfo }) => {
+type TProfileProps = {
+  children: React.ReactNode,
+  textInfo: string
+}
+
+export const ProfilePage: FC<TProfileProps> = ({ children, textInfo }) => {
   const dispatch = useDispatch();
   const { data, orders } = useSelector((store) => ({
     data: store.data.data,
@@ -52,7 +57,7 @@ export const ProfilePage = ({ children, textInfo }) => {
     [orders]
   );
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(logOut());
   }

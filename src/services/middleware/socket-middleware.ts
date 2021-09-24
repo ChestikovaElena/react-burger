@@ -1,12 +1,11 @@
-import { AnyAction, Middleware } from 'redux';
+import { AnyAction } from 'redux';
 
 import { getCookie } from '../../utils/cookie';
-import { RootStore } from '../types';
 import { wsActions, wsUserActions } from '../store';
 import { AppDispatch, AppThunk } from '../types';
 
 type TActions = typeof wsActions | typeof wsUserActions;
-//: Middleware<{}, RootStore> =
+
 export const socketMiddleware =
   (wsUrl: string, wsActions: TActions, isUserWebSocket: boolean): any => {
   return (store: { dispatch: AppDispatch | AppThunk }) => {

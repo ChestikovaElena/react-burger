@@ -66,8 +66,8 @@ export const ListOfOrders: FC<TListOfOrdersProps> = ({ page }) => {
     <Column
       request={false}
       requestFailed={false}
-      title= {!page ? "Лента заказов" : null}
-      type={!page ? "right" : "none"}
+      title= {page === 'feed' ? "Лента заказов" : null}
+      type={page === 'feed' ? "right" : "none"}
     >
       <Orders page={page}/>
     </Column>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { Redirect } from 'react-router-dom';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormWrapper from '../components/form-wrapper';
 import SpanWithLink from '../components/span-with-link';
-import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/user.ts';
+import { restorePassword, RESTORE_PASSWORD_RESET } from '../services/actions/user';
 import styles from './login.module.css';
 
 export const ResetPasswordPage = () => {
@@ -29,7 +29,7 @@ export const ResetPasswordPage = () => {
 
   const [iconValue, setIcon] = useState('ShowIcon');
 
-  const handleInputChange = (e) => {
+  const handleInputChange: React.ChangeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     setState({
       ...state,
@@ -37,7 +37,7 @@ export const ResetPasswordPage = () => {
     });
   }
 
-  const onIconClick = (e) => {
+  const onIconClick = (e: React.MouseEvent) => {
     setIcon(iconValue === 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
   }
   
@@ -60,13 +60,13 @@ export const ResetPasswordPage = () => {
         <FormWrapper
           title="Восстановление пароля"
           actionFunc={restorePassword(state.newPassword, state.code)}
+          validateFunc={undefined}
         >
           <div className="mb-6">
             <Input
               type={iconValue === 'ShowIcon' ? 'password' : 'text'}
               placeholder={'Введите новый пароль'}
               onChange={handleInputChange}
-              icon={iconValue}
               value={state.newPassword}
               name={'newPassword'}
               error={false}
@@ -80,7 +80,6 @@ export const ResetPasswordPage = () => {
               type={'text'}
               placeholder={'Введите код из письма'}
               onChange={handleInputChange}
-              icon={null}
               value={state.code}
               name={'code'}
               error={false}
