@@ -22,6 +22,10 @@
 }
 
 .status {
+  text-align: left;
+}
+
+.status_green {
   color: #00CCCC;
   text-align: left;
 }
