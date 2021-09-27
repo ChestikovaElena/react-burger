@@ -24,3 +24,8 @@
 ## спринт 4
   * получение списка заказов всех заказов и заказов конкретного пользователя через вебсокеты
   * 
+
+### Структура сайта:
+  * Главная страница: https://chestikovaelena.github.io/react-burger/
+  * Лента заказов: https://chestikovaelena.github.io/react-burger/feed
+  * История заказов пользователя: https://chestikovaelena.github.io/react-burger/profile/orders

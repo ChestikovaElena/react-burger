@@ -26,7 +26,7 @@ export const ProfileForm = () => {
 
   useEffect(
     () => {
-      if (!user) dispatch(getUserData());
+      if (!user.name) dispatch(getUserData());
     },
     [dispatch]
   );
@@ -73,13 +73,13 @@ export const ProfileForm = () => {
           password: state.password
         }
       }
-      if (user.name !== state.name) {
+      if (user.name !== state.name && state.name !== '') {
         payload = {
           ...payload,
           name: state.name
         }
       }
-      if (user.email !== state.email) {
+      if (user.email !== state.email && state.email !== '') {
         payload = {
           ...payload,
           email: state.email
