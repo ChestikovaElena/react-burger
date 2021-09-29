@@ -33,6 +33,6 @@
   * типизация проекта
 
 ### Структура сайта:
-  * Главная страница: https://chestikovaelena.github.io/react-burger/
-  * Лента заказов: https://chestikovaelena.github.io/react-burger/feed
-  * История заказов пользователя: https://chestikovaelena.github.io/react-burger/profile/orders
+  * Главная страница: https://react-burger-phi.vercel.app/
+  * Лента заказов: https://react-burger-phi.vercel.app/feed
+  * История заказов пользователя: https://react-burger-phi.vercel.app/profile/orders
