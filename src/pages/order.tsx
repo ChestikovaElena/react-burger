@@ -6,6 +6,6 @@ export const OrderPage = () => {
       <FeedInfoDetails />
     </div>
   );
-}
+};
 
 export default OrderPage;
